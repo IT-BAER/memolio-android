@@ -1,0 +1,35 @@
+# Gradle
+.gradle/
+build/
+/build/
+app/build/
+**/build/
+captures/
+
+# Android
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+output.json
+
+# Signing / secrets (never commit)
+*.keystore
+*.jks
+keystore.properties
+secrets.properties
+**/revenuecat.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Superpowers visual companion scratch
+.superpowers/

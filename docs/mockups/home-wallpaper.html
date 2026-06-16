@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memolio Home Wallpaper Mockup</title>
+  <style>
+    :root {
+      --ink: #f4f1ea;
+      --muted: rgba(244, 241, 234, 0.68);
+      --faint: rgba(244, 241, 234, 0.28);
+      --glass: rgba(255, 255, 255, 0.075);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(118deg, #090b10 0%, #10151d 34%, #1f1a25 66%, #12100f 100%);
+    }
+
+    .wallpaper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-width: 900px;
+      min-height: 560px;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        linear-gradient(148deg, rgba(255, 255, 255, 0.045), transparent 24%),
+        linear-gradient(26deg, transparent 0 42%, rgba(91, 164, 154, 0.12) 47%, transparent 61%),
+        linear-gradient(205deg, transparent 0 38%, rgba(166, 128, 98, 0.12) 46%, transparent 58%),
+        linear-gradient(118deg, #07080c 0%, #10151c 31%, #221b27 67%, #100e0d 100%);
+    }
+
+    .wallpaper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        repeating-linear-gradient(
+          112deg,
+          rgba(255, 255, 255, 0.028) 0,
+          rgba(255, 255, 255, 0.028) 1px,
+          transparent 1px,
+          transparent 152px
+        );
+      opacity: 0.55;
+      transform: translateX(-2%);
+    }
+
+    .wallpaper::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.54), transparent 34%, rgba(0, 0, 0, 0.28)),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.36), transparent 34%, rgba(0, 0, 0, 0.48));
+    }
+
+    .topbar {
+      position: absolute;
+      top: clamp(34px, 4.2vh, 72px);
+      left: clamp(44px, 5vw, 112px);
+      right: clamp(44px, 5vw, 112px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .wordmark {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: clamp(16px, 1.05vw, 26px);
+      font-weight: 500;
+      color: rgba(244, 241, 234, 0.34);
+    }
+
+    .menu {
+      width: clamp(42px, 3.2vw, 68px);
+      height: clamp(42px, 3.2vw, 68px);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.035);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      opacity: 0.72;
+    }
+
+    .menu-lines {
+      width: 42%;
+      display: grid;
+      gap: clamp(4px, 0.38vw, 8px);
+    }
+
+    .menu-lines span {
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(244, 241, 234, 0.68);
+    }
+
+    .clock-block {
+      position: absolute;
+      left: clamp(72px, 9vw, 190px);
+      bottom: clamp(112px, 13.6vh, 230px);
+      display: grid;
+      gap: clamp(16px, 1.8vh, 32px);
+    }
+
+    .clock {
+      margin: 0;
+      font-size: clamp(158px, 18vw, 378px);
+      line-height: 0.82;
+      font-weight: 270;
+      letter-spacing: 0;
+      color: var(--ink);
+      text-shadow: 0 32px 96px rgba(0, 0, 0, 0.42);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .date {
+      margin: 0;
+      font-size: clamp(28px, 2.5vw, 56px);
+      line-height: 1.16;
+      font-weight: 350;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+    }
+
+    .quiet-line {
+      width: clamp(220px, 22vw, 520px);
+      height: 1px;
+      margin-top: clamp(6px, 0.8vh, 14px);
+      background: linear-gradient(90deg, rgba(244, 241, 234, 0.42), transparent);
+    }
+
+    .ambient-panel {
+      position: absolute;
+      right: -8vw;
+      bottom: -16vh;
+      width: 58vw;
+      height: 64vh;
+      transform: skewX(-12deg);
+      border-left: 1px solid rgba(255, 255, 255, 0.07);
+      background:
+        linear-gradient(126deg, rgba(255, 255, 255, 0.06), transparent 32%),
+        linear-gradient(216deg, rgba(88, 149, 143, 0.10), transparent 58%);
+      filter: blur(0.2px);
+      opacity: 0.58;
+    }
+
+    @media (max-aspect-ratio: 4 / 3) {
+      .wallpaper {
+        min-width: 0;
+      }
+
+      .clock-block {
+        left: clamp(36px, 7vw, 72px);
+        bottom: clamp(80px, 12vh, 150px);
+      }
+
+      .topbar {
+        left: clamp(28px, 5vw, 56px);
+        right: clamp(28px, 5vw, 56px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wallpaper" aria-label="Memolio idle home wallpaper mockup">
+    <div class="ambient-panel" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="wordmark">Memolio</div>
+      <div class="menu" aria-label="Settings">
+        <div class="menu-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="clock-block" aria-label="Clock and date">
+      <h1 class="clock">14:32</h1>
+      <p class="date">Tuesday, 16 June</p>
+      <div class="quiet-line" aria-hidden="true"></div>
+    </section>
+  </main>
+</body>
+</html>
