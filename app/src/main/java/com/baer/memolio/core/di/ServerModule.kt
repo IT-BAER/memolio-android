@@ -11,6 +11,8 @@ import com.baer.memolio.core.server.FrameServer
 import com.baer.memolio.core.server.FrameServerDeps
 import com.baer.memolio.core.server.SettingsTokenProvider
 import com.baer.memolio.core.server.TokenProvider
+import com.baer.memolio.core.server.UploadUrlProvider
+import com.baer.memolio.core.server.UploadUrlProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,6 +30,10 @@ abstract class ServerBindingsModule {
     /** [MediaImporter] depends on the [Transcoder] interface; bind the real implementation. */
     @Binds
     abstract fun bindTranscoder(impl: BitmapTranscoder): Transcoder
+
+    @Binds
+    @Singleton
+    abstract fun bindUploadUrlProvider(impl: UploadUrlProviderImpl): UploadUrlProvider
 }
 
 @Module
