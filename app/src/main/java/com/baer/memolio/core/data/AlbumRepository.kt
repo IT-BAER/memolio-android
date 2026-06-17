@@ -3,6 +3,7 @@ package com.baer.memolio.core.data
 import com.baer.memolio.core.database.AlbumDao
 import com.baer.memolio.core.database.toDomain
 import com.baer.memolio.core.database.toEntity
+import com.baer.memolio.core.di.IoDispatcher
 import com.baer.memolio.core.model.Album
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ interface AlbumRepository {
 
 class AlbumRepositoryImpl @Inject constructor(
     private val albumDao: AlbumDao,
-    private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : AlbumRepository {
 
     override fun observeAlbums(): Flow<List<Album>> =

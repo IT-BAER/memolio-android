@@ -3,6 +3,7 @@ package com.baer.memolio.core.data
 import com.baer.memolio.core.database.PhotoDao
 import com.baer.memolio.core.database.PhotoEntity
 import com.baer.memolio.core.database.toDomain
+import com.baer.memolio.core.di.IoDispatcher
 import com.baer.memolio.core.model.Photo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,7 @@ interface PhotoRepository {
 
 class PhotoRepositoryImpl @Inject constructor(
     private val photoDao: PhotoDao,
-    private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : PhotoRepository {
 
     override fun observePhotos(albumId: String): Flow<List<Photo>> =
