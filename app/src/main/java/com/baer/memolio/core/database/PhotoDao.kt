@@ -17,6 +17,12 @@ interface PhotoDao {
     @Query("SELECT * FROM photos WHERE deletedAt IS NULL ORDER BY addedAt DESC")
     fun observeAllLivePhotos(): Flow<List<PhotoEntity>>
 
+    @Query(
+        "SELECT * FROM photos WHERE albumId IN (:albumIds) AND deletedAt IS NULL " +
+            "ORDER BY sortOrder, addedAt"
+    )
+    fun observeLivePhotosInAlbums(albumIds: Set<String>): Flow<List<PhotoEntity>>
+
     @Query("SELECT * FROM photos WHERE deletedAt IS NOT NULL ORDER BY deletedAt DESC")
     fun observeTrash(): Flow<List<PhotoEntity>>
 

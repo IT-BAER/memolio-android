@@ -7,6 +7,7 @@ import com.baer.memolio.core.di.IoDispatcher
 import com.baer.memolio.core.model.Photo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,6 +15,12 @@ import javax.inject.Inject
 interface PhotoRepository {
     fun observePhotos(albumId: String): Flow<List<Photo>>
     fun observeTrash(): Flow<List<Photo>>
+    /**
+     * Live photos across the union of [albumIds], trashed photos excluded.
+     * An empty set short-circuits to an empty list: we never run `... IN ()`,
+     * which SQLite treats as always-false but is wasteful and easy to misread.
+     */
+    fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>>
     suspend fun isDuplicate(contentHash: String): Boolean
     suspend fun add(
         id: String,
@@ -44,6 +51,12 @@ class PhotoRepositoryImpl @Inject constructor(
 
     override fun observeTrash(): Flow<List<Photo>> =
         photoDao.observeTrash().map { list -> list.map { it.toDomain() } }
+
+    override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> {
+        if (albumIds.isEmpty()) return flowOf(emptyList())
+        return photoDao.observeLivePhotosInAlbums(albumIds)
+            .map { list -> list.map { it.toDomain() } }
+    }
 
     override suspend fun isDuplicate(contentHash: String): Boolean =
         withContext(ioDispatcher) { photoDao.existsByHash(contentHash) }
