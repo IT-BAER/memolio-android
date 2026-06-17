@@ -31,5 +31,7 @@ secrets.properties
 .DS_Store
 Thumbs.db
 
-# Superpowers visual companion scratch
+# Local-only (kept out of the public repo): project memory + planning/design docs
+CLAUDE.md
+/docs/superpowers/
 .superpowers/
