@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Test manifest for Robolectric + createComposeRule().
+  createComposeRule() launches androidx.activity.ComponentActivity; Robolectric
+  requires that activity to be declared with a LAUNCHER intent-filter so it can
+  resolve the startup intent.  This file is only used by unit tests (src/test).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="androidx.activity.ComponentActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
