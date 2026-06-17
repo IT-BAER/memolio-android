@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Add photos to Memolio</title>
+<style>
+  :root { --bg:#0f1115; --card:#171a21; --fg:#e8eaed; --muted:#9aa0a6; --accent:#7cc0ff; --ok:#54d18c; --err:#ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--fg); }
+  .wrap { max-width:680px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.35rem; font-weight:600; margin:8px 0 4px; }
+  p.sub { color:var(--muted); margin:0 0 20px; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  label { display:block; font-size:.85rem; color:var(--muted); margin-bottom:6px; }
+  select, input[type=text] {
+    width:100%; padding:12px; border-radius:10px; border:1px solid #2a2f3a;
+    background:var(--card); color:var(--fg); font-size:1rem;
+  }
+  .field { flex:1 1 240px; }
+  #drop {
+    border:2px dashed #38415a; border-radius:16px; padding:40px 16px; text-align:center;
+    background:var(--card); cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  #drop.drag { border-color:var(--accent); background:#1b2230; }
+  #drop strong { color:var(--accent); }
+  #list { margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+  .item { background:var(--card); border-radius:12px; padding:12px 14px; }
+  .item .name { font-size:.9rem; word-break:break-all; }
+  .item .status { font-size:.8rem; color:var(--muted); margin-top:4px; }
+  .item.ok .status { color:var(--ok); }
+  .item.err .status { color:var(--err); }
+  .bar { height:6px; border-radius:6px; background:#262b36; margin-top:8px; overflow:hidden; }
+  .bar > span { display:block; height:100%; width:0; background:var(--accent); transition:width .2s; }
+  input[type=file] { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Add photos</h1>
+  <p class="sub">Drop photos here or tap to choose. They appear on the frame right away.</p>
+
+  <div class="row">
+    <div class="field">
+      <label for="album">Album</label>
+      <select id="album"><option value="">Loading...</option></select>
+    </div>
+    <div class="field">
+      <label for="caption">Caption (optional, applied to all)</label>
+      <input id="caption" type="text" placeholder="e.g. Summer 2026" autocomplete="off">
+    </div>
+  </div>
+
+  <div id="drop">
+    <p><strong>Tap to choose</strong> or drag photos here</p>
+    <p class="sub">JPEG &middot; PNG &middot; HEIC &middot; WebP</p>
+  </div>
+  <input id="file" type="file" accept="image/*" multiple>
+
+  <div id="list"></div>
+</div>
+
+<script>
+  // Token comes from this page's own URL (?t=...). Every request reuses it.
+  const TOKEN = new URLSearchParams(location.search).get("t") || "";
+  const drop = document.getElementById("drop");
+  const fileInput = document.getElementById("file");
+  const list = document.getElementById("list");
+  const albumSel = document.getElementById("album");
+  const captionInput = document.getElementById("caption");
+
+  function withToken(path) {
+    const sep = path.includes("?") ? "&" : "?";
+    return path + sep + "t=" + encodeURIComponent(TOKEN);
+  }
+
+  async function loadAlbums() {
+    try {
+      const res = await fetch(withToken("/album-list"));
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const albums = await res.json();
+      albumSel.innerHTML = "";
+      if (!albums.length) {
+        const o = document.createElement("option");
+        o.value = ""; o.textContent = "All Photos";
+        albumSel.appendChild(o);
+      }
+      for (const a of albums) {
+        const o = document.createElement("option");
+        o.value = a.id; o.textContent = a.name;
+        albumSel.appendChild(o);
+      }
+    } catch (e) {
+      albumSel.innerHTML = "<option value=''>All Photos</option>";
+    }
+  }
+
+  function addRow(file) {
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML =
+      "<div class='name'></div><div class='status'>Waiting...</div>" +
+      "<div class='bar'><span></span></div>";
+    el.querySelector(".name").textContent = file.name;
+    list.prepend(el);
+    return {
+      el,
+      setStatus: (t) => { el.querySelector(".status").textContent = t; },
+      setProgress: (p) => { el.querySelector(".bar > span").style.width = p + "%"; },
+      ok: (t) => { el.classList.add("ok"); el.querySelector(".status").textContent = t; },
+      err: (t) => { el.classList.add("err"); el.querySelector(".status").textContent = t; }
+    };
+  }
+
+  function upload(file) {
+    const row = addRow(file);
+    const form = new FormData();
+    form.append("album", albumSel.value || "");
+    form.append("caption", captionInput.value || "");
+    form.append("photo", file, file.name);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", withToken("/upload"));
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const pct = Math.round((e.loaded / e.total) * 100);
+        row.setProgress(pct);
+        row.setStatus("Uploading " + pct + "%");
+      }
+    };
+    xhr.onload = () => {
+      row.setProgress(100);
+      if (xhr.status === 200) {
+        let msg = "Added";
+        try { const j = JSON.parse(xhr.responseText); if (j.status) msg = j.message || j.status; } catch (e) {}
+        row.ok(msg);
+      } else if (xhr.status === 507) {
+        row.err("Frame storage full");
+      } else if (xhr.status === 403) {
+        row.err("Link expired - rescan the QR");
+      } else if (xhr.status === 415) {
+        row.err("Unsupported file type");
+      } else {
+        row.err("Failed (" + xhr.status + ")");
+      }
+    };
+    xhr.onerror = () => row.err("Network error");
+    xhr.send(form);
+  }
+
+  function handleFiles(files) {
+    for (const f of files) {
+      if (f.type.startsWith("image/")) upload(f);
+      else { const r = addRow(f); r.err("Not an image"); }
+    }
+  }
+
+  drop.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => { handleFiles(fileInput.files); fileInput.value = ""; });
+  ["dragenter", "dragover"].forEach(ev =>
+    drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev =>
+    drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("drag"); }));
+  drop.addEventListener("drop", (e) => { if (e.dataTransfer) handleFiles(e.dataTransfer.files); });
+
+  loadAlbums();
+</script>
+</body>
+</html>
