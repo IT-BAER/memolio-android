@@ -92,6 +92,7 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.ext.junit)
     testImplementation(libs.room.testing)
+    testImplementation(libs.work.testing)
     testImplementation(libs.coil.test)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
