@@ -39,6 +39,10 @@ interface PhotoRepository {
     suspend fun softDelete(id: String, now: Long)
     suspend fun restore(id: String)
     suspend fun purgeTrashOlderThan(threshold: Long): Int
+    suspend fun moveToAlbum(id: String, albumId: String)
+    suspend fun setFavorite(id: String, favorite: Boolean)
+    suspend fun setCaption(id: String, caption: String?)
+    suspend fun reorder(orderedIds: List<String>)
 }
 
 class PhotoRepositoryImpl @Inject constructor(
@@ -105,4 +109,18 @@ class PhotoRepositoryImpl @Inject constructor(
 
     override suspend fun purgeTrashOlderThan(threshold: Long): Int =
         withContext(ioDispatcher) { photoDao.purgeTrashOlderThan(threshold) }
+
+    override suspend fun moveToAlbum(id: String, albumId: String) =
+        withContext(ioDispatcher) { photoDao.updateAlbum(id, albumId) }
+
+    override suspend fun setFavorite(id: String, favorite: Boolean) =
+        withContext(ioDispatcher) { photoDao.updateFavorite(id, favorite) }
+
+    override suspend fun setCaption(id: String, caption: String?) =
+        withContext(ioDispatcher) { photoDao.updateCaption(id, caption) }
+
+    /** Persists [orderedIds] as ascending sortOrder (index 0 = first). */
+    override suspend fun reorder(orderedIds: List<String>) = withContext(ioDispatcher) {
+        orderedIds.forEachIndexed { index, id -> photoDao.updateSortOrder(id, index) }
+    }
 }

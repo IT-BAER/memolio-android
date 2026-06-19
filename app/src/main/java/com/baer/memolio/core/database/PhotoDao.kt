@@ -37,4 +37,16 @@ interface PhotoDao {
 
     @Query("DELETE FROM photos WHERE deletedAt IS NOT NULL AND deletedAt < :threshold")
     suspend fun purgeTrashOlderThan(threshold: Long): Int
+
+    @Query("UPDATE photos SET albumId = :albumId WHERE id = :id")
+    suspend fun updateAlbum(id: String, albumId: String)
+
+    @Query("UPDATE photos SET favorite = :favorite WHERE id = :id")
+    suspend fun updateFavorite(id: String, favorite: Boolean)
+
+    @Query("UPDATE photos SET caption = :caption WHERE id = :id")
+    suspend fun updateCaption(id: String, caption: String?)
+
+    @Query("UPDATE photos SET sortOrder = :sortOrder WHERE id = :id")
+    suspend fun updateSortOrder(id: String, sortOrder: Int)
 }

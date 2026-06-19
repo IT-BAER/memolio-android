@@ -256,4 +256,8 @@ private class FakePhotos(
     override suspend fun softDelete(id: String, now: Long) = Unit
     override suspend fun restore(id: String) = Unit
     override suspend fun purgeTrashOlderThan(threshold: Long): Int = 0
+    override suspend fun moveToAlbum(id: String, albumId: String) = Unit
+    override suspend fun setFavorite(id: String, favorite: Boolean) = Unit
+    override suspend fun setCaption(id: String, caption: String?) = Unit
+    override suspend fun reorder(orderedIds: List<String>) = Unit
 }
