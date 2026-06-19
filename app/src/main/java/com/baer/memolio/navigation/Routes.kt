@@ -34,3 +34,7 @@ data object WallpaperRoute
 
 @Serializable
 data object AboutRoute
+
+/** Pro upsell / purchase screen (Phase 6). */
+@Serializable
+data object PaywallRoute

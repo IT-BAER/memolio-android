@@ -31,7 +31,10 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun ManageScaffold(modifier: Modifier = Modifier) {
+fun ManageScaffold(
+    onOpenPaywall: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     val navigator = rememberListDetailPaneScaffoldNavigator<ManageSection>()
     val scope = rememberCoroutineScope()
     var selected by remember { mutableStateOf(ManageSection.default) }

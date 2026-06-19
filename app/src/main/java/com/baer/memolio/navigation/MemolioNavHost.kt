@@ -16,8 +16,9 @@ import androidx.navigation.compose.rememberNavController
 fun MemolioNavHost(
     start: StartDestination,
     frameContent: @Composable (onOpenManage: () -> Unit) -> Unit,
-    manageContent: @Composable () -> Unit,
-    onboardContent: @Composable (onFinished: () -> Unit) -> Unit,
+    manageContent: @Composable (onOpenPaywall: () -> Unit) -> Unit,
+    onboardContent: @Composable (onFinished: () -> Unit, onOpenPaywall: () -> Unit) -> Unit,
+    paywallContent: @Composable (onClose: () -> Unit) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -28,14 +29,16 @@ fun MemolioNavHost(
             frameContent { navController.navigate(ManageRoute) }
         }
         composable<OnboardRoute> {
-            onboardContent {
-                navController.navigate(FrameRoute) {
-                    popUpTo<OnboardRoute> { inclusive = true }
-                }
-            }
+            onboardContent(
+                { navController.navigate(FrameRoute) { popUpTo<OnboardRoute> { inclusive = true } } },
+                { navController.navigate(PaywallRoute) }
+            )
         }
         composable<ManageRoute> {
-            manageContent()
+            manageContent { navController.navigate(PaywallRoute) }
+        }
+        composable<PaywallRoute> {
+            paywallContent { navController.popBackStack() }
         }
     }
 }

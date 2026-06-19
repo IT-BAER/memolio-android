@@ -29,6 +29,7 @@ import com.baer.memolio.core.ui.MemolioTheme
 import com.baer.memolio.feature.frame.FrameRoute
 import com.baer.memolio.feature.manage.ManageScaffold
 import com.baer.memolio.feature.onboard.OnboardScreen
+import com.baer.memolio.feature.paywall.PaywallScreen
 import com.baer.memolio.navigation.MemolioNavHost
 import com.baer.memolio.navigation.startDestination
 import com.baer.memolio.service.FrameService
@@ -79,8 +80,11 @@ class MainActivity : ComponentActivity() {
                         MemolioNavHost(
                             start = startDestination(settings.onboardingComplete),
                             frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
-                            manageContent = { ManageScaffold() },
-                            onboardContent = { onFinished -> OnboardScreen(onFinished = onFinished) }
+                            manageContent = { onOpenPaywall -> ManageScaffold(onOpenPaywall = onOpenPaywall) },
+                            onboardContent = { onFinished, onOpenPaywall ->
+                                OnboardScreen(onFinished = onFinished, onOpenPaywall = onOpenPaywall)
+                            },
+                            paywallContent = { onClose -> PaywallScreen(onClose = onClose) }
                         )
                     }
                 }

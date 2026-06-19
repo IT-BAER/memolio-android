@@ -20,6 +20,7 @@ fun OnboardScreen(
     viewModel: OnboardViewModel = hiltViewModel(),
     qrEncoder: QrEncoder = QrEncoder(),
     onFinished: () -> Unit = {},
+    onOpenPaywall: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsState()

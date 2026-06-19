@@ -25,8 +25,9 @@ class MemolioNavHostTest {
             MemolioNavHost(
                 start = StartDestination.Frame,
                 frameContent = { _ -> Text("FRAME") },
-                manageContent = { Text("MANAGE") },
-                onboardContent = { _ -> Text("ONBOARD") }
+                manageContent = { _ -> Text("MANAGE") },
+                onboardContent = { _, _ -> Text("ONBOARD") },
+                paywallContent = { _ -> Text("PAYWALL") }
             )
         }
         composeRule.onNodeWithText("FRAME").assertIsDisplayed()
@@ -38,8 +39,9 @@ class MemolioNavHostTest {
             MemolioNavHost(
                 start = StartDestination.Onboard,
                 frameContent = { _ -> Text("FRAME") },
-                manageContent = { Text("MANAGE") },
-                onboardContent = { _ -> Text("ONBOARD") }
+                manageContent = { _ -> Text("MANAGE") },
+                onboardContent = { _, _ -> Text("ONBOARD") },
+                paywallContent = { _ -> Text("PAYWALL") }
             )
         }
         composeRule.onNodeWithText("ONBOARD").assertIsDisplayed()
@@ -53,8 +55,9 @@ class MemolioNavHostTest {
                 frameContent = { onOpenManage ->
                     Button(onClick = onOpenManage) { Text("MENU") }
                 },
-                manageContent = { Text("MANAGE") },
-                onboardContent = { _ -> Text("ONBOARD") }
+                manageContent = { _ -> Text("MANAGE") },
+                onboardContent = { _, _ -> Text("ONBOARD") },
+                paywallContent = { _ -> Text("PAYWALL") }
             )
         }
         composeRule.onNodeWithText("MENU").performClick()
