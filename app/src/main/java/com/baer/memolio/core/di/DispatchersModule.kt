@@ -16,6 +16,15 @@ annotation class IoDispatcher
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultDispatcher
 
+/**
+ * Seed for the slideshow shuffle. A qualified [Long] (not a Kotlin default param,
+ * which Hilt ignores) so production gets a fresh wall-clock seed while tests inject
+ * a fixed value for a deterministic order.
+ */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ShuffleSeed
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatchersModule {
@@ -26,4 +35,8 @@ object DispatchersModule {
     @Provides
     @DefaultDispatcher
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @ShuffleSeed
+    fun providesShuffleSeed(): Long = System.currentTimeMillis()
 }
