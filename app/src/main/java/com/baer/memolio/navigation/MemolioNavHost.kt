@@ -17,7 +17,7 @@ fun MemolioNavHost(
     start: StartDestination,
     frameContent: @Composable (onOpenManage: () -> Unit) -> Unit,
     manageContent: @Composable () -> Unit,
-    onboardContent: @Composable () -> Unit,
+    onboardContent: @Composable (onFinished: () -> Unit) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -28,7 +28,11 @@ fun MemolioNavHost(
             frameContent { navController.navigate(ManageRoute) }
         }
         composable<OnboardRoute> {
-            onboardContent()
+            onboardContent {
+                navController.navigate(FrameRoute) {
+                    popUpTo<OnboardRoute> { inclusive = true }
+                }
+            }
         }
         composable<ManageRoute> {
             manageContent()

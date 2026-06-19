@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                         start = startDestination(settings.onboardingComplete),
                         frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
                         manageContent = { ManageScaffold() },
-                        onboardContent = { OnboardScreen() }
+                        onboardContent = { onFinished -> OnboardScreen(onFinished = onFinished) }
                     )
                 }
             }
