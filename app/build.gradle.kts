@@ -74,10 +74,15 @@ dependencies {
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.navigation.compose)
+    implementation(libs.compose.material3.adaptive)
+    implementation(libs.compose.material3.adaptive.layout)
+    implementation(libs.compose.material3.adaptive.navigation)
     implementation(libs.zxing.core)
     implementation(libs.coil.compose)
 
     testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.navigation.testing)
 
     testImplementation(libs.junit)
     testImplementation(libs.truth)
