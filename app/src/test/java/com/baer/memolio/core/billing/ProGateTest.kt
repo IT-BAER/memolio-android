@@ -55,7 +55,7 @@ class ProGateTest {
                 unlocked = { Text("UNLOCKED") }
             )
         }
-        composeRule.onNodeWithText(ProFeature.CUSTOM_WALLPAPER.title, substring = true).performClick()
+        composeRule.onNodeWithText("Unlock ${ProFeature.CUSTOM_WALLPAPER.title}").performClick()
         assert(upsellOpened)
     }
 }
