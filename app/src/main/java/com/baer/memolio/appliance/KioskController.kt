@@ -24,10 +24,10 @@ object KioskController {
         val keepScreenOn: Boolean
     )
 
-    /** Pure decision. keepScreenOn is always true while framing (spec section 5). */
-    fun plan(kioskEnabled: Boolean): Plan = Plan(
-        lockTask = kioskEnabled,
-        immersive = kioskEnabled,
+    /** Pure decision. Lock-task + immersive require Pro (APPLIANCE). keepScreenOn is free. */
+    fun plan(kioskEnabled: Boolean, isPro: Boolean): Plan = Plan(
+        lockTask = kioskEnabled && isPro,
+        immersive = kioskEnabled && isPro,
         keepScreenOn = true
     )
 

@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.baer.memolio.core.billing.ProFeature
+import com.baer.memolio.core.ui.ProGate
 import com.baer.memolio.feature.manage.about.AboutScreen
 import com.baer.memolio.feature.manage.addphotos.AddPhotosScreen
 import com.baer.memolio.feature.manage.library.LibraryScreen
@@ -32,6 +34,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ManageScaffold(
+    isPro: Boolean = false,
     onOpenPaywall: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -62,7 +65,7 @@ fun ManageScaffold(
                     ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
                     ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
                     ManageSection.AddPhotos -> AddPhotosScreen()
-                    ManageSection.Appliance -> ApplianceScreen()
+                    ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
                     ManageSection.Storage -> StorageScreen()
                     ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
                     ManageSection.About -> AboutScreen()
@@ -90,12 +93,9 @@ private fun ManageSectionRail(
     }
 }
 
-/**
- * Appliance section: its toggles (kiosk, set-as-Home, autostart, sleep schedule, ambient
- * dimming) are pure SettingsRepository writes whose BEHAVIORS land in Phase 5. Rendered as a
- * thin placeholder here; the bound switches + behaviors are wired in Phase 5.
- */
 @Composable
-private fun ApplianceScreen() {
-    Text("Appliance settings (toggles bound in Phase 5)")
+private fun ApplianceScreen(isPro: Boolean, onOpenPaywall: () -> Unit) {
+    ProGate(feature = ProFeature.APPLIANCE, isPro = isPro, onUpsell = onOpenPaywall) {
+        Text("Appliance settings (auto-start, kiosk, sleep, ambient dimming) — enabled.")
+    }
 }

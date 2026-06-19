@@ -18,8 +18,8 @@ class SettingsObservationTest {
     fun kioskToggleFlipsLockTaskPlan() {
         val off = AppSettings(kioskEnabled = false)
         val on = AppSettings(kioskEnabled = true)
-        assertThat(KioskController.plan(off.kioskEnabled).lockTask).isFalse()
-        assertThat(KioskController.plan(on.kioskEnabled).lockTask).isTrue()
+        assertThat(KioskController.plan(off.kioskEnabled, isPro = true).lockTask).isFalse()
+        assertThat(KioskController.plan(on.kioskEnabled, isPro = true).lockTask).isTrue()
     }
 
     @Test

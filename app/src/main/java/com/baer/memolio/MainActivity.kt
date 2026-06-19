@@ -23,9 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.baer.memolio.appliance.KioskController
+import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.ui.MemolioTheme
+import com.baer.memolio.core.ui.rememberEntitlement
 import com.baer.memolio.feature.frame.FrameRoute
 import com.baer.memolio.feature.manage.ManageScaffold
 import com.baer.memolio.feature.onboard.OnboardScreen
@@ -37,6 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,6 +47,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var settingsRepository: SettingsRepository
+    @Inject lateinit var entitlementRepository: EntitlementRepository
 
     private var frameService: FrameService? = null
     private val sleeping = MutableStateFlow(false)
@@ -67,9 +71,10 @@ class MainActivity : ComponentActivity() {
 
         // Apply the kiosk plan (lock-task / immersive / keep-screen-on) whenever it changes.
         lifecycleScope.launch {
-            settingsRepository.appSettings.collect { s ->
-                KioskController.apply(this@MainActivity, KioskController.plan(s.kioskEnabled))
-            }
+            combine(settingsRepository.appSettings, entitlementRepository.isPro) { s, pro -> s.kioskEnabled to pro }
+                .collect { (kioskEnabled, pro) ->
+                    KioskController.apply(this@MainActivity, KioskController.plan(kioskEnabled, pro))
+                }
         }
 
         setContent {
@@ -80,7 +85,12 @@ class MainActivity : ComponentActivity() {
                         MemolioNavHost(
                             start = startDestination(settings.onboardingComplete),
                             frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
-                            manageContent = { onOpenPaywall -> ManageScaffold(onOpenPaywall = onOpenPaywall) },
+                            manageContent = { onOpenPaywall ->
+                                ManageScaffold(
+                                    isPro = rememberEntitlement(entitlementRepository),
+                                    onOpenPaywall = onOpenPaywall
+                                )
+                            },
                             onboardContent = { onFinished, onOpenPaywall ->
                                 OnboardScreen(onFinished = onFinished, onOpenPaywall = onOpenPaywall)
                             },

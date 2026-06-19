@@ -10,6 +10,7 @@ import android.os.IBinder
 import com.baer.memolio.appliance.AmbientDimmer
 import com.baer.memolio.appliance.SleepDriver
 import com.baer.memolio.appliance.TimeProvider
+import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.server.FrameServer
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -42,6 +44,7 @@ class FrameService : Service() {
     @Inject lateinit var frameServer: FrameServer
     @Inject lateinit var settings: SettingsRepository
     @Inject lateinit var timeProvider: TimeProvider
+    @Inject lateinit var entitlementRepository: EntitlementRepository
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -66,18 +69,24 @@ class FrameService : Service() {
         startForegroundCompat()
 
         ambientDimmer = AmbientDimmer(applicationContext)
+
+        val gatedSettings = combine(settings.appSettings, entitlementRepository.isPro) { s, pro ->
+            if (pro) s else s.copy(sleepEnabled = false)
+        }
         sleepDriver = SleepDriver(
             ticks = minuteTicks,
-            appSettings = settings.appSettings,
+            appSettings = gatedSettings,
             time = timeProvider,
             scope = scope,
             dispatcher = Dispatchers.Default
         )
         ambientDimmer.start()
 
-        // Push brightness/dimming settings into the dimmer as they change.
-        settings.appSettings
-            .onEach { s -> ambientDimmer.configure(s.ambientDimming, s.brightness) }
+        // Push brightness/dimming settings into the dimmer only when Pro.
+        combine(settings.appSettings, entitlementRepository.isPro) { s, pro -> s to pro }
+            .onEach { (s, pro) ->
+                ambientDimmer.configure(dimmingEnabled = s.ambientDimming && pro, manualBrightness = s.brightness)
+            }
             .launchIn(scope)
     }
 
