@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.compose.material3.adaptive.navigation)
     implementation(libs.zxing.core)
     implementation(libs.coil.compose)
+    implementation(libs.revenuecat.purchases)
 
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.navigation.testing)

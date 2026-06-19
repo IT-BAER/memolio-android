@@ -29,6 +29,7 @@ kotlinxSerialization = "1.11.0"
 zxing = "3.5.4"
 coil = "3.4.0"
 roborazzi = "1.64.0"
+revenueCat = "8.25.0"
 navigation = "2.9.8"
 material3Adaptive = "1.2.0"
 
@@ -85,6 +86,8 @@ navigation-testing = { module = "androidx.navigation:navigation-testing", versio
 compose-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "material3Adaptive" }
 compose-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3Adaptive" }
 compose-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3Adaptive" }
+
+revenuecat-purchases = { module = "com.revenuecat.purchases:purchases", version.ref = "revenueCat" }
 
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
