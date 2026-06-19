@@ -18,6 +18,14 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // RevenueCat key injected from a gradle property / CI secret at build time; empty by
+        // default so dev builds and tests never require it (configure is then skipped).
+        buildConfigField(
+            "String",
+            "REVENUECAT_API_KEY",
+            "\"${project.findProperty("REVENUECAT_API_KEY") ?: ""}\""
+        )
     }
 
     buildFeatures {

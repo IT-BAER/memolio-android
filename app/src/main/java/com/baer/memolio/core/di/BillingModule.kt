@@ -2,6 +2,8 @@ package com.baer.memolio.core.di
 
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.EntitlementRepositoryImpl
+import com.baer.memolio.core.billing.RevenueCatClient
+import com.baer.memolio.core.billing.RevenueCatClientImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +16,8 @@ abstract class BillingModule {
     @Binds
     @Singleton
     abstract fun bindEntitlementRepository(impl: EntitlementRepositoryImpl): EntitlementRepository
-    // RevenueCatClient binding is added in the next task (needs RevenueCatClientImpl).
+
+    @Binds
+    @Singleton
+    abstract fun bindRevenueCatClient(impl: RevenueCatClientImpl): RevenueCatClient
 }
