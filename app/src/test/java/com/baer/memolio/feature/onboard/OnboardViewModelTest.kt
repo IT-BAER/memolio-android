@@ -134,4 +134,27 @@ class OnboardViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    @Test
+    fun goProStepExistsBetweenSleepAndFinish() {
+        val steps = OnboardStep.entries.map { it.name }
+        assertThat(steps).containsExactly(
+            "Welcome", "Permissions", "ShowQr", "HomeKiosk", "SleepSchedule", "GoPro", "Finish"
+        ).inOrder()
+    }
+
+    @Test
+    fun goProIsSkippableViaNext() = runTest {
+        val (model, _) = vm()
+        repeat(5) { model.next() }   // Welcome -> ... -> GoPro
+        model.state.test {
+            assertThat(awaitItem().step).isEqualTo(OnboardStep.GoPro)
+            cancelAndIgnoreRemainingEvents()
+        }
+        model.next()
+        model.state.test {
+            assertThat(awaitItem().step).isEqualTo(OnboardStep.Finish)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

@@ -65,8 +65,8 @@ class OnboardCompletionGateTest {
             OnboardScreen(viewModel = vm, onFinished = { finished = true })
         }
 
-        // Welcome -> Permissions -> ShowQr -> HomeKiosk -> SleepSchedule -> Finish (5 Next taps)
-        repeat(5) {
+        // Welcome -> Permissions -> ShowQr -> HomeKiosk -> SleepSchedule -> GoPro -> Finish (6 Next taps)
+        repeat(6) {
             composeRule.onNodeWithText("Next").performClick()
             composeRule.waitForIdle()
         }

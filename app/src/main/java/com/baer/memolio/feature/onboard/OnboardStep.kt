@@ -7,6 +7,7 @@ enum class OnboardStep {
     ShowQr,
     HomeKiosk,
     SleepSchedule,
+    GoPro,
     Finish;
 
     val isFirst: Boolean get() = ordinal == 0

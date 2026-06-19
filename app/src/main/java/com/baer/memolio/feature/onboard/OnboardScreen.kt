@@ -49,6 +49,11 @@ fun OnboardScreen(
                     Text("Enable sleep schedule")
                 }
             }
+            OnboardStep.GoPro -> {
+                Text("Optional: unlock Memolio Pro (one-time purchase) for albums, the " +
+                    "appliance suite, and custom wallpapers. You can do this any time later.")
+                Button(onClick = onOpenPaywall) { Text("See Pro") }
+            }
             OnboardStep.Finish ->
                 Text("All set! Tap Finish to start the frame.")
         }
