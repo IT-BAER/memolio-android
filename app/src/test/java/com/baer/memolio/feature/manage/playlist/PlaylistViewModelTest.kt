@@ -1,6 +1,9 @@
 package com.baer.memolio.feature.manage.playlist
 
 import app.cash.turbine.test
+import com.baer.memolio.core.billing.EntitlementRepository
+import com.baer.memolio.core.billing.PurchaseResult
+import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.FitMode
@@ -25,6 +28,13 @@ class PlaylistViewModelTest {
     private val dispatcher = UnconfinedTestDispatcher()
     @Before fun setMain() = Dispatchers.setMain(dispatcher)
     @After fun reset() = Dispatchers.resetMain()
+
+    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
+        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
+        override suspend fun refresh() {}
+        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
+        override suspend fun restore(): RestoreResult = RestoreResult.Success
+    }
 
     private class FakeSettingsRepository : SettingsRepository {
         val config = MutableStateFlow(PlaylistConfig())
@@ -65,7 +75,7 @@ class PlaylistViewModelTest {
     private fun vm(
         settings: FakeSettingsRepository = FakeSettingsRepository(),
         albums: FakeAlbumRepository = FakeAlbumRepository(listOf(Album("a1", "A1", null, 0L, 0)))
-    ) = PlaylistViewModel(settings, albums) to settings
+    ) = PlaylistViewModel(settings, albums, FakeEntitlement(true)) to settings
 
     @Test
     fun stateReflectsCurrentConfigAndAlbums() = runTest {

@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.core.billing.ProFeature
+import com.baer.memolio.core.ui.ProGate
 
 @Composable
 fun LibraryScreen(
+    onOpenPaywall: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -29,19 +32,21 @@ fun LibraryScreen(
     var newAlbumName by remember { mutableStateOf("") }
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
-        OutlinedTextField(
-            value = newAlbumName,
-            onValueChange = { newAlbumName = it },
-            label = { Text("New album name") }
-        )
-        Button(
-            onClick = {
-                if (newAlbumName.isNotBlank()) {
-                    viewModel.createAlbum(newAlbumName.trim())
-                    newAlbumName = ""
+        ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
+            OutlinedTextField(
+                value = newAlbumName,
+                onValueChange = { newAlbumName = it },
+                label = { Text("New album name") }
+            )
+            Button(
+                onClick = {
+                    if (newAlbumName.isNotBlank()) {
+                        viewModel.createAlbum(newAlbumName.trim())
+                        newAlbumName = ""
+                    }
                 }
-            }
-        ) { Text("Create album") }
+            ) { Text("Create album") }
+        }
 
         if (state.openAlbumId == null) {
             LazyVerticalGrid(columns = GridCells.Adaptive(160.dp), modifier = Modifier.fillMaxSize()) {

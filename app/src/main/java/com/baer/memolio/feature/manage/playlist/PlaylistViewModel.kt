@@ -2,6 +2,7 @@ package com.baer.memolio.feature.manage.playlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.SettingsRepository
@@ -25,17 +26,23 @@ data class PlaylistUiState(
     val fitMode: FitMode = FitMode.BLURRED_FILL,
     val showClock: Boolean = true,
     val showDate: Boolean = true,
-    val showCaption: Boolean = true
+    val showCaption: Boolean = true,
+    val isPro: Boolean = false
 )
 
 @HiltViewModel
 class PlaylistViewModel @Inject constructor(
     private val settings: SettingsRepository,
-    private val albumRepository: AlbumRepository
+    private val albumRepository: AlbumRepository,
+    private val entitlement: EntitlementRepository
 ) : ViewModel() {
 
     val state: StateFlow<PlaylistUiState> =
-        combine(settings.playlistConfig, albumRepository.observeAlbums()) { config, albums ->
+        combine(
+            settings.playlistConfig,
+            albumRepository.observeAlbums(),
+            entitlement.isPro
+        ) { config, albums, isPro ->
             PlaylistUiState(
                 allAlbums = albums,
                 activeAlbumIds = config.activeAlbumIds,
@@ -45,11 +52,13 @@ class PlaylistViewModel @Inject constructor(
                 fitMode = config.fitMode,
                 showClock = config.showClock,
                 showDate = config.showDate,
-                showCaption = config.showCaption
+                showCaption = config.showCaption,
+                isPro = isPro
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PlaylistUiState())
 
     fun toggleAlbum(albumId: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
         val current = settings.playlistConfig.first().activeAlbumIds
         settings.setActiveAlbumIds(
             if (albumId in current) current - albumId else current + albumId

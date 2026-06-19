@@ -3,6 +3,9 @@ package com.baer.memolio.feature.manage.playlist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import com.baer.memolio.core.billing.EntitlementRepository
+import com.baer.memolio.core.billing.PurchaseResult
+import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.FitMode
@@ -22,6 +25,13 @@ import org.robolectric.RobolectricTestRunner
 class PlaylistEditPersistenceTest {
 
     @get:Rule val composeRule = createComposeRule()
+
+    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
+        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
+        override suspend fun refresh() {}
+        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
+        override suspend fun restore(): RestoreResult = RestoreResult.Success
+    }
 
     private class FakeSettings : SettingsRepository {
         val config = MutableStateFlow(PlaylistConfig())
@@ -60,7 +70,7 @@ class PlaylistEditPersistenceTest {
     @Test
     fun playlistScreenRendersAlbumAndControlRows() {
         val settings = FakeSettings()
-        val vm = PlaylistViewModel(settings, FakeAlbumRepo())
+        val vm = PlaylistViewModel(settings, FakeAlbumRepo(), FakeEntitlement(true))
         composeRule.setContent { PlaylistScreen(viewModel = vm) }
         composeRule.onNodeWithText("A1").assertIsDisplayed()
         composeRule.onNodeWithText("Shuffle").assertIsDisplayed()
@@ -70,7 +80,7 @@ class PlaylistEditPersistenceTest {
     @Test
     fun shuffleToggleWritesThroughToSettings() {
         val settings = FakeSettings()
-        val vm = PlaylistViewModel(settings, FakeAlbumRepo())
+        val vm = PlaylistViewModel(settings, FakeAlbumRepo(), FakeEntitlement(true))
         composeRule.setContent { PlaylistScreen(viewModel = vm) }
 
         vm.setShuffle(false)

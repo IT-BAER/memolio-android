@@ -59,12 +59,12 @@ fun ManageScaffold(
         detailPane = {
             AnimatedPane {
                 when (selected) {
-                    ManageSection.Library -> LibraryScreen()
-                    ManageSection.Playlist -> PlaylistScreen()
+                    ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
+                    ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
                     ManageSection.AddPhotos -> AddPhotosScreen()
                     ManageSection.Appliance -> ApplianceScreen()
                     ManageSection.Storage -> StorageScreen()
-                    ManageSection.Wallpaper -> WallpaperScreen()
+                    ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
                     ManageSection.About -> AboutScreen()
                 }
             }

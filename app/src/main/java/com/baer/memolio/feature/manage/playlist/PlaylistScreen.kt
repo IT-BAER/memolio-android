@@ -13,22 +13,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.core.billing.ProFeature
+import com.baer.memolio.core.ui.ProGate
 
 @Composable
 fun PlaylistScreen(
+    onOpenPaywall: () -> Unit = {},
     viewModel: PlaylistViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsState()
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
-        Text("Active albums")
-        state.allAlbums.forEach { album ->
-            Row {
-                Switch(
-                    checked = album.id in state.activeAlbumIds,
-                    onCheckedChange = { viewModel.toggleAlbum(album.id) }
-                )
-                Text(album.name, modifier = Modifier.padding(8.dp))
+        ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
+            Text("Active albums")
+            state.allAlbums.forEach { album ->
+                Row {
+                    Switch(
+                        checked = album.id in state.activeAlbumIds,
+                        onCheckedChange = { viewModel.toggleAlbum(album.id) }
+                    )
+                    Text(album.name, modifier = Modifier.padding(8.dp))
+                }
             }
         }
         Row {

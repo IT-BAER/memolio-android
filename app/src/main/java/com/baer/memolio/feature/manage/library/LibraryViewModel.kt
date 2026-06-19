@@ -2,6 +2,7 @@ package com.baer.memolio.feature.manage.library
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.di.IoDispatcher
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
@@ -25,13 +27,15 @@ data class LibraryUiState(
     val albums: List<Album> = emptyList(),
     val openAlbumId: String? = null,
     val openAlbumPhotos: List<Photo> = emptyList(),
-    val selectedIds: Set<String> = emptySet()
+    val selectedIds: Set<String> = emptySet(),
+    val isPro: Boolean = false
 )
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val albumRepository: AlbumRepository,
     private val photoRepository: PhotoRepository,
+    private val entitlement: EntitlementRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -39,9 +43,10 @@ class LibraryViewModel @Inject constructor(
     internal constructor(
         albumRepository: AlbumRepository,
         photoRepository: PhotoRepository,
+        entitlement: EntitlementRepository,
         ioDispatcher: CoroutineDispatcher,
         now: () -> Long
-    ) : this(albumRepository, photoRepository, ioDispatcher) {
+    ) : this(albumRepository, photoRepository, entitlement, ioDispatcher) {
         this.nowFn = now
     }
 
@@ -60,17 +65,20 @@ class LibraryViewModel @Inject constructor(
             albumRepository.observeAlbums(),
             openAlbumId,
             openPhotos,
-            selectedIds
-        ) { albums, openId, photos, selected ->
+            selectedIds,
+            entitlement.isPro
+        ) { albums, openId, photos, selected, isPro ->
             LibraryUiState(
                 albums = albums,
                 openAlbumId = openId,
                 openAlbumPhotos = photos,
-                selectedIds = selected
+                selectedIds = selected,
+                isPro = isPro
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LibraryUiState())
 
     fun createAlbum(name: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
         val ts = nowFn()
         albumRepository.upsert(
             Album(id = "alb_$ts", name = name, coverPhotoId = null, createdAt = ts, sortOrder = 0)
@@ -78,10 +86,14 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun renameAlbum(album: Album, newName: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
         albumRepository.upsert(album.copy(name = newName))
     }
 
-    fun deleteAlbum(id: String) = viewModelScope.launch { albumRepository.delete(id) }
+    fun deleteAlbum(id: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
+        albumRepository.delete(id)
+    }
 
     fun openAlbum(id: String) {
         openAlbumId.value = id
@@ -93,6 +105,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun moveSelectedTo(albumId: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) { selectedIds.value = emptySet(); return@launch }
         selectedIds.value.forEach { photoRepository.moveToAlbum(it, albumId) }
     }
 

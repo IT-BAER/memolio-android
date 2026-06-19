@@ -1,6 +1,9 @@
 package com.baer.memolio.feature.manage.library
 
 import app.cash.turbine.test
+import com.baer.memolio.core.billing.EntitlementRepository
+import com.baer.memolio.core.billing.PurchaseResult
+import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.model.Album
@@ -25,6 +28,13 @@ class LibraryViewModelTest {
 
     @Before fun setMain() = Dispatchers.setMain(dispatcher)
     @After fun reset() = Dispatchers.resetMain()
+
+    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
+        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
+        override suspend fun refresh() {}
+        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
+        override suspend fun restore(): RestoreResult = RestoreResult.Success
+    }
 
     private class FakeAlbumRepository : AlbumRepository {
         val albums = MutableStateFlow<List<Album>>(emptyList())
@@ -71,7 +81,7 @@ class LibraryViewModelTest {
     @Test
     fun albumsAreExposedFromRepository() = runTest {
         val albumRepo = FakeAlbumRepository()
-        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), dispatcher) { 100L }
+        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), FakeEntitlement(true), dispatcher) { 100L }
         albumRepo.albums.value = listOf(Album("a1", "Family", null, 0L, 0))
 
         vm.state.test {
@@ -87,7 +97,7 @@ class LibraryViewModelTest {
     @Test
     fun createAlbumUpsertsWithGeneratedId() = runTest {
         val albumRepo = FakeAlbumRepository()
-        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), dispatcher) { 100L }
+        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), FakeEntitlement(true), dispatcher) { 100L }
 
         vm.createAlbum("Holiday")
 
@@ -99,7 +109,7 @@ class LibraryViewModelTest {
     fun renameAlbumKeepsIdAndUpdatesName() = runTest {
         val albumRepo = FakeAlbumRepository()
         albumRepo.albums.value = listOf(Album("a1", "Old", null, 5L, 2))
-        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), dispatcher) { 100L }
+        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), FakeEntitlement(true), dispatcher) { 100L }
 
         vm.renameAlbum(Album("a1", "Old", null, 5L, 2), "New")
 
@@ -114,7 +124,7 @@ class LibraryViewModelTest {
     fun deleteAlbumRemovesIt() = runTest {
         val albumRepo = FakeAlbumRepository()
         albumRepo.albums.value = listOf(Album("a1", "X", null, 0L, 0))
-        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), dispatcher) { 100L }
+        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), FakeEntitlement(true), dispatcher) { 100L }
 
         vm.deleteAlbum("a1")
 
@@ -125,7 +135,7 @@ class LibraryViewModelTest {
     fun openingAlbumExposesItsPhotos() = runTest {
         val photoRepo = FakePhotoRepository()
         photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1"), photo("p2", "a1")))
-        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, dispatcher) { 100L }
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
 
         vm.openAlbum("a1")
 
@@ -138,7 +148,7 @@ class LibraryViewModelTest {
     fun selectionTogglesAndBatchActionsCallRepository() = runTest {
         val photoRepo = FakePhotoRepository()
         photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1"), photo("p2", "a1")))
-        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, dispatcher) { 100L }
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
         vm.openAlbum("a1")
 
         vm.toggleSelection("p1")
@@ -160,7 +170,7 @@ class LibraryViewModelTest {
     @Test
     fun reorderDelegatesToRepository() = runTest {
         val photoRepo = FakePhotoRepository()
-        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, dispatcher) { 100L }
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
 
         vm.reorder(listOf("p3", "p1", "p2"))
 

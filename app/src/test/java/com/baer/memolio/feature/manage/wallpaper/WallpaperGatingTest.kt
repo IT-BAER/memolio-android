@@ -1,6 +1,5 @@
 package com.baer.memolio.feature.manage.wallpaper
 
-import app.cash.turbine.test
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
@@ -21,24 +20,17 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class WallpaperViewModelTest {
+class WallpaperGatingTest {
 
     private val dispatcher = UnconfinedTestDispatcher()
     @Before fun setMain() = Dispatchers.setMain(dispatcher)
     @After fun reset() = Dispatchers.resetMain()
 
-    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
-        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
-        override suspend fun refresh() {}
-        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
-    }
-
     private class FakeSettings : SettingsRepository {
         val app = MutableStateFlow(AppSettings())
         var lastWallpaper: String? = null
         override val appSettings: Flow<AppSettings> = app
-        override suspend fun setWallpaperId(value: String) { lastWallpaper = value; app.value = app.value.copy(wallpaperId = value) }
+        override suspend fun setWallpaperId(id: String) { lastWallpaper = id; app.value = app.value.copy(wallpaperId = id) }
         override val playlistConfig: Flow<PlaylistConfig> = MutableStateFlow(PlaylistConfig())
         override suspend fun setActiveAlbumIds(ids: Set<String>) {}
         override suspend fun setShuffle(value: Boolean) {}
@@ -63,23 +55,30 @@ class WallpaperViewModelTest {
         override suspend fun ensureToken(): String = ""
     }
 
-    @Test
-    fun exposesAvailableWallpapersAndSelected() = runTest {
-        val settings = FakeSettings().apply { app.value = AppSettings(wallpaperId = "default") }
-        val vm = WallpaperViewModel(settings, FakeEntitlement(true))
-        vm.state.test {
-            var s = awaitItem()
-            assertThat(s.available).contains("default")
-            assertThat(s.selectedId).isEqualTo("default")
-            cancelAndIgnoreRemainingEvents()
-        }
+    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
+        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
+        override suspend fun refresh() {}
+        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
+        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     @Test
-    fun selectPersistsWallpaperId() = runTest {
+    fun freeUserCanSelectDefaultButNotCustom() = runTest {
         val settings = FakeSettings()
-        val vm = WallpaperViewModel(settings, FakeEntitlement(true))
+        val vm = WallpaperViewModel(settings, FakeEntitlement(pro = false))
         vm.select("default")
         assertThat(settings.lastWallpaper).isEqualTo("default")
+
+        settings.lastWallpaper = null
+        vm.select("aurora")   // a hypothetical custom wallpaper
+        assertThat(settings.lastWallpaper).isNull()   // gated: ignored when not Pro
+    }
+
+    @Test
+    fun proUserCanSelectCustom() = runTest {
+        val settings = FakeSettings()
+        val vm = WallpaperViewModel(settings, FakeEntitlement(pro = true))
+        vm.select("aurora")
+        assertThat(settings.lastWallpaper).isEqualTo("aurora")
     }
 }
