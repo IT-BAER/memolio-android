@@ -75,8 +75,12 @@ class LibraryViewModelTest {
         albumRepo.albums.value = listOf(Album("a1", "Family", null, 0L, 0))
 
         vm.state.test {
-            assertThat(awaitItem().albums).isEmpty()
-            assertThat(awaitItem().albums.map { it.name }).containsExactly("Family")
+            // Under UnconfinedTestDispatcher the initial empty state can be conflated
+            // with the populated one, so accept either emission order.
+            var item = awaitItem()
+            if (item.albums.isEmpty()) item = awaitItem()
+            assertThat(item.albums.map { it.name }).containsExactly("Family")
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
