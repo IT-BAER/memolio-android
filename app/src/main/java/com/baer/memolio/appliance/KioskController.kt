@@ -24,10 +24,14 @@ object KioskController {
         val keepScreenOn: Boolean
     )
 
-    /** Pure decision. Lock-task + immersive require Pro (APPLIANCE). keepScreenOn is free. */
+    /**
+     * Pure decision. The frame is fullscreen ALWAYS (it's a photo frame — system bars
+     * are never wanted), so [immersive] and [keepScreenOn] are unconditional. Only the
+     * lock-task PIN (which traps the user in the app) is Pro-gated via APPLIANCE.
+     */
     fun plan(kioskEnabled: Boolean, isPro: Boolean): Plan = Plan(
         lockTask = kioskEnabled && isPro,
-        immersive = kioskEnabled && isPro,
+        immersive = true,
         keepScreenOn = true
     )
 

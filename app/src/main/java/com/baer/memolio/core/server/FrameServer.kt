@@ -138,7 +138,7 @@ fun Application.frameRoutes(deps: FrameServerDeps) {
                     MediaImporter.ImportResult.Duplicate ->
                         call.respond(
                             HttpStatusCode.OK,
-                            UploadResponse("duplicate", "Already on the frame — skipped")
+                            UploadResponse("duplicate", "Already on the frame, skipped")
                         )
                     is MediaImporter.ImportResult.Rejected ->
                         call.respond(

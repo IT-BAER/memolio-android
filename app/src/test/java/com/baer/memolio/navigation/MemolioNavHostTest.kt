@@ -25,7 +25,7 @@ class MemolioNavHostTest {
             MemolioNavHost(
                 start = StartDestination.Frame,
                 frameContent = { _ -> Text("FRAME") },
-                manageContent = { _ -> Text("MANAGE") },
+                manageContent = { _, _ -> Text("MANAGE") },
                 onboardContent = { _, _ -> Text("ONBOARD") },
                 paywallContent = { _ -> Text("PAYWALL") }
             )
@@ -39,7 +39,7 @@ class MemolioNavHostTest {
             MemolioNavHost(
                 start = StartDestination.Onboard,
                 frameContent = { _ -> Text("FRAME") },
-                manageContent = { _ -> Text("MANAGE") },
+                manageContent = { _, _ -> Text("MANAGE") },
                 onboardContent = { _, _ -> Text("ONBOARD") },
                 paywallContent = { _ -> Text("PAYWALL") }
             )
@@ -55,7 +55,7 @@ class MemolioNavHostTest {
                 frameContent = { onOpenManage ->
                     Button(onClick = onOpenManage) { Text("MENU") }
                 },
-                manageContent = { _ -> Text("MANAGE") },
+                manageContent = { _, _ -> Text("MANAGE") },
                 onboardContent = { _, _ -> Text("ONBOARD") },
                 paywallContent = { _ -> Text("PAYWALL") }
             )

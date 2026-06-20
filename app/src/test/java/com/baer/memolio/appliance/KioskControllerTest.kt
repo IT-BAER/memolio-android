@@ -6,10 +6,11 @@ import org.junit.Test
 class KioskControllerTest {
 
     @Test
-    fun kioskDisabledNoLockTaskNoImmersive() {
+    fun kioskDisabledNoLockTaskButStillImmersive() {
+        // The frame is fullscreen always; only the lock-task PIN is gated.
         val plan = KioskController.plan(kioskEnabled = false, isPro = true)
         assertThat(plan.lockTask).isFalse()
-        assertThat(plan.immersive).isFalse()
+        assertThat(plan.immersive).isTrue()
     }
 
     @Test
@@ -17,6 +18,12 @@ class KioskControllerTest {
         val plan = KioskController.plan(kioskEnabled = true, isPro = true)
         assertThat(plan.lockTask).isTrue()
         assertThat(plan.immersive).isTrue()
+    }
+
+    @Test
+    fun frameIsAlwaysImmersiveEvenForFreeUsers() {
+        assertThat(KioskController.plan(kioskEnabled = false, isPro = false).immersive).isTrue()
+        assertThat(KioskController.plan(kioskEnabled = true, isPro = false).immersive).isTrue()
     }
 
     @Test

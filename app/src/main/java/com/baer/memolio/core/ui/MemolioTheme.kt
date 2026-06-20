@@ -5,25 +5,37 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 
 private val MemolioColorScheme = darkColorScheme(
-    primary = MemolioAccentTeal,
-    secondary = MemolioAccentAmber,
-    background = MemolioBackground,
-    surface = MemolioSurface,
-    onPrimary = MemolioBackground,
-    onBackground = MemolioInk,
-    onSurface = MemolioInk
+    primary = MemolioColors.Teal,
+    onPrimary = MemolioColors.TextOnAccent,
+    primaryContainer = MemolioColors.TealWash,
+    onPrimaryContainer = MemolioColors.TealSoft,
+    secondary = MemolioColors.Amber,
+    onSecondary = MemolioColors.TextOnAccent,
+    secondaryContainer = MemolioColors.AmberWash,
+    onSecondaryContainer = MemolioColors.AmberSoft,
+    background = MemolioColors.BgApp,
+    onBackground = MemolioColors.TextPrimary,
+    surface = MemolioColors.BgSurface,
+    onSurface = MemolioColors.TextPrimary,
+    surfaceVariant = MemolioColors.Ink200,
+    onSurfaceVariant = MemolioColors.TextSecondary,
+    outline = MemolioColors.BorderDefault,
+    outlineVariant = MemolioColors.BorderSoft,
+    error = MemolioColors.Error,
 )
 
 /**
- * Material 3 theme for the frame. Always dark-leaning: the device is an appliance
- * on display 24/7, so a deep background minimizes glare and burn-in regardless of
- * system dark-mode setting. Typography/shapes use the M3 defaults; overlay text
- * styling lives in the overlay composables (Task 4) since it is mockup-specific.
+ * Material 3 theme for the whole app. Always dark-leaning: the device is an
+ * appliance on display 24/7, so a deep warm background minimizes glare and
+ * burn-in regardless of system dark-mode setting. Color/typography/shape tokens
+ * are the Memolio design system (Inter face + warm palette + soft radii).
  */
 @Composable
 fun MemolioTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = MemolioColorScheme,
+        typography = MemolioTypography,
+        shapes = MemolioShapes,
         content = content
     )
 }

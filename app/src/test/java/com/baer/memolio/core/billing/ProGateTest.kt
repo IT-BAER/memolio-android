@@ -55,7 +55,8 @@ class ProGateTest {
                 unlocked = { Text("UNLOCKED") }
             )
         }
-        composeRule.onNodeWithText("Unlock ${ProFeature.CUSTOM_WALLPAPER.title}").performClick()
+        // The default locked slot is the design-system ProLock card; its CTA is "See Pro".
+        composeRule.onNodeWithText("See Pro").performClick()
         assert(upsellOpened)
     }
 }

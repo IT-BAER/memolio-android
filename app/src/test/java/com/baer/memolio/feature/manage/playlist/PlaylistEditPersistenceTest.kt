@@ -74,7 +74,7 @@ class PlaylistEditPersistenceTest {
         composeRule.setContent { PlaylistScreen(viewModel = vm) }
         composeRule.onNodeWithText("A1").assertIsDisplayed()
         composeRule.onNodeWithText("Shuffle").assertIsDisplayed()
-        composeRule.onNodeWithText("Clock").assertIsDisplayed()
+        composeRule.onNodeWithText("Show clock").assertIsDisplayed()
     }
 
     @Test

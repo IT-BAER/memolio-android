@@ -1,8 +1,17 @@
 package com.baer.memolio.feature.manage
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.NavigationRailItem
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -15,11 +24,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.baer.memolio.core.billing.ProFeature
-import com.baer.memolio.core.ui.ProGate
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.baer.memolio.core.ui.MemolioColors
+import com.baer.memolio.core.ui.MemolioType
+import com.baer.memolio.core.ui.Symbol
+import com.baer.memolio.core.ui.component.ButtonSize
+import com.baer.memolio.core.ui.component.ButtonVariant
+import com.baer.memolio.core.ui.component.IconButtonSize
+import com.baer.memolio.core.ui.component.IconButtonVariant
+import com.baer.memolio.core.ui.component.MemolioButton
+import com.baer.memolio.core.ui.component.MemolioIconButton
+import com.baer.memolio.core.ui.component.MemolioWordmark
+import com.baer.memolio.core.ui.component.WordmarkTone
 import com.baer.memolio.feature.manage.about.AboutScreen
 import com.baer.memolio.feature.manage.addphotos.AddPhotosScreen
+import com.baer.memolio.feature.manage.appliance.ApplianceScreen
 import com.baer.memolio.feature.manage.library.LibraryScreen
 import com.baer.memolio.feature.manage.playlist.PlaylistScreen
 import com.baer.memolio.feature.manage.storage.StorageScreen
@@ -27,15 +51,17 @@ import com.baer.memolio.feature.manage.wallpaper.WallpaperScreen
 import kotlinx.coroutines.launch
 
 /**
- * Tablet-first list-detail (spec section 7): section rail in the list pane, the selected
- * section's UI in the detail pane. On compact widths the adaptive navigator collapses to a
- * single pane and back-navigates from detail to list automatically.
+ * Tablet-first list-detail (spec section 7): the design-system section rail in the
+ * list pane, the selected section's UI in the detail pane. The adaptive navigator
+ * still collapses to a single pane and back-navigates on compact widths, so the
+ * fixed-looking rail stays adaptive per the project's "always adaptive" rule.
  */
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ManageScaffold(
     isPro: Boolean = false,
     onOpenPaywall: () -> Unit = {},
+    onClose: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<ManageSection>()
@@ -50,6 +76,9 @@ fun ManageScaffold(
             AnimatedPane {
                 ManageSectionRail(
                     selected = selected,
+                    isPro = isPro,
+                    onClose = onClose,
+                    onOpenPaywall = onOpenPaywall,
                     onSelect = { section ->
                         selected = section
                         scope.launch {
@@ -61,41 +90,130 @@ fun ManageScaffold(
         },
         detailPane = {
             AnimatedPane {
-                when (selected) {
-                    ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
-                    ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
-                    ManageSection.AddPhotos -> AddPhotosScreen()
-                    ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
-                    ManageSection.Storage -> StorageScreen()
-                    ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
-                    ManageSection.About -> AboutScreen()
+                DetailPane {
+                    when (selected) {
+                        ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
+                        ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
+                        ManageSection.AddPhotos -> AddPhotosScreen()
+                        ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
+                        ManageSection.Storage -> StorageScreen()
+                        ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
+                        ManageSection.About -> AboutScreen()
+                    }
                 }
             }
         }
     )
 }
 
-/** Left rail listing the seven sections. Kept simple (a clickable column of labels). */
+/**
+ * The shared detail surface: deep app background, generously padded. Not itself
+ * scrollable — sections own their scroll (Library/Storage use lazy/scroll roots),
+ * which avoids nesting two vertical scrollers on the same axis.
+ */
+@Composable
+private fun DetailPane(content: @Composable () -> Unit) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(MemolioColors.BgApp)
+            .padding(48.dp)
+    ) {
+        content()
+    }
+}
+
+/**
+ * Left rail (design ManageApp): near-black surface, wordmark + back-to-frame, the
+ * seven sections with icon + active glass pill + Pro lock, and an "Unlock Pro"
+ * button pinned to the bottom for free users.
+ */
 @Composable
 private fun ManageSectionRail(
     selected: ManageSection,
+    isPro: Boolean,
+    onClose: () -> Unit,
+    onOpenPaywall: () -> Unit,
     onSelect: (ManageSection) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        ManageSection.entries.forEach { section ->
-            NavigationRailItem(
-                selected = section == selected,
-                onClick = { onSelect(section) },
-                icon = {},
-                label = { Text(section.title) }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MemolioColors.Ink050)
+            .padding(horizontal = 12.dp, vertical = 24.dp)
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp, bottom = 22.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MemolioWordmark(tone = WordmarkTone.Solid, size = 18.sp)
+            MemolioIconButton(
+                icon = "photo_camera_back",
+                contentDescription = "Back to frame",
+                onClick = onClose,
+                variant = IconButtonVariant.Bare,
+                size = IconButtonSize.Sm
+            )
+        }
+        Column(
+            Modifier.fillMaxWidth().weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            ManageSection.entries.forEach { section ->
+                RailItem(
+                    section = section,
+                    active = section == selected,
+                    locked = section.pro && !isPro,
+                    onClick = { onSelect(section) }
+                )
+            }
+        }
+        if (!isPro) {
+            MemolioButton(
+                text = "Unlock Pro",
+                onClick = onOpenPaywall,
+                variant = ButtonVariant.Secondary,
+                size = ButtonSize.Sm,
+                icon = "auto_awesome",
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
 }
 
 @Composable
-private fun ApplianceScreen(isPro: Boolean, onOpenPaywall: () -> Unit) {
-    ProGate(feature = ProFeature.APPLIANCE, isPro = isPro, onUpsell = onOpenPaywall) {
-        Text("Appliance settings (auto-start, kiosk, sleep, ambient dimming) — enabled.")
+private fun RailItem(
+    section: ManageSection,
+    active: Boolean,
+    locked: Boolean,
+    onClick: () -> Unit
+) {
+    val shape = RoundedCornerShape(10.dp)
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(if (active) MemolioColors.SurfaceGlassStrong else androidx.compose.ui.graphics.Color.Transparent)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 11.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Symbol(
+            section.icon,
+            size = 22.sp,
+            tint = if (active) MemolioColors.Teal else MemolioColors.TextTertiary
+        )
+        Spacer(Modifier.width(12.dp))
+        Text(
+            section.title,
+            color = if (active) MemolioColors.TextPrimary else MemolioColors.TextSecondary,
+            style = MemolioType.body,
+            fontWeight = if (active) FontWeight.Medium else FontWeight.Normal
+        )
+        if (locked) {
+            Spacer(Modifier.weight(1f))
+            Symbol("lock", size = 15.sp, tint = MemolioColors.AmberSoft)
+        }
     }
 }

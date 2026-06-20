@@ -28,6 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.baer.memolio.appliance.KioskController
 import com.baer.memolio.core.billing.EntitlementRepository
@@ -75,6 +78,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Fullscreen from the first frame: it's a photo frame, system bars are never wanted.
+        enterImmersive()
+
         // Apply the kiosk plan (lock-task / immersive / keep-screen-on) whenever it changes.
         lifecycleScope.launch {
             combine(settingsRepository.appSettings, entitlementRepository.isPro) { s, pro -> s.kioskEnabled to pro }
@@ -98,10 +104,11 @@ class MainActivity : ComponentActivity() {
                             MemolioNavHost(
                                 start = start,
                                 frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
-                                manageContent = { onOpenPaywall ->
+                                manageContent = { onOpenPaywall, onClose ->
                                     ManageScaffold(
                                         isPro = rememberEntitlement(entitlementRepository),
-                                        onOpenPaywall = onOpenPaywall
+                                        onOpenPaywall = onOpenPaywall,
+                                        onClose = onClose
                                     )
                                 },
                                 onboardContent = { onFinished, onOpenPaywall ->
@@ -125,6 +132,21 @@ class MainActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         runCatching { unbindService(connection) }
+    }
+
+    /** Re-assert fullscreen when the window regains focus (OEMs re-show bars on return). */
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) enterImmersive()
+    }
+
+    /** Edge-to-edge + hide the status/nav bars (swipe reveals them transiently). */
+    private fun enterImmersive() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+        controller.hide(WindowInsetsCompat.Type.systemBars())
+        controller.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
     /** Apply the ambient/manual target brightness to this window. */

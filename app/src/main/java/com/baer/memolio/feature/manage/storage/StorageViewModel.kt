@@ -21,6 +21,7 @@ import javax.inject.Inject
 
 data class StorageUiState(
     val usedBytes: Long = 0L,
+    val totalBytes: Long = 0L,
     val trash: List<Photo> = emptyList(),
     val autoCleanup: Boolean = false
 )
@@ -44,18 +45,25 @@ class StorageViewModel @Inject constructor(
     ) : this(photoRepository, settings, fileStorage, ioDispatcher)
 
     private val usedBytes = MutableStateFlow(0L)
+    private val totalBytes = MutableStateFlow(0L)
 
     init {
-        viewModelScope.launch { usedBytes.value = withContext(ioDispatcher) { fileStorage.usedBytes() } }
+        viewModelScope.launch {
+            withContext(ioDispatcher) {
+                usedBytes.value = fileStorage.usedBytes()
+                totalBytes.value = fileStorage.totalBytes()
+            }
+        }
     }
 
     val state: StateFlow<StorageUiState> =
         combine(
             usedBytes,
+            totalBytes,
             photoRepository.observeTrash(),
             settings.appSettings.map { it.autoCleanup }
-        ) { bytes, trash, autoCleanup ->
-            StorageUiState(usedBytes = bytes, trash = trash, autoCleanup = autoCleanup)
+        ) { used, total, trash, autoCleanup ->
+            StorageUiState(usedBytes = used, totalBytes = total, trash = trash, autoCleanup = autoCleanup)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), StorageUiState())
 
     fun restore(id: String) = viewModelScope.launch { photoRepository.restore(id) }

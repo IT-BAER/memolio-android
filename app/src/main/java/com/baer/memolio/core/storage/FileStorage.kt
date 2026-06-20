@@ -35,4 +35,7 @@ class FileStorage(private val root: File) {
         listOf(photosDir, displayDir, thumbDir)
             .flatMap { it.walkTopDown().filter(File::isFile).toList() }
             .sumOf { it.length() }
+
+    /** Total bytes of the partition the media dir lives on (drives the storage meter). */
+    fun totalBytes(): Long = root.totalSpace
 }
