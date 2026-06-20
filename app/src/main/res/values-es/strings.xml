@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  es — Spanish (Spain). Traducción de values/strings.xml.
+  Las 15 claves con translatable="false" se omiten aquí; Android usa el valor
+  del directorio values/ (fuente) para todos los locales.
+-->
+<resources>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Atrás</string>
+    <string name="action_next">Siguiente</string>
+    <string name="action_finish">Finalizar</string>
+    <string name="action_done">Listo</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_maybe_later">Quizás más tarde</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">Ver Pro</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Abrir ajustes</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Bienvenido a Memolio</string>
+    <string name="onboard_welcome_body">Convirtamos este tablet en un marco de fotos tranquilo para las personas y los lugares que quieres tener cerca. Tardará solo un minuto.</string>
+    <string name="onboard_permissions_title">Permisos</string>
+    <string name="onboard_permissions_body">Memolio necesita permisos de notificaciones y de arranque para que el marco siga funcionando solo. Solo accede a su propia carpeta, nunca a tu galería.</string>
+    <string name="onboard_qr_title">Añade tus primeras fotos</string>
+    <string name="onboard_qr_sub">Escanea desde cualquier móvil conectado al mismo Wi-Fi</string>
+    <string name="onboard_qr_preparing">Preparando el enlace de subida… (asegúrate de que el Wi-Fi está activado)</string>
+    <string name="onboard_homekiosk_title">Inicio &amp; modo quiosco</string>
+    <string name="onboard_homekiosk_body">Opcional: establece Memolio como la app de inicio y bloquéala (modo quiosco).</string>
+    <string name="onboard_homekiosk_enable">Activar inicio + modo quiosco</string>
+    <string name="onboard_sleep_title">Programación de reposo</string>
+    <string name="onboard_sleep_body">Opcional: apaga la pantalla durante la noche (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Activar programación de reposo</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Opcional: desbloquea álbumes, el conjunto de electrodoméstico y fondos de pantalla personalizados con una compra única. Puedes hacerlo en cualquier momento.</string>
+    <string name="onboard_finish_title">Todo listo</string>
+    <string name="onboard_finish_body">Pulsa Finalizar para iniciar el marco.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro está desbloqueado. ¡Gracias!</string>
+    <string name="paywall_offline">Conéctate al Wi-Fi para desbloquear Pro. El resto de Memolio funciona sin conexión.</string>
+    <string name="paywall_pitch">Paga una vez y Pro se queda para siempre, aquí mismo en el tablet.</string>
+    <string name="paywall_perk_albums_title">Álbumes &amp; listas</string>
+    <string name="paywall_perk_albums_desc">Agrupa fotos y elige exactamente qué se muestra.</string>
+    <string name="paywall_perk_appliance_title">Conjunto electrodoméstico</string>
+    <string name="paywall_perk_appliance_desc">Arranque automático, modo quiosco, programación de reposo y atenuación ambiental.</string>
+    <string name="paywall_perk_wallpaper_title">Fondos personalizados</string>
+    <string name="paywall_perk_wallpaper_desc">Elige el fondo que aparece detrás del reloj.</string>
+    <string name="paywall_price_caption">una vez · de por vida</string>
+    <string name="paywall_unlock_cta">Desbloquear Pro</string>
+    <string name="paywall_restore">Restaurar</string>
+    <string name="paywall_error">Error: %1$s</string>
+
+    <!-- ===== Billing errors ===== -->
+    <string name="billing_error_no_package">No hay ningún paquete Pro disponible</string>
+    <string name="billing_error_not_granted">La compra no activó Pro</string>
+    <string name="billing_error_purchase_failed">La compra ha fallado</string>
+    <string name="billing_error_no_restore">No se encontró ninguna compra Pro para restaurar</string>
+    <string name="billing_error_restore_failed">La restauración ha fallado</string>
+    <string name="billing_error_load">No se pudieron cargar las ofertas</string>
+
+    <!-- ===== Pro feature catalog ===== -->
+    <string name="profeature_albums_title">Álbumes &amp; listas</string>
+    <string name="profeature_albums_blurb">Organiza fotos en álbumes y elige cuáles se van rotando.</string>
+    <string name="profeature_albums_lock">Álbumes</string>
+    <string name="profeature_appliance_title">Modo electrodoméstico</string>
+    <string name="profeature_appliance_blurb">Arranque automático, modo quiosco, app de inicio, reposo programado y atenuación ambiental.</string>
+    <string name="profeature_appliance_lock">Conjunto electrodoméstico</string>
+    <string name="profeature_wallpaper_title">Fondos personalizados</string>
+    <string name="profeature_wallpaper_blurb">Usa fondos alternativos y personalizados más allá del predeterminado.</string>
+    <string name="profeature_wallpaper_lock">Fondo personalizado</string>
+    <string name="prolock_blurb">Una sola compra activa esto para siempre, aquí mismo en el tablet.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Menú</string>
+    <string name="manage_back_to_menu">Volver al menú</string>
+    <string name="manage_back_to_frame">Volver al marco</string>
+    <string name="manage_section_library">Biblioteca</string>
+    <string name="manage_section_playlist">Lista de reproducción</string>
+    <string name="manage_section_addphotos">Añadir fotos</string>
+    <string name="manage_section_appliance">Electrodoméstico</string>
+    <string name="manage_section_storage">Almacenamiento</string>
+    <string name="manage_section_wallpaper">Fondo de pantalla</string>
+    <string name="manage_section_about">Acerca de</string>
+    <string name="manage_section_language">Idioma</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Biblioteca</string>
+    <string name="library_subtitle">Agrupa fotos en álbumes</string>
+    <string name="library_new_album_label">Nombre del nuevo álbum</string>
+    <string name="library_create_album">Crear álbum</string>
+    <string name="library_album_fallback">Álbum</string>
+    <string name="library_albums">Álbumes</string>
+    <string name="library_favorite">Favorita</string>
+    <string name="library_delete">Eliminar</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Lista de reproducción</string>
+    <string name="playlist_subtitle">Qué muestra el marco y cómo</string>
+    <string name="playlist_active_albums">Álbumes activos</string>
+    <string name="playlist_display">Pantalla</string>
+    <string name="playlist_interval">Intervalo entre fotos</string>
+    <string name="playlist_interval_suffix">s</string>
+    <string name="playlist_shuffle">Orden aleatorio</string>
+    <string name="playlist_show_clock">Mostrar reloj</string>
+    <string name="playlist_show_date">Mostrar fecha</string>
+    <string name="playlist_show_caption">Mostrar leyenda</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Añadir fotos</string>
+    <string name="addphotos_subtitle">Escanea desde cualquier móvil conectado al mismo Wi-Fi</string>
+    <string name="addphotos_server_starting">Iniciando servidor. Conecta el tablet al Wi-Fi.</string>
+    <string name="addphotos_point_camera">Apunta la cámara aquí</string>
+    <string name="addphotos_instructions">Arrastra una foto y aparece en el marco en segundos. Se guarda en la carpeta propia de Memolio, nunca en la galería del tablet, y no sale de esta habitación.</string>
+    <string name="addphotos_rotate_token">Rotar token (invalidar QR antiguo)</string>
+    <string name="addphotos_qr_cd">Código QR de subida</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Electrodoméstico</string>
+    <string name="appliance_subtitle">Usa Memolio como un dispositivo fijo</string>
+    <string name="appliance_autostart">Arranque automático al encender</string>
+    <string name="appliance_kiosk">Modo quiosco (app de inicio)</string>
+    <string name="appliance_sleep">Reposo de pantalla %1$s–%2$s</string>
+    <string name="appliance_ambient">Atenuación de brillo ambiental</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Almacenamiento</string>
+    <string name="storage_usage">%1$s de %2$s usados</string>
+    <string name="storage_usage_short">%1$s usados</string>
+    <string name="storage_auto_empty">Vaciar papelera automáticamente tras 30 días</string>
+    <string name="storage_recently_deleted">Eliminados recientemente · %1$d</string>
+    <string name="storage_restore">Restaurar</string>
+    <string name="storage_empty_trash">Vaciar papelera</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Fondo de pantalla</string>
+    <string name="wallpaper_subtitle">El fondo que aparece detrás del reloj en reposo</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_body">Un tablet de sobra al que se le da una segunda vida en tu estantería. Memolio muestra las personas y los lugares que merece la pena tener a la vista, y guarda cada foto en su propia carpeta en este dispositivo, accesible solo a través de tu Wi-Fi doméstico.</string>
+    <string name="about_offline_first">Sin conexión primero</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Ya está en el marco</string>
+    <string name="upload_failed">Error al subir</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Marco de fotos</string>
+    <string name="notif_channel_desc">Mantiene el servidor de subida en marcha para que se puedan añadir fotos.</string>
+    <string name="notif_title">Marco Memolio</string>
+    <string name="notif_content_ready">Listo para recibir fotos</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Elige el idioma de la interfaz</string>
+    <string name="language_system_default">Idioma del sistema</string>
+
+</resources>

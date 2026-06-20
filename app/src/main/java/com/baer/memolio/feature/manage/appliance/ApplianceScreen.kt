@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.R
 import com.baer.memolio.core.billing.ProFeature
 import com.baer.memolio.core.ui.ProGate
 import com.baer.memolio.core.ui.component.AdaptiveTwoPane
@@ -25,14 +27,14 @@ fun ApplianceScreen(
 ) {
     val state by viewModel.state.collectAsState()
     Column(modifier) {
-        SectionHead(title = "Appliance", sub = "Run Memolio like a fixed device")
+        SectionHead(title = stringResource(R.string.appliance_title), sub = stringResource(R.string.appliance_subtitle))
         ProGate(feature = ProFeature.APPLIANCE, isPro = isPro, onUpsell = onOpenPaywall) {
             AdaptiveTwoPane(
                 first = { paneModifier ->
                     MemolioCard(modifier = paneModifier, variant = CardVariant.Surface) {
                         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                            MemolioSwitch(state.autostart, viewModel::setAutostart, label = "Auto-start on boot")
-                            MemolioSwitch(state.kiosk, viewModel::setKiosk, label = "Kiosk lock (Home app)")
+                            MemolioSwitch(state.autostart, viewModel::setAutostart, label = stringResource(R.string.appliance_autostart))
+                            MemolioSwitch(state.kiosk, viewModel::setKiosk, label = stringResource(R.string.appliance_kiosk))
                         }
                     }
                 },
@@ -42,9 +44,9 @@ fun ApplianceScreen(
                             MemolioSwitch(
                                 state.sleepEnabled,
                                 viewModel::setSleep,
-                                label = "Sleep screen ${hhmm(state.sleepStartMinutes)}–${hhmm(state.sleepEndMinutes)}"
+                                label = stringResource(R.string.appliance_sleep, hhmm(state.sleepStartMinutes), hhmm(state.sleepEndMinutes))
                             )
-                            MemolioSwitch(state.ambientDimming, viewModel::setAmbientDimming, label = "Ambient brightness dimming")
+                            MemolioSwitch(state.ambientDimming, viewModel::setAmbientDimming, label = stringResource(R.string.appliance_ambient))
                         }
                     }
                 }

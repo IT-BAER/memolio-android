@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Italian quantity strings. Italian uses one (singular) and other (plural).
+  Each <item> uses %1$d for the count.
+-->
+<resources>
+
+    <!-- Upload banner running count: "1 foto aggiunta" / "3 foto aggiunte". -->
+    <plurals name="photos_added">
+        <item quantity="one">%1$d foto aggiunta</item>
+        <item quantity="other">%1$d foto aggiunte</item>
+    </plurals>
+
+    <!-- Library multi-select count: "2 selezionate". -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d selezionata</item>
+        <item quantity="other">%1$d selezionate</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 foto". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d foto</item>
+        <item quantity="other">%1$d foto</item>
+    </plurals>
+
+</resources>

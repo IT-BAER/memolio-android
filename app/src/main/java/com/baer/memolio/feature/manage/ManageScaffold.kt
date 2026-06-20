@@ -38,9 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baer.memolio.R
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.Symbol
@@ -52,6 +54,7 @@ import com.baer.memolio.core.ui.component.WordmarkTone
 import com.baer.memolio.feature.manage.about.AboutScreen
 import com.baer.memolio.feature.manage.addphotos.AddPhotosScreen
 import com.baer.memolio.feature.manage.appliance.ApplianceScreen
+import com.baer.memolio.feature.manage.language.LanguageScreen
 import com.baer.memolio.feature.manage.library.LibraryScreen
 import com.baer.memolio.feature.manage.playlist.PlaylistScreen
 import com.baer.memolio.feature.manage.storage.StorageScreen
@@ -130,6 +133,7 @@ fun ManageScaffold(
                             ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
                             ManageSection.Storage -> StorageScreen()
                             ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
+                            ManageSection.Language -> LanguageScreen()
                             ManageSection.About -> AboutScreen()
                         }
                     }
@@ -167,13 +171,13 @@ private fun DetailPane(
             ) {
                 MemolioIconButton(
                     icon = "arrow_back",
-                    contentDescription = "Back to menu",
+                    contentDescription = stringResource(R.string.manage_back_to_menu),
                     onClick = onBack,
                     variant = IconButtonVariant.Bare,
                     size = IconButtonSize.Md
                 )
                 Spacer(Modifier.width(8.dp))
-                Text("Menu", color = MemolioColors.TextSecondary, style = MemolioType.body)
+                Text(stringResource(R.string.manage_menu), color = MemolioColors.TextSecondary, style = MemolioType.body)
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {
@@ -212,7 +216,7 @@ private fun ManageSectionRail(
             MemolioWordmark(tone = WordmarkTone.Solid, size = if (big) 22.sp else 18.sp)
             MemolioIconButton(
                 icon = "photo_camera_back",
-                contentDescription = "Back to frame",
+                contentDescription = stringResource(R.string.manage_back_to_frame),
                 onClick = onClose,
                 variant = IconButtonVariant.Bare,
                 size = IconButtonSize.Sm
@@ -261,7 +265,7 @@ private fun RailItem(
         )
         Spacer(Modifier.width(if (big) 18.dp else 12.dp))
         Text(
-            section.title,
+            stringResource(section.titleRes),
             color = if (active) MemolioColors.TextPrimary else MemolioColors.TextSecondary,
             style = if (big) MemolioType.bodyLg else MemolioType.body,
             fontWeight = if (active) FontWeight.Medium else FontWeight.Normal

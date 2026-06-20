@@ -24,10 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baer.memolio.R
 import com.baer.memolio.core.server.UploadOutcome
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
@@ -50,7 +53,7 @@ fun UploadFeedbackOverlay(
     var visible by remember { mutableStateOf(false) }
     var icon by remember { mutableStateOf("check_circle") }
     var tint by remember { mutableStateOf<Color>(MemolioColors.Ok) }
-    var text by remember { mutableStateOf("") }
+    var mode by remember { mutableStateOf(UploadOutcome.ADDED) }
     var addedCount by remember { mutableIntStateOf(0) }
     // Bumped on every event; restarts the auto-dismiss timer so a burst keeps the banner up.
     var tick by remember { mutableIntStateOf(0) }
@@ -61,20 +64,22 @@ fun UploadFeedbackOverlay(
                 UploadOutcome.ADDED -> {
                     addedCount += 1
                     icon = "check_circle"; tint = MemolioColors.Ok
-                    text = if (addedCount == 1) "1 photo added" else "$addedCount photos added"
                 }
-                UploadOutcome.DUPLICATE -> {
-                    icon = "info"; tint = MemolioColors.AmberSoft
-                    text = "Already on the frame"
-                }
-                UploadOutcome.REJECTED -> {
-                    icon = "info"; tint = MemolioColors.Error
-                    text = "Upload failed"
-                }
+                UploadOutcome.DUPLICATE -> { icon = "info"; tint = MemolioColors.AmberSoft }
+                UploadOutcome.REJECTED -> { icon = "info"; tint = MemolioColors.Error }
             }
+            mode = outcome
             visible = true
             tick += 1
         }
+    }
+
+    // Resolve the banner text in composition (not inside the effect) so resource lookup is
+    // lint-clean (no LocalContext.getString) and the plural recomputes with the running count.
+    val text = when (mode) {
+        UploadOutcome.ADDED -> pluralStringResource(R.plurals.photos_added, addedCount, addedCount)
+        UploadOutcome.DUPLICATE -> stringResource(R.string.upload_duplicate)
+        UploadOutcome.REJECTED -> stringResource(R.string.upload_failed)
     }
 
     LaunchedEffect(tick) {

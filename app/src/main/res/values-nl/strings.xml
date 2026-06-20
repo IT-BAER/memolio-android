@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  nl — Dutch translation. Translated from values/strings.xml.
+  translatable="false" keys are omitted entirely (app_name, paywall_price,
+  wallpaper_name_*, lang_*).
+-->
+<resources>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Terug</string>
+    <string name="action_next">Volgende</string>
+    <string name="action_finish">Afronden</string>
+    <string name="action_done">Klaar</string>
+    <string name="action_close">Sluiten</string>
+    <string name="action_maybe_later">Misschien later</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">Bekijk Pro</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Instellingen openen</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Welkom bij Memolio</string>
+    <string name="onboard_welcome_body">Laten we van dit tablet een rustig fotolijstje maken voor de mensen en plekken die je dichtbij wilt houden. Het duurt maar een minuutje.</string>
+    <string name="onboard_permissions_title">Machtigingen</string>
+    <string name="onboard_permissions_body">Memolio heeft meldings- en opstartmachtigingen nodig zodat het fotolijst vanzelf blijft draaien. De app raakt alleen zijn eigen map aan, nooit je galerij.</string>
+    <string name="onboard_qr_title">Voeg je eerste foto\'s toe</string>
+    <string name="onboard_qr_sub">Scan vanaf elke telefoon op hetzelfde Wi-Fi</string>
+    <string name="onboard_qr_preparing">Uploadlink voorbereiden… (controleer of Wi-Fi aan is)</string>
+    <string name="onboard_homekiosk_title">Startscherm &amp; kiosk</string>
+    <string name="onboard_homekiosk_body">Optioneel: stel Memolio in als startscherm-app en vergrendel het (kiosk).</string>
+    <string name="onboard_homekiosk_enable">Startscherm + kiosk inschakelen</string>
+    <string name="onboard_sleep_title">Slaapschema</string>
+    <string name="onboard_sleep_body">Optioneel: laat het scherm \'s nachts slapen (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Slaapschema inschakelen</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Optioneel: ontgrendel albums, de apparaatmodus en aangepaste achtergronden met een eenmalige aankoop. Je kunt dit ook later doen.</string>
+    <string name="onboard_finish_title">Alles klaar</string>
+    <string name="onboard_finish_body">Tik op Afronden om het fotolijst te starten.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro is ontgrendeld. Hartelijk bedankt!</string>
+    <string name="paywall_offline">Verbind met Wi-Fi om Pro te ontgrendelen. De rest van Memolio werkt gewoon offline.</string>
+    <string name="paywall_pitch">Betaal eenmalig en Pro blijft voor altijd op dit tablet staan.</string>
+    <string name="paywall_perk_albums_title">Albums &amp; afspeellijsten</string>
+    <string name="paywall_perk_albums_desc">Groepeer foto\'s en kies precies wat er te zien is.</string>
+    <string name="paywall_perk_appliance_title">Apparaatmodus</string>
+    <string name="paywall_perk_appliance_desc">Automatisch opstarten, kioskvergrendeling, slaapschema, omgevingsdemping.</string>
+    <string name="paywall_perk_wallpaper_title">Aangepaste achtergronden</string>
+    <string name="paywall_perk_wallpaper_desc">Kies de achtergrond achter je klok.</string>
+    <string name="paywall_price_caption">eenmalig · levenslang</string>
+    <string name="paywall_unlock_cta">Pro ontgrendelen</string>
+    <string name="paywall_restore">Aankoop herstellen</string>
+    <string name="paywall_error">Fout: %1$s</string>
+
+    <!-- ===== Billing errors ===== -->
+    <string name="billing_error_no_package">Geen Pro-pakket beschikbaar</string>
+    <string name="billing_error_not_granted">Aankoop heeft Pro niet verleend</string>
+    <string name="billing_error_purchase_failed">Aankoop mislukt</string>
+    <string name="billing_error_no_restore">Geen Pro-aankoop gevonden om te herstellen</string>
+    <string name="billing_error_restore_failed">Herstel mislukt</string>
+    <string name="billing_error_load">Kan aanbiedingen niet laden</string>
+
+    <!-- ===== Pro feature catalog ===== -->
+    <string name="profeature_albums_title">Albums &amp; afspeellijsten</string>
+    <string name="profeature_albums_blurb">Organiseer foto\'s in albums en kies welke er worden afgespeeld.</string>
+    <string name="profeature_albums_lock">Albums</string>
+    <string name="profeature_appliance_title">Apparaatmodus</string>
+    <string name="profeature_appliance_blurb">Automatisch opstarten, kioskvergrendeling, startscherm-app, gepland slaapschema en omgevingsdemping.</string>
+    <string name="profeature_appliance_lock">Apparaatmodus</string>
+    <string name="profeature_wallpaper_title">Aangepaste achtergronden</string>
+    <string name="profeature_wallpaper_blurb">Gebruik alternatieve of aangepaste achtergronden naast de standaard.</string>
+    <string name="profeature_wallpaper_lock">Aangepaste achtergrond</string>
+    <string name="prolock_blurb">Eén aankoop en dit staat voor altijd aan, gewoon op dit tablet.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Menu</string>
+    <string name="manage_back_to_menu">Terug naar menu</string>
+    <string name="manage_back_to_frame">Terug naar fotolijst</string>
+    <string name="manage_section_library">Bibliotheek</string>
+    <string name="manage_section_playlist">Afspeellijst</string>
+    <string name="manage_section_addphotos">Foto\'s toevoegen</string>
+    <string name="manage_section_appliance">Apparaat</string>
+    <string name="manage_section_storage">Opslag</string>
+    <string name="manage_section_wallpaper">Achtergrond</string>
+    <string name="manage_section_about">Over</string>
+    <string name="manage_section_language">Taal</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Bibliotheek</string>
+    <string name="library_subtitle">Groepeer foto\'s in albums</string>
+    <string name="library_new_album_label">Naam nieuw album</string>
+    <string name="library_create_album">Album aanmaken</string>
+    <string name="library_album_fallback">Album</string>
+    <string name="library_albums">Albums</string>
+    <string name="library_favorite">Favoriet</string>
+    <string name="library_delete">Verwijderen</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Afspeellijst</string>
+    <string name="playlist_subtitle">Wat het fotolijst toont, en hoe</string>
+    <string name="playlist_active_albums">Actieve albums</string>
+    <string name="playlist_display">Weergave</string>
+    <string name="playlist_interval">Interval tussen foto\'s</string>
+    <string name="playlist_interval_suffix">s</string>
+    <string name="playlist_shuffle">Willekeurige volgorde</string>
+    <string name="playlist_show_clock">Klok weergeven</string>
+    <string name="playlist_show_date">Datum weergeven</string>
+    <string name="playlist_show_caption">Bijschrift weergeven</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Foto\'s toevoegen</string>
+    <string name="addphotos_subtitle">Scan vanaf elke telefoon op hetzelfde Wi-Fi</string>
+    <string name="addphotos_server_starting">Server wordt gestart. Verbind het tablet met Wi-Fi.</string>
+    <string name="addphotos_point_camera">Richt een camera hier naartoe</string>
+    <string name="addphotos_instructions">Gooi een foto en hij staat binnen enkele seconden op het fotolijst. Hij staat in Memolio\'s eigen map, nooit in de galerij van je tablet, en gaat niet verder dan deze kamer.</string>
+    <string name="addphotos_rotate_token">Token vernieuwen (oude QR ongeldig maken)</string>
+    <string name="addphotos_qr_cd">Upload QR-code</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Apparaat</string>
+    <string name="appliance_subtitle">Gebruik Memolio als een vast apparaat</string>
+    <string name="appliance_autostart">Automatisch opstarten</string>
+    <string name="appliance_kiosk">Kioskvergrendeling (startscherm-app)</string>
+    <string name="appliance_sleep">Scherm slapen %1$s–%2$s</string>
+    <string name="appliance_ambient">Omgevingshelderheid dimmen</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Opslag</string>
+    <string name="storage_usage">%1$s van %2$s gebruikt</string>
+    <string name="storage_usage_short">%1$s gebruikt</string>
+    <string name="storage_auto_empty">Prullenbak automatisch leegmaken na 30 dagen</string>
+    <string name="storage_recently_deleted">Onlangs verwijderd · %1$d</string>
+    <string name="storage_restore">Herstellen</string>
+    <string name="storage_empty_trash">Prullenbak leegmaken</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Achtergrond</string>
+    <string name="wallpaper_subtitle">De rustachtergrond achter de klok</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">Over</string>
+    <string name="about_body">Een reservetablet, dat een tweede leven krijgt op je plank. Memolio toont de mensen en plekken die het waard zijn om naar op te kijken, en bewaart elke foto in zijn eigen map op dit apparaat, alleen bereikbaar via je thuisnetwerk.</string>
+    <string name="about_offline_first">Offline eerst</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Al op het fotolijst</string>
+    <string name="upload_failed">Upload mislukt</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Fotolijst</string>
+    <string name="notif_channel_desc">Houdt de uploadserver actief zodat foto\'s kunnen worden toegevoegd.</string>
+    <string name="notif_title">Memolio fotolijst</string>
+    <string name="notif_content_ready">Klaar om foto\'s te ontvangen</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Kies de weergavetaal</string>
+    <string name="language_system_default">Systeemstandaard</string>
+
+</resources>

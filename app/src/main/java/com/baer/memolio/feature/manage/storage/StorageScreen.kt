@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import com.baer.memolio.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,20 +45,20 @@ fun StorageScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val usageSub =
-        if (state.totalBytes > 0) "${formatBytes(state.usedBytes)} of ${formatBytes(state.totalBytes)} used"
-        else "${formatBytes(state.usedBytes)} used"
+        if (state.totalBytes > 0) stringResource(R.string.storage_usage, formatBytes(state.usedBytes), formatBytes(state.totalBytes))
+        else stringResource(R.string.storage_usage_short, formatBytes(state.usedBytes))
     Column(modifier.verticalScroll(rememberScrollState())) {
-        SectionHead(title = "Storage", sub = usageSub)
+        SectionHead(title = stringResource(R.string.storage_title), sub = usageSub)
 
         MemolioCard(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp), variant = CardVariant.Surface) {
             Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
                 StorageMeter(used = state.usedBytes, total = state.totalBytes)
-                MemolioSwitch(state.autoCleanup, viewModel::setAutoCleanup, label = "Auto-empty trash after 30 days")
+                MemolioSwitch(state.autoCleanup, viewModel::setAutoCleanup, label = stringResource(R.string.storage_auto_empty))
             }
         }
 
         Text(
-            "Recently deleted · ${state.trash.size}".uppercase(),
+            stringResource(R.string.storage_recently_deleted, state.trash.size).uppercase(),
             color = MemolioColors.TextTertiary,
             style = MemolioType.label,
             modifier = Modifier.padding(bottom = 12.dp)
@@ -68,7 +70,7 @@ fun StorageScreen(
         }
         if (state.trash.isNotEmpty()) {
             MemolioButton(
-                text = "Empty trash",
+                text = stringResource(R.string.storage_empty_trash),
                 onClick = viewModel::emptyTrash,
                 variant = ButtonVariant.Ghost,
                 size = ButtonSize.Sm,
@@ -124,7 +126,7 @@ private fun TrashRow(photo: Photo, onRestore: () -> Unit) {
                 )
             }
             MemolioButton(
-                text = "Restore",
+                text = stringResource(R.string.storage_restore),
                 onClick = onRestore,
                 variant = ButtonVariant.Quiet,
                 size = ButtonSize.Sm,

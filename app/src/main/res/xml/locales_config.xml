@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The 10 shipped locales, surfaced to the Android system per-app language picker
+  (Settings > System > Languages > App languages) on Android 13+. en-US is the
+  default. Mirrors androidResources.localeFilters in build.gradle.kts.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en-US" />
+    <locale android:name="de-DE" />
+    <locale android:name="fr-FR" />
+    <locale android:name="it-IT" />
+    <locale android:name="nl-NL" />
+    <locale android:name="pl-PL" />
+    <locale android:name="pt-PT" />
+    <locale android:name="es-ES" />
+    <locale android:name="ru-RU" />
+    <locale android:name="zh-CN" />
+</locale-config>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  zh-CN — 简体中文（中国大陆）。翻译自 values/strings.xml。
+  translatable="false" 的键已全部省略。
+-->
+<resources>
+
+    <!-- ===== 共用操作 / 对话框基础元素 ===== -->
+    <string name="action_back">返回</string>
+    <string name="action_next">下一步</string>
+    <string name="action_finish">完成</string>
+    <string name="action_done">确定</string>
+    <string name="action_close">关闭</string>
+    <string name="action_maybe_later">以后再说</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">了解 Pro</string>
+
+    <!-- ===== 相框叠加层 ===== -->
+    <string name="frame_open_settings">打开设置</string>
+
+    <!-- ===== 引导流程 ===== -->
+    <string name="onboard_welcome_title">欢迎使用 Memolio</string>
+    <string name="onboard_welcome_body">只需一分钟，把这台平板变成一个安静的相框，让你最在意的人和地方始终陪伴在侧。</string>
+    <string name="onboard_permissions_title">权限</string>
+    <string name="onboard_permissions_body">Memolio 需要通知和开机权限，以便相框自行持续运行。它只访问自己的专属文件夹，不会触碰你的相册。</string>
+    <string name="onboard_qr_title">添加第一批照片</string>
+    <string name="onboard_qr_sub">用同一 Wi-Fi 下的手机扫描即可</string>
+    <string name="onboard_qr_preparing">正在准备上传链接…（请确保 Wi-Fi 已开启）</string>
+    <string name="onboard_homekiosk_title">主屏幕 &amp; 信息亭模式</string>
+    <string name="onboard_homekiosk_body">可选：将 Memolio 设为主屏幕应用并锁定（信息亭模式）。</string>
+    <string name="onboard_homekiosk_enable">启用主屏幕 + 信息亭模式</string>
+    <string name="onboard_sleep_title">定时休眠</string>
+    <string name="onboard_sleep_body">可选：夜间自动关闭屏幕（22:00–07:00）。</string>
+    <string name="onboard_sleep_enable">启用定时休眠</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">可选：一次性购买，解锁相册、设备套件和自定义壁纸。随时可以稍后再做。</string>
+    <string name="onboard_finish_title">一切就绪</string>
+    <string name="onboard_finish_body">点击「完成」启动相框。</string>
+
+    <!-- ===== 购买页 ===== -->
+    <string name="paywall_unlocked">Pro 已解锁，感谢支持！</string>
+    <string name="paywall_offline">连接 Wi-Fi 后即可解锁 Pro。Memolio 的其余功能均可离线使用。</string>
+    <string name="paywall_pitch">一次付款，Pro 功能永久留在这台平板上。</string>
+    <string name="paywall_perk_albums_title">相册 &amp; 播放列表</string>
+    <string name="paywall_perk_albums_desc">将照片分组，精确控制相框显示的内容。</string>
+    <string name="paywall_perk_appliance_title">设备套件</string>
+    <string name="paywall_perk_appliance_desc">开机自启、信息亭锁定、定时休眠、环境亮度调节。</string>
+    <string name="paywall_perk_wallpaper_title">自定义壁纸</string>
+    <string name="paywall_perk_wallpaper_desc">为时钟选择专属背景。</string>
+    <string name="paywall_price_caption">一次性 · 永久有效</string>
+    <string name="paywall_unlock_cta">解锁 Pro</string>
+    <string name="paywall_restore">恢复购买</string>
+    <string name="paywall_error">错误：%1$s</string>
+
+    <!-- ===== 计费错误（映射自 BillingError 代码） ===== -->
+    <string name="billing_error_no_package">未找到 Pro 套餐</string>
+    <string name="billing_error_not_granted">购买未能授予 Pro 权限</string>
+    <string name="billing_error_purchase_failed">购买失败</string>
+    <string name="billing_error_no_restore">未找到可恢复的 Pro 购买记录</string>
+    <string name="billing_error_restore_failed">恢复失败</string>
+    <string name="billing_error_load">无法加载产品信息</string>
+
+    <!-- ===== Pro 功能目录（ProFeature 枚举） ===== -->
+    <string name="profeature_albums_title">相册 &amp; 播放列表</string>
+    <string name="profeature_albums_blurb">将照片整理到相册中，并选择哪些相册参与轮播。</string>
+    <string name="profeature_albums_lock">相册</string>
+    <string name="profeature_appliance_title">设备模式</string>
+    <string name="profeature_appliance_blurb">开机自启、信息亭锁定、设为主屏幕、定时休眠和环境亮度调节。</string>
+    <string name="profeature_appliance_lock">设备套件</string>
+    <string name="profeature_wallpaper_title">自定义壁纸</string>
+    <string name="profeature_wallpaper_blurb">使用默认以外的备选或自定义壁纸。</string>
+    <string name="profeature_wallpaper_lock">自定义壁纸</string>
+    <string name="prolock_blurb">一次购买，永久开启，就在这台平板上。</string>
+
+    <!-- ===== 管理界面导航栏 / 分区 ===== -->
+    <string name="manage_menu">菜单</string>
+    <string name="manage_back_to_menu">返回菜单</string>
+    <string name="manage_back_to_frame">返回相框</string>
+    <string name="manage_section_library">媒体库</string>
+    <string name="manage_section_playlist">播放列表</string>
+    <string name="manage_section_addphotos">添加照片</string>
+    <string name="manage_section_appliance">设备</string>
+    <string name="manage_section_storage">存储</string>
+    <string name="manage_section_wallpaper">壁纸</string>
+    <string name="manage_section_about">关于</string>
+    <string name="manage_section_language">语言</string>
+
+    <!-- ===== 媒体库 ===== -->
+    <string name="library_title">媒体库</string>
+    <string name="library_subtitle">将照片整理到相册中</string>
+    <string name="library_new_album_label">新相册名称</string>
+    <string name="library_create_album">创建相册</string>
+    <string name="library_album_fallback">相册</string>
+    <string name="library_albums">相册</string>
+    <string name="library_favorite">收藏</string>
+    <string name="library_delete">删除</string>
+
+    <!-- ===== 播放列表 ===== -->
+    <string name="playlist_title">播放列表</string>
+    <string name="playlist_subtitle">控制相框的显示内容与方式</string>
+    <string name="playlist_active_albums">活跃相册</string>
+    <string name="playlist_display">显示设置</string>
+    <string name="playlist_interval">照片切换间隔</string>
+    <!-- 附在滑块数值后的缩写单位，例如"5 秒"。 -->
+    <string name="playlist_interval_suffix">秒</string>
+    <string name="playlist_shuffle">随机播放</string>
+    <string name="playlist_show_clock">显示时钟</string>
+    <string name="playlist_show_date">显示日期</string>
+    <string name="playlist_show_caption">显示说明文字</string>
+
+    <!-- ===== 添加照片 ===== -->
+    <string name="addphotos_title">添加照片</string>
+    <string name="addphotos_subtitle">用同一 Wi-Fi 下的手机扫描即可</string>
+    <string name="addphotos_server_starting">服务器启动中，请将平板连接到 Wi-Fi。</string>
+    <string name="addphotos_point_camera">用相机对准这里</string>
+    <string name="addphotos_instructions">扔下一张照片，几秒内就会出现在相框上。照片存放在 Memolio 自己的文件夹里，不会进入平板相册，也不会离开这个房间。</string>
+    <string name="addphotos_rotate_token">轮换令牌（使旧 QR 码失效）</string>
+    <string name="addphotos_qr_cd">上传 QR 码</string>
+
+    <!-- ===== 设备 ===== -->
+    <string name="appliance_title">设备</string>
+    <string name="appliance_subtitle">将 Memolio 作为固定设备运行</string>
+    <string name="appliance_autostart">开机自启</string>
+    <string name="appliance_kiosk">信息亭锁定（主屏幕应用）</string>
+    <string name="appliance_sleep">屏幕休眠 %1$s–%2$s</string>
+    <string name="appliance_ambient">环境亮度自动调节</string>
+
+    <!-- ===== 存储 ===== -->
+    <string name="storage_title">存储</string>
+    <string name="storage_usage">已使用 %2$s 中的 %1$s</string>
+    <string name="storage_usage_short">已使用 %1$s</string>
+    <string name="storage_auto_empty">30 天后自动清空回收站</string>
+    <string name="storage_recently_deleted">最近删除 · %1$d</string>
+    <string name="storage_restore">恢复</string>
+    <string name="storage_empty_trash">清空回收站</string>
+
+    <!-- ===== 壁纸 ===== -->
+    <string name="wallpaper_title">壁纸</string>
+    <string name="wallpaper_subtitle">时钟后面的待机背景</string>
+
+    <!-- ===== 关于 ===== -->
+    <string name="about_title">关于</string>
+    <string name="about_body">一台闲置的平板，在你的书架上重获新生。Memolio 展示那些值得抬头一望的人和地方，所有照片都保存在这台设备自己的文件夹里，只能通过家中 Wi-Fi 访问。</string>
+    <string name="about_offline_first">离线优先</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== 上传反馈横幅 ===== -->
+    <string name="upload_duplicate">已在相框上</string>
+    <string name="upload_failed">上传失败</string>
+
+    <!-- ===== 通知 ===== -->
+    <string name="notif_channel_name">照片相框</string>
+    <string name="notif_channel_desc">保持上传服务器运行，以便随时添加照片。</string>
+    <string name="notif_title">Memolio 相框</string>
+    <string name="notif_content_ready">已准备好接收照片</string>
+
+    <!-- ===== 语言选择器 ===== -->
+    <string name="language_subtitle">选择显示语言</string>
+    <string name="language_system_default">跟随系统</string>
+
+</resources>

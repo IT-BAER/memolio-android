@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baer.memolio.R
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.Symbol
@@ -62,7 +64,7 @@ fun ProLock(
     onUpsell: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val blurb = "A single purchase switches this on for good, right on the tablet."
+    val blurb = stringResource(R.string.prolock_blurb)
     MemolioCard(modifier = modifier.fillMaxWidth(), variant = CardVariant.Glass) {
         // The design is lock · (title + Pro badge / blurb) · CTA, side-by-side. That fits the
         // full-width detail panes (Library/Appliance/Wallpaper). The Playlist "Active albums"
@@ -83,22 +85,22 @@ fun ProLock(
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.padding(end = 10.dp),
                             )
-                            MemolioBadge("Pro", tone = BadgeTone.Pro)
+                            MemolioBadge(stringResource(R.string.badge_pro), tone = BadgeTone.Pro)
                         }
                         Text(blurb, color = MemolioColors.TextSecondary, style = MemolioType.sm)
                     }
-                    MemolioButton("See Pro", onUpsell, variant = ButtonVariant.Secondary, size = ButtonSize.Sm)
+                    MemolioButton(stringResource(R.string.cta_see_pro), onUpsell, variant = ButtonVariant.Secondary, size = ButtonSize.Sm)
                 }
             } else {
                 Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Symbol("lock", size = 26.sp, tint = MemolioColors.AmberSoft)
                         Spacer(Modifier.weight(1f))
-                        MemolioBadge("Pro", tone = BadgeTone.Pro)
+                        MemolioBadge(stringResource(R.string.badge_pro), tone = BadgeTone.Pro)
                     }
                     Text(feature, color = MemolioColors.TextPrimary, style = MemolioType.body, fontWeight = FontWeight.Medium)
                     Text(blurb, color = MemolioColors.TextSecondary, style = MemolioType.sm)
-                    MemolioButton("See Pro", onUpsell, variant = ButtonVariant.Secondary, size = ButtonSize.Sm, modifier = Modifier.fillMaxWidth())
+                    MemolioButton(stringResource(R.string.cta_see_pro), onUpsell, variant = ButtonVariant.Secondary, size = ButtonSize.Sm, modifier = Modifier.fillMaxWidth())
                 }
             }
         }

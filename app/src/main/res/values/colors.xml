@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pre-Compose window background = MemolioColors.BgApp (Ink000, #07080C).
+         Keeps the launch window the same deep warm near-black as the Compose tree
+         so there is no flash before setContent. -->
+    <color name="memolio_window_bg">#FF07080C</color>
+</resources>

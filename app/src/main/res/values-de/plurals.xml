@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Upload banner running count: "1 Foto hinzugefügt" / "3 Fotos hinzugefügt". -->
+    <plurals name="photos_added">
+        <item quantity="one">%1$d Foto hinzugefügt</item>
+        <item quantity="other">%1$d Fotos hinzugefügt</item>
+    </plurals>
+
+    <!-- Library multi-select count: "2 ausgewählt". -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d ausgewählt</item>
+        <item quantity="other">%1$d ausgewählt</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 Fotos". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d Foto</item>
+        <item quantity="other">%1$d Fotos</item>
+    </plurals>
+
+</resources>

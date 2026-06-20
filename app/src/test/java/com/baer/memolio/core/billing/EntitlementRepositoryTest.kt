@@ -122,7 +122,7 @@ class EntitlementRepositoryTest {
     @Test
     fun purchaseErrorDoesNotSetFlag() = runTest {
         val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(purchaseResult = PurchaseResult.Error("boom")), dispatcher)
+        val repo = EntitlementRepositoryImpl(settings, FakeClient(purchaseResult = PurchaseResult.Error(BillingError.PURCHASE_FAILED)), dispatcher)
         val result = repo.purchase(activity)
         assertThat(result).isInstanceOf(PurchaseResult.Error::class.java)
         assertThat(settings.app.value.proUnlocked).isFalse()
@@ -140,7 +140,7 @@ class EntitlementRepositoryTest {
     @Test
     fun restoreErrorDoesNotSetFlag() = runTest {
         val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(restoreResult = RestoreResult.Error("offline")), dispatcher)
+        val repo = EntitlementRepositoryImpl(settings, FakeClient(restoreResult = RestoreResult.Error(BillingError.RESTORE_FAILED)), dispatcher)
         val result = repo.restore()
         assertThat(result).isInstanceOf(RestoreResult.Error::class.java)
         assertThat(settings.app.value.proUnlocked).isFalse()

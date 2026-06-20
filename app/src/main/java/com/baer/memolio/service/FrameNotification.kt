@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.baer.memolio.R
 
 /**
  * Builds the ongoing foreground-service notification on the "frame" channel.
@@ -24,10 +25,10 @@ object FrameNotification {
             nm.createNotificationChannel(
                 NotificationChannel(
                     CHANNEL_ID,
-                    "Photo frame",
+                    context.getString(R.string.notif_channel_name),
                     NotificationManager.IMPORTANCE_LOW
                 ).apply {
-                    description = "Keeps the upload server running so photos can be added."
+                    description = context.getString(R.string.notif_channel_desc)
                 }
             )
         }
@@ -36,7 +37,7 @@ object FrameNotification {
     /** Builds the ongoing notification. Title "Memolio frame", body = [text]. */
     fun build(context: Context, text: String): Notification =
         Notification.Builder(context, CHANNEL_ID)
-            .setContentTitle("Memolio frame")
+            .setContentTitle(context.getString(R.string.notif_title))
             .setContentText(text)
             .setSmallIcon(android.R.drawable.ic_menu_gallery)
             .setOngoing(true)

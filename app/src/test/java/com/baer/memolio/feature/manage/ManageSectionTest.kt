@@ -10,9 +10,9 @@ class ManageSectionTest {
     }
 
     @Test
-    fun allSevenSectionsPresentInOrder() {
+    fun allSectionsPresentInOrder() {
         assertThat(ManageSection.entries.map { it.name }).containsExactly(
-            "Library", "Playlist", "AddPhotos", "Appliance", "Storage", "Wallpaper", "About"
+            "Library", "Playlist", "AddPhotos", "Appliance", "Storage", "Wallpaper", "Language", "About"
         ).inOrder()
     }
 }

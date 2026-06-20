@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Назад</string>
+    <string name="action_next">Далее</string>
+    <string name="action_finish">Готово</string>
+    <string name="action_done">Ок</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_maybe_later">Позже</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">Узнать о Pro</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Открыть настройки</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Добро пожаловать в Memolio</string>
+    <string name="onboard_welcome_body">Превратим этот планшет в тихую фоторамку с людьми и местами, которые вам дороги. Займёт около минуты.</string>
+    <string name="onboard_permissions_title">Разрешения</string>
+    <string name="onboard_permissions_body">Memolio нужны разрешения на уведомления и автозапуск, чтобы рамка работала сама по себе. Приложение касается только своей папки и никогда не трогает вашу галерею.</string>
+    <string name="onboard_qr_title">Добавьте первые фото</string>
+    <string name="onboard_qr_sub">Отсканируйте с любого телефона в той же сети Wi-Fi</string>
+    <string name="onboard_qr_preparing">Подготовка ссылки для загрузки… (убедитесь, что Wi-Fi включён)</string>
+    <string name="onboard_homekiosk_title">Главный экран &amp; киоск</string>
+    <string name="onboard_homekiosk_body">Необязательно: сделайте Memolio приложением «Дом» и заблокируйте экран (киоск-режим).</string>
+    <string name="onboard_homekiosk_enable">Включить «Дом» + киоск</string>
+    <string name="onboard_sleep_title">Расписание сна</string>
+    <string name="onboard_sleep_body">Необязательно: выключать экран на ночь (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Включить расписание сна</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Необязательно: откройте доступ к альбомам, режиму устройства и пользовательским обоям разовой покупкой. Это можно сделать в любой момент позже.</string>
+    <string name="onboard_finish_title">Всё готово</string>
+    <string name="onboard_finish_body">Нажмите «Готово», чтобы запустить рамку.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro разблокирован. Спасибо!</string>
+    <string name="paywall_offline">Подключитесь к Wi-Fi, чтобы разблокировать Pro. Остальное в Memolio работает без интернета.</string>
+    <string name="paywall_pitch">Заплатите один раз — и Pro останется здесь, на планшете, навсегда.</string>
+    <string name="paywall_perk_albums_title">Альбомы &amp; плейлисты</string>
+    <string name="paywall_perk_albums_desc">Группируйте фото и выбирайте, что именно показывать.</string>
+    <string name="paywall_perk_appliance_title">Режим устройства</string>
+    <string name="paywall_perk_appliance_desc">Автозапуск, киоск-режим, расписание сна, приглушение яркости.</string>
+    <string name="paywall_perk_wallpaper_title">Пользовательские обои</string>
+    <string name="paywall_perk_wallpaper_desc">Выберите фон за часами.</string>
+    <string name="paywall_price_caption">один раз · навсегда</string>
+    <string name="paywall_unlock_cta">Разблокировать Pro</string>
+    <string name="paywall_restore">Восстановить</string>
+    <string name="paywall_error">Ошибка: %1$s</string>
+
+    <!-- ===== Billing errors ===== -->
+    <string name="billing_error_no_package">Пакет Pro недоступен</string>
+    <string name="billing_error_not_granted">Покупка не предоставила доступ к Pro</string>
+    <string name="billing_error_purchase_failed">Покупка не удалась</string>
+    <string name="billing_error_no_restore">Покупка Pro не найдена</string>
+    <string name="billing_error_restore_failed">Восстановление не удалось</string>
+    <string name="billing_error_load">Не удалось загрузить предложения</string>
+
+    <!-- ===== Pro feature catalog ===== -->
+    <string name="profeature_albums_title">Альбомы &amp; плейлисты</string>
+    <string name="profeature_albums_blurb">Организуйте фото по альбомам и выбирайте, какие из них показывать.</string>
+    <string name="profeature_albums_lock">Альбомы</string>
+    <string name="profeature_appliance_title">Режим устройства</string>
+    <string name="profeature_appliance_blurb">Автозапуск, киоск-режим, приложение «Дом», расписание сна и приглушение яркости.</string>
+    <string name="profeature_appliance_lock">Режим устройства</string>
+    <string name="profeature_wallpaper_title">Пользовательские обои</string>
+    <string name="profeature_wallpaper_blurb">Используйте альтернативные и собственные обои вместо стандартных.</string>
+    <string name="profeature_wallpaper_lock">Пользовательские обои</string>
+    <string name="prolock_blurb">Одна покупка включает это навсегда прямо на планшете.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Меню</string>
+    <string name="manage_back_to_menu">Назад в меню</string>
+    <string name="manage_back_to_frame">Назад к рамке</string>
+    <string name="manage_section_library">Библиотека</string>
+    <string name="manage_section_playlist">Плейлист</string>
+    <string name="manage_section_addphotos">Добавить фото</string>
+    <string name="manage_section_appliance">Устройство</string>
+    <string name="manage_section_storage">Хранилище</string>
+    <string name="manage_section_wallpaper">Обои</string>
+    <string name="manage_section_about">О приложении</string>
+    <string name="manage_section_language">Язык</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Библиотека</string>
+    <string name="library_subtitle">Группируйте фото по альбомам</string>
+    <string name="library_new_album_label">Название нового альбома</string>
+    <string name="library_create_album">Создать альбом</string>
+    <string name="library_album_fallback">Альбом</string>
+    <string name="library_albums">Альбомы</string>
+    <string name="library_favorite">В избранное</string>
+    <string name="library_delete">Удалить</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Плейлист</string>
+    <string name="playlist_subtitle">Что показывает рамка и как</string>
+    <string name="playlist_active_albums">Активные альбомы</string>
+    <string name="playlist_display">Отображение</string>
+    <string name="playlist_interval">Интервал между фото</string>
+    <string name="playlist_interval_suffix">с</string>
+    <string name="playlist_shuffle">Перемешать</string>
+    <string name="playlist_show_clock">Показывать часы</string>
+    <string name="playlist_show_date">Показывать дату</string>
+    <string name="playlist_show_caption">Показывать подпись</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Добавить фото</string>
+    <string name="addphotos_subtitle">Отсканируйте с любого телефона в той же сети Wi-Fi</string>
+    <string name="addphotos_server_starting">Сервер запускается. Подключите планшет к Wi-Fi.</string>
+    <string name="addphotos_point_camera">Наведите камеру сюда</string>
+    <string name="addphotos_instructions">Отправьте фото — и оно появится на рамке за секунды. Оно хранится в папке Memolio на этом устройстве, недоступно из галереи и никуда не уходит за пределы вашей сети.</string>
+    <string name="addphotos_rotate_token">Сменить токен (сбросить старый QR)</string>
+    <string name="addphotos_qr_cd">QR-код для загрузки</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Устройство</string>
+    <string name="appliance_subtitle">Запустите Memolio как стационарное устройство</string>
+    <string name="appliance_autostart">Автозапуск при включении</string>
+    <string name="appliance_kiosk">Киоск-режим (приложение «Дом»)</string>
+    <string name="appliance_sleep">Выключать экран %1$s–%2$s</string>
+    <string name="appliance_ambient">Приглушение яркости</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Хранилище</string>
+    <string name="storage_usage">%1$s из %2$s занято</string>
+    <string name="storage_usage_short">Занято %1$s</string>
+    <string name="storage_auto_empty">Автоочистка корзины через 30 дней</string>
+    <string name="storage_recently_deleted">Недавно удалённые · %1$d</string>
+    <string name="storage_restore">Восстановить</string>
+    <string name="storage_empty_trash">Очистить корзину</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Обои</string>
+    <string name="wallpaper_subtitle">Фоновое изображение за часами</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">О приложении</string>
+    <string name="about_body">Запасной планшет, которому дали вторую жизнь на вашей полке. Memolio показывает людей и места, на которые приятно взглянуть, и хранит все фото в своей папке прямо на этом устройстве — доступно только по вашей домашней сети Wi-Fi.</string>
+    <string name="about_offline_first">Работает без интернета</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Уже есть на рамке</string>
+    <string name="upload_failed">Загрузка не удалась</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Фоторамка</string>
+    <string name="notif_channel_desc">Поддерживает сервер загрузки, чтобы можно было добавлять фото.</string>
+    <string name="notif_title">Рамка Memolio</string>
+    <string name="notif_content_ready">Готово к получению фото</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Выберите язык интерфейса</string>
+    <string name="language_system_default">Язык системы</string>
+
+</resources>

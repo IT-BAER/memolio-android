@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
+import java.util.Locale
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.baer.memolio.R
@@ -30,6 +31,24 @@ val InterFamily = FontFamily(
     Font(R.font.inter_variable, FontWeight.Medium, variationSettings = FontVariation.Settings(FontVariation.weight(500))),
     Font(R.font.inter_variable, FontWeight.SemiBold, variationSettings = FontVariation.Settings(FontVariation.weight(600))),
 )
+
+/**
+ * The family used for **localizable** UI text (everything except the ASCII clock numerals
+ * and the Latin "MEMOLIO" wordmark). Inter's bundled subset covers Latin-Extended + Cyrillic
+ * (verified: en/de/fr/it/nl/pl/pt/es/ru all render), but has **no CJK glyphs**, so Chinese
+ * would render as tofu. For CJK locales we fall back to the system font ([FontFamily.Default],
+ * which resolves to the device's Noto Sans CJK). [MemolioTheme] sets this from the active
+ * configuration locale on each composition; a per-app language change recreates the Activity,
+ * so the whole tree recomposes and the text tiers below (getters) pick up the new family.
+ */
+internal var activeUiFontFamily: FontFamily = InterFamily
+
+/** Languages whose script Inter's subset cannot cover; routed to the system font. */
+private val SYSTEM_FONT_LANGUAGES = setOf("zh", "ja", "ko")
+
+/** The UI font family for [language] (ISO-639 primary subtag): system for CJK, else Inter. */
+fun uiFontFamilyFor(language: String): FontFamily =
+    if (language.lowercase(Locale.ROOT) in SYSTEM_FONT_LANGUAGES) FontFamily.Default else InterFamily
 
 /** The big soft drop under the hero clock — `--shadow-clock`. */
 val MemolioClockShadow = Shadow(
@@ -57,23 +76,27 @@ object MemolioType {
     /** Hero numerals / marketing / paywall price: 88sp Thin. */
     val display = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Thin, fontSize = 88.sp, lineHeight = 96.8.sp)
 
+    // Localizable text tiers resolve [activeUiFontFamily] at access time (getters), so a
+    // CJK locale picks up the system font and never tofus. The clock/display/wordmark above
+    // and below stay on Inter (ASCII numerals + Latin brand), so the design face is preserved.
+
     /** Date line / large screen titles: 40sp. */
-    val h1 = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Light, fontSize = 40.sp, lineHeight = 48.sp)
+    val h1 get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.Light, fontSize = 40.sp, lineHeight = 48.sp)
 
     /** Section heads / captions: 28sp SemiBold. */
-    val h2 = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.SemiBold, fontSize = 28.sp, lineHeight = 34.sp)
+    val h2 get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.SemiBold, fontSize = 28.sp, lineHeight = 34.sp)
 
     /** Card titles / wordmark: 22sp SemiBold. */
-    val h3 = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.SemiBold, fontSize = 22.sp, lineHeight = 28.sp)
+    val h3 get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.SemiBold, fontSize = 22.sp, lineHeight = 28.sp)
 
-    val bodyLg = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Normal, fontSize = 18.sp, lineHeight = 28.sp)
-    val body = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 25.sp)
-    val sm = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp)
-    val xs = TextStyle(fontFamily = InterFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 16.sp)
+    val bodyLg get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.Normal, fontSize = 18.sp, lineHeight = 28.sp)
+    val body get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 25.sp)
+    val sm get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp)
+    val xs get() = TextStyle(fontFamily = activeUiFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 16.sp)
 
     /** Uppercase eyebrow / small-caps label: 12sp Medium, 0.04em tracking. */
-    val label = TextStyle(
-        fontFamily = InterFamily,
+    val label get() = TextStyle(
+        fontFamily = activeUiFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 16.sp,

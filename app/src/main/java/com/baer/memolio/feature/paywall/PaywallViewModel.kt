@@ -3,6 +3,7 @@ package com.baer.memolio.feature.paywall
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.baer.memolio.core.billing.BillingError
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
@@ -27,7 +28,7 @@ data class PaywallUiState(
     val offline: Boolean = false,
     val loading: Boolean = false,
     val offerings: List<String> = emptyList(),
-    val error: String? = null
+    val error: BillingError? = null
 )
 
 @HiltViewModel
@@ -40,7 +41,7 @@ class PaywallViewModel @Inject constructor(
 
     private val loading = MutableStateFlow(false)
     private val offerings = MutableStateFlow<List<String>>(emptyList())
-    private val error = MutableStateFlow<String?>(null)
+    private val error = MutableStateFlow<BillingError?>(null)
 
     val state: StateFlow<PaywallUiState> =
         combine(
@@ -62,7 +63,7 @@ class PaywallViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             runCatching { offerings.value = loadOfferings() }
-                .onFailure { error.update { it ?: "Couldn't load offerings" } }
+                .onFailure { error.update { it ?: BillingError.LOAD_FAILED } }
         }
     }
 
@@ -72,7 +73,7 @@ class PaywallViewModel @Inject constructor(
         when (val result = entitlement.purchase(activity)) {
             is PurchaseResult.Success -> Unit            // isPro flips via the flow
             is PurchaseResult.Cancelled -> Unit          // silent, no error
-            is PurchaseResult.Error -> error.value = result.message
+            is PurchaseResult.Error -> error.value = result.error
         }
         loading.value = false
     }
@@ -83,7 +84,7 @@ class PaywallViewModel @Inject constructor(
         when (val result = entitlement.restore()) {
             is RestoreResult.Success -> Unit
             is RestoreResult.Cancelled -> Unit
-            is RestoreResult.Error -> error.value = result.message
+            is RestoreResult.Error -> error.value = result.error
         }
         loading.value = false
     }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.ProFeature
 import com.baer.memolio.core.ui.component.ProLock
@@ -30,7 +31,7 @@ fun ProGate(
 
 @Composable
 private fun DefaultUpsell(feature: ProFeature, onUpsell: () -> Unit) {
-    ProLock(feature = feature.lockLabel, onUpsell = onUpsell)
+    ProLock(feature = stringResource(feature.lockLabelRes), onUpsell = onUpsell)
 }
 
 /**

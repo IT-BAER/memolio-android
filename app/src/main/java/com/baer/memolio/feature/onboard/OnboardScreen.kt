@@ -32,6 +32,8 @@ import com.baer.memolio.core.ui.component.SectionHead
 import com.baer.memolio.core.ui.component.WordmarkTone
 import com.baer.memolio.feature.manage.addphotos.QrImage
 import androidx.compose.material3.Text
+import androidx.compose.ui.res.stringResource
+import com.baer.memolio.R
 
 @Composable
 fun OnboardScreen(
@@ -57,13 +59,13 @@ fun OnboardScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if (!state.step.isFirst) {
-                            MemolioButton("Back", viewModel::back, variant = ButtonVariant.Quiet)
+                            MemolioButton(stringResource(R.string.action_back), viewModel::back, variant = ButtonVariant.Quiet)
                         }
                         Spacer(Modifier.weight(1f))
                         if (state.step.isLast) {
-                            MemolioButton("Finish", { viewModel.finish(onFinished) }, variant = ButtonVariant.Primary, icon = "check")
+                            MemolioButton(stringResource(R.string.action_finish), { viewModel.finish(onFinished) }, variant = ButtonVariant.Primary, icon = "check")
                         } else {
-                            MemolioButton("Next", viewModel::next, variant = ButtonVariant.Primary, icon = "arrow_forward")
+                            MemolioButton(stringResource(R.string.action_next), viewModel::next, variant = ButtonVariant.Primary, icon = "arrow_forward")
                         }
                     }
                 }
@@ -81,20 +83,18 @@ private fun StepBody(
 ) {
     when (state.step) {
         OnboardStep.Welcome -> StepText(
-            "Welcome to Memolio",
-            "Let's turn this tablet into a quiet photo frame for the people and places you " +
-                "want close. It takes about a minute."
+            stringResource(R.string.onboard_welcome_title),
+            stringResource(R.string.onboard_welcome_body)
         )
         OnboardStep.Permissions -> StepText(
-            "Permissions",
-            "Memolio needs notification and boot permissions so the frame keeps running on " +
-                "its own. It only ever touches its own folder, never your gallery."
+            stringResource(R.string.onboard_permissions_title),
+            stringResource(R.string.onboard_permissions_body)
         )
         OnboardStep.ShowQr -> {
-            SectionHead(title = "Add your first photos", sub = "Scan from any phone on the same Wi-Fi")
+            SectionHead(title = stringResource(R.string.onboard_qr_title), sub = stringResource(R.string.onboard_qr_sub))
             val url = state.uploadUrl
             if (url == null) {
-                Body("Preparing the upload link… (make sure Wi-Fi is on)")
+                Body(stringResource(R.string.onboard_qr_preparing))
             } else {
                 MemolioCard(variant = CardVariant.Surface, contentPadding = PaddingValues(24.dp)) {
                     Box(Modifier.size(220.dp)) { QrImage(text = url, encoder = qrEncoder) }
@@ -103,9 +103,9 @@ private fun StepBody(
             }
         }
         OnboardStep.HomeKiosk -> {
-            StepText("Home & kiosk", "Optional: set Memolio as the Home app and lock it (kiosk).")
+            StepText(stringResource(R.string.onboard_homekiosk_title), stringResource(R.string.onboard_homekiosk_body))
             MemolioButton(
-                "Enable Home + kiosk",
+                stringResource(R.string.onboard_homekiosk_enable),
                 { viewModel.setHomeAndKiosk(home = true, kiosk = true) },
                 variant = ButtonVariant.Ghost,
                 icon = "lock",
@@ -113,9 +113,9 @@ private fun StepBody(
             )
         }
         OnboardStep.SleepSchedule -> {
-            StepText("Sleep schedule", "Optional: sleep the screen overnight (22:00–07:00).")
+            StepText(stringResource(R.string.onboard_sleep_title), stringResource(R.string.onboard_sleep_body))
             MemolioButton(
-                "Enable sleep schedule",
+                stringResource(R.string.onboard_sleep_enable),
                 { viewModel.setSleepSchedule(true, 22 * 60, 7 * 60) },
                 variant = ButtonVariant.Ghost,
                 icon = "schedule",
@@ -124,13 +124,12 @@ private fun StepBody(
         }
         OnboardStep.GoPro -> {
             StepText(
-                "Memolio Pro",
-                "Optional: unlock albums, the appliance suite, and custom wallpapers with a " +
-                    "one-time purchase. You can do this any time later."
+                stringResource(R.string.onboard_pro_title),
+                stringResource(R.string.onboard_pro_body)
             )
-            MemolioButton("See Pro", onOpenPaywall, variant = ButtonVariant.Secondary, icon = "auto_awesome", modifier = Modifier.padding(top = 16.dp))
+            MemolioButton(stringResource(R.string.cta_see_pro), onOpenPaywall, variant = ButtonVariant.Secondary, icon = "auto_awesome", modifier = Modifier.padding(top = 16.dp))
         }
-        OnboardStep.Finish -> StepText("All set", "Tap Finish to start the frame.")
+        OnboardStep.Finish -> StepText(stringResource(R.string.onboard_finish_title), stringResource(R.string.onboard_finish_body))
     }
 }
 

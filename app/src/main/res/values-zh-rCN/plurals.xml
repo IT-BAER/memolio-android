@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  zh-CN 数量字符串。简体中文没有数量变化，每个复数词条只需 quantity="other"。
+  调用方传入 (count, count)，%1$d 对应实际数字。
+-->
+<resources>
+
+    <!-- 上传横幅计数："已添加 3 张照片" -->
+    <plurals name="photos_added">
+        <item quantity="other">已添加 %1$d 张照片</item>
+    </plurals>
+
+    <!-- 媒体库多选计数："已选择 2 项" -->
+    <plurals name="selected_count">
+        <item quantity="other">已选择 %1$d 项</item>
+    </plurals>
+
+    <!-- 相册照片数量副标题："12 张照片" -->
+    <plurals name="album_photos">
+        <item quantity="other">%1$d 张照片</item>
+    </plurals>
+
+</resources>

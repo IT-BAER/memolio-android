@@ -15,9 +15,10 @@
     <application
         android:name=".MemolioApp"
         android:allowBackup="false"
-        android:label="Memolio"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.Material.NoActionBar">
+        android:theme="@style/Theme.Memolio">
 
         <activity
             android:name=".MainActivity"
@@ -62,6 +63,18 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <!-- Persists the per-app locale chosen via AppCompatDelegate.setApplicationLocales
+             on pre-Android-13 devices (on 13+ the system stores it). enabled=false: the
+             service is never started, it only carries the autoStoreLocales metadata. -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
 
         <!-- Disable WorkManager's default initializer; MemolioApp supplies a custom
              Configuration (Configuration.Provider) with the TrashPurgeWorkerFactory. -->

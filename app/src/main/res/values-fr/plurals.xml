@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  French quantity strings. French uses "one" for 0 and 1, "other" for everything else.
+  Each <item> uses %1$d so callers pass (count, count) to pluralStringResource.
+-->
+<resources>
+
+    <!-- Upload banner running count: "1 photo ajoutée" / "3 photos ajoutées". -->
+    <plurals name="photos_added">
+        <item quantity="one">%1$d photo ajoutée</item>
+        <item quantity="other">%1$d photos ajoutées</item>
+    </plurals>
+
+    <!-- Library multi-select count: "2 sélectionnées". -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d sélectionné</item>
+        <item quantity="other">%1$d sélectionnés</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 photos". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d photo</item>
+        <item quantity="other">%1$d photos</item>
+    </plurals>
+
+</resources>

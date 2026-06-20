@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      AppCompat theme so MainActivity can extend AppCompatActivity, which is what
+      backports per-app language preferences (AppCompatDelegate.setApplicationLocales)
+      to minSdk 26. The app is otherwise pure Compose and always dark-leaning, so this
+      XML theme only governs the launch window before setContent: a no-title, deep warm
+      background that matches MemolioColors.BgApp (no flash into the frame).
+    -->
+    <style name="Theme.Memolio" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/memolio_window_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

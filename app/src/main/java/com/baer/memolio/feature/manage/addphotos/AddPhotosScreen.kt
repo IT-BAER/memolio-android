@@ -21,9 +21,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.R
 import com.baer.memolio.core.media.QrEncoder
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
@@ -43,10 +45,10 @@ fun AddPhotosScreen(
     val state by viewModel.state.collectAsState()
     val url = state.uploadUrl
     Column(modifier.verticalScroll(rememberScrollState())) {
-        SectionHead(title = "Add photos", sub = "Scan from any phone on the same Wi-Fi")
+        SectionHead(title = stringResource(R.string.addphotos_title), sub = stringResource(R.string.addphotos_subtitle))
         if (url == null) {
             Text(
-                "Server starting. Connect the tablet to Wi-Fi.",
+                stringResource(R.string.addphotos_server_starting),
                 color = MemolioColors.TextSecondary,
                 style = MemolioType.body
             )
@@ -62,9 +64,9 @@ fun AddPhotosScreen(
             }
             val instructions = @Composable { instModifier: Modifier ->
                 Column(instModifier) {
-                    Text("Point a camera here", color = MemolioColors.TextPrimary, style = MemolioType.h3)
+                    Text(stringResource(R.string.addphotos_point_camera), color = MemolioColors.TextPrimary, style = MemolioType.h3)
                     Text(
-                        "Drop a photo and it lands on the frame within seconds. It lives in Memolio's own folder, never your tablet's gallery, and goes no further than this room.",
+                        stringResource(R.string.addphotos_instructions),
                         color = MemolioColors.TextSecondary,
                         style = MemolioType.body,
                         modifier = Modifier.padding(top = 8.dp).widthIn(max = 420.dp)
@@ -82,7 +84,7 @@ fun AddPhotosScreen(
                         Text(url, color = MemolioColors.TextTertiary, style = MemolioType.sm)
                     }
                     MemolioButton(
-                        text = "Rotate token (invalidate old QR)",
+                        text = stringResource(R.string.addphotos_rotate_token),
                         onClick = viewModel::rotateToken,
                         variant = ButtonVariant.Ghost,
                         icon = "autorenew",

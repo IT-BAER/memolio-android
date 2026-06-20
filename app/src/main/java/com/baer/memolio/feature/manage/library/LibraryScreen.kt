@@ -33,9 +33,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.R
 import coil3.compose.AsyncImage
 import com.baer.memolio.core.billing.ProFeature
 import com.baer.memolio.core.model.Photo
@@ -105,7 +108,7 @@ private fun AlbumsView(
 ) {
     var newAlbumName by remember { mutableStateOf("") }
     Column(modifier.fillMaxSize()) {
-        SectionHead(title = "Library", sub = "Group photos into albums")
+        SectionHead(title = stringResource(R.string.library_title), sub = stringResource(R.string.library_subtitle))
         ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -115,11 +118,11 @@ private fun AlbumsView(
                 MemolioTextField(
                     value = newAlbumName,
                     onValueChange = { newAlbumName = it },
-                    label = "New album name",
+                    label = stringResource(R.string.library_new_album_label),
                     modifier = Modifier.widthIn(max = 320.dp).weight(1f, fill = false)
                 )
                 MemolioButton(
-                    text = "Create album",
+                    text = stringResource(R.string.library_create_album),
                     onClick = {
                         if (newAlbumName.isNotBlank()) {
                             onCreateAlbum(newAlbumName.trim())
@@ -187,14 +190,14 @@ private fun AlbumDetailView(
     onDelete: () -> Unit,
     modifier: Modifier
 ) {
-    val title = state.albums.firstOrNull { it.id == state.openAlbumId }?.name ?: "Album"
+    val title = state.albums.firstOrNull { it.id == state.openAlbumId }?.name ?: stringResource(R.string.library_album_fallback)
     Column(modifier.fillMaxSize()) {
         SectionHead(
             title = title,
-            sub = "${state.openAlbumPhotos.size} photos",
+            sub = pluralStringResource(R.plurals.album_photos, state.openAlbumPhotos.size, state.openAlbumPhotos.size),
             action = {
                 MemolioButton(
-                    text = "Albums",
+                    text = stringResource(R.string.library_albums),
                     onClick = onCloseAlbum,
                     variant = ButtonVariant.Ghost,
                     size = ButtonSize.Sm,
@@ -223,12 +226,12 @@ private fun AlbumDetailView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "${state.selectedIds.size} selected",
+                    pluralStringResource(R.plurals.selected_count, state.selectedIds.size, state.selectedIds.size),
                     color = MemolioColors.TextSecondary,
                     style = MemolioType.sm
                 )
-                MemolioButton("Favorite", onFavorite, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "favorite")
-                MemolioButton("Delete", onDelete, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "delete")
+                MemolioButton(stringResource(R.string.library_favorite), onFavorite, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "favorite")
+                MemolioButton(stringResource(R.string.library_delete), onDelete, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "delete")
             }
         }
     }

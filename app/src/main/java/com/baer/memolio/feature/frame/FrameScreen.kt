@@ -23,9 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
+import com.baer.memolio.R
 import kotlinx.coroutines.delay
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -94,7 +96,7 @@ fun FrameScreen(
             .combinedClickable(
                 onClick = { revealNonce++ },
                 onLongClick = onOpenManage,
-                onLongClickLabel = "Open settings"
+                onLongClickLabel = stringResource(R.string.frame_open_settings)
             )
     ) {
         // Overlay sizes/insets re-flow off the short edge — portrait-first, both orientations.

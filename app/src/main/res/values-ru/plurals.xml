@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Russian quantity strings. Russian requires four CLDR categories:
+    one   — ends in 1, not 11 (1, 21, 31 …)
+    few   — ends in 2-4, not 12-14 (2-4, 22-24 …)
+    many  — 0, 5-20, ends in 11-14, ends in 5-9 (0, 5, 11, 100 …)
+    other — fractional values
+-->
+<resources>
+
+    <!-- Upload banner: "Добавлено %1$d фото" -->
+    <plurals name="photos_added">
+        <item quantity="one">Добавлено %1$d фото</item>
+        <item quantity="few">Добавлено %1$d фото</item>
+        <item quantity="many">Добавлено %1$d фото</item>
+        <item quantity="other">Добавлено %1$d фото</item>
+    </plurals>
+
+    <!-- Library multi-select: "Выбрано %1$d" -->
+    <plurals name="selected_count">
+        <item quantity="one">Выбран %1$d</item>
+        <item quantity="few">Выбрано %1$d</item>
+        <item quantity="many">Выбрано %1$d</item>
+        <item quantity="other">Выбрано %1$d</item>
+    </plurals>
+
+    <!-- Album photo count: "%1$d фото / снимок / снимка" -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d снимок</item>
+        <item quantity="few">%1$d снимка</item>
+        <item quantity="many">%1$d снимков</item>
+        <item quantity="other">%1$d снимка</item>
+    </plurals>
+
+</resources>

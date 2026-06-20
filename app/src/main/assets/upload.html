@@ -37,23 +37,23 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Add photos</h1>
-  <p class="sub">Drop photos here or tap to choose. They appear on the frame right away.</p>
+  <h1 id="h-title">Add photos</h1>
+  <p class="sub" id="h-sub">Drop photos here or tap to choose. They appear on the frame right away.</p>
 
   <div class="row">
     <div class="field">
-      <label for="album">Album</label>
+      <label for="album" id="l-album">Album</label>
       <select id="album"><option value="">Loading...</option></select>
     </div>
     <div class="field">
-      <label for="caption">Caption (optional, applied to all)</label>
+      <label for="caption" id="l-caption">Caption (optional, applied to all)</label>
       <input id="caption" type="text" placeholder="e.g. Summer 2026" autocomplete="off">
     </div>
   </div>
 
   <div id="drop">
-    <p><strong>Tap to choose</strong> or drag photos here</p>
-    <p class="sub">JPEG &middot; PNG &middot; HEIC &middot; WebP</p>
+    <p><strong id="d-strong">Tap to choose</strong> <span id="d-or">or drag photos here</span></p>
+    <p class="sub" id="d-formats">JPEG &middot; PNG &middot; HEIC &middot; WebP</p>
   </div>
   <input id="file" type="file" accept="image/*" multiple>
 
@@ -61,6 +61,270 @@
 </div>
 
 <script>
+  // ---- i18n: served to a remote phone's BROWSER, so it follows the uploader's own
+  // navigator.language (NOT the frame/tablet's app language). Keys for upload outcomes
+  // match the server's stable UploadResponse.status codes 1:1, so T(status) maps directly.
+  // Any language not present here, or any missing key, falls back to English.
+  const I18N = {
+    en: {
+      docTitle: "Add photos to Memolio",
+      title: "Add photos",
+      sub: "Drop photos here or tap to choose. They appear on the frame right away.",
+      album: "Album",
+      loading: "Loading…",
+      allPhotos: "All Photos",
+      caption: "Caption (optional, applied to all)",
+      captionPlaceholder: "e.g. Summer 2026",
+      tapToChoose: "Tap to choose",
+      orDrag: "or drag photos here",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Waiting…",
+      uploading: "Uploading",
+      added: "Added",
+      duplicate: "Already on the frame",
+      no_file: "No file received",
+      unsupported: "Unsupported file type",
+      rejected: "Couldn't add this photo",
+      storage_full: "Frame storage full",
+      linkExpired: "Link expired - rescan the QR",
+      failed: "Failed",
+      networkError: "Network error",
+      notAnImage: "Not an image"
+    },
+    de: {
+      docTitle: "Fotos zu Memolio hinzufügen",
+      title: "Fotos hinzufügen",
+      sub: "Fotos hierher ziehen oder antippen, um sie auszuwählen. Sie erscheinen sofort auf dem Rahmen.",
+      album: "Album",
+      loading: "Wird geladen…",
+      allPhotos: "Alle Fotos",
+      caption: "Beschriftung (optional, gilt für alle)",
+      captionPlaceholder: "z.B. Sommer 2026",
+      tapToChoose: "Antippen zum Auswählen",
+      orDrag: "oder Fotos hierher ziehen",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Wartet…",
+      uploading: "Wird hochgeladen",
+      added: "Hinzugefügt",
+      duplicate: "Bereits auf dem Rahmen",
+      no_file: "Keine Datei empfangen",
+      unsupported: "Nicht unterstützter Dateityp",
+      rejected: "Dieses Foto konnte nicht hinzugefügt werden",
+      storage_full: "Speicher des Rahmens ist voll",
+      linkExpired: "Link abgelaufen – QR-Code erneut scannen",
+      failed: "Fehlgeschlagen",
+      networkError: "Netzwerkfehler",
+      notAnImage: "Kein Bild"
+    },
+    fr: {
+      docTitle: "Ajouter des photos à Memolio",
+      title: "Ajouter des photos",
+      sub: "Déposez des photos ici ou appuyez pour en choisir. Elles apparaissent aussitôt sur le cadre.",
+      album: "Album",
+      loading: "Chargement…",
+      allPhotos: "Toutes les photos",
+      caption: "Légende (facultative, appliquée à toutes)",
+      captionPlaceholder: "ex. Été 2026",
+      tapToChoose: "Appuyer pour choisir",
+      orDrag: "ou déposer des photos ici",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "En attente…",
+      uploading: "Envoi en cours",
+      added: "Ajoutée",
+      duplicate: "Déjà sur le cadre",
+      no_file: "Aucun fichier reçu",
+      unsupported: "Type de fichier non pris en charge",
+      rejected: "Impossible d'ajouter cette photo",
+      storage_full: "Stockage du cadre plein",
+      linkExpired: "Lien expiré – rescanner le QR",
+      failed: "Échec",
+      networkError: "Erreur réseau",
+      notAnImage: "Pas une image"
+    },
+    it: {
+      docTitle: "Aggiungi foto a Memolio",
+      title: "Aggiungi foto",
+      sub: "Trascina le foto qui o tocca per sceglierle. Appaiono subito sulla cornice.",
+      album: "Album",
+      loading: "Caricamento…",
+      allPhotos: "Tutte le foto",
+      caption: "Didascalia (facoltativa, applicata a tutte)",
+      captionPlaceholder: "es. Estate 2026",
+      tapToChoose: "Tocca per scegliere",
+      orDrag: "o trascina le foto qui",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "In attesa…",
+      uploading: "Caricamento",
+      added: "Aggiunta",
+      duplicate: "Già sulla cornice",
+      no_file: "Nessun file ricevuto",
+      unsupported: "Tipo di file non supportato",
+      rejected: "Impossibile aggiungere questa foto",
+      storage_full: "Spazio della cornice esaurito",
+      linkExpired: "Link scaduto – riscannerizza il QR",
+      failed: "Errore",
+      networkError: "Errore di rete",
+      notAnImage: "Non è un'immagine"
+    },
+    nl: {
+      docTitle: "Foto's toevoegen aan Memolio",
+      title: "Foto's toevoegen",
+      sub: "Sleep foto's hierheen of tik om te kiezen. Ze verschijnen meteen op het frame.",
+      album: "Album",
+      loading: "Laden…",
+      allPhotos: "Alle foto's",
+      caption: "Bijschrift (optioneel, geldt voor alle)",
+      captionPlaceholder: "bijv. Zomer 2026",
+      tapToChoose: "Tik om te kiezen",
+      orDrag: "of sleep foto's hierheen",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Wachten…",
+      uploading: "Bezig met uploaden",
+      added: "Toegevoegd",
+      duplicate: "Al op het frame",
+      no_file: "Geen bestand ontvangen",
+      unsupported: "Bestandstype niet ondersteund",
+      rejected: "Deze foto kon niet worden toegevoegd",
+      storage_full: "Opslag van het frame is vol",
+      linkExpired: "Link verlopen – scan de QR opnieuw",
+      failed: "Mislukt",
+      networkError: "Netwerkfout",
+      notAnImage: "Geen afbeelding"
+    },
+    pl: {
+      docTitle: "Dodaj zdjęcia do Memolio",
+      title: "Dodaj zdjęcia",
+      sub: "Przeciągnij zdjęcia tutaj lub dotknij, aby wybrać. Pojawią się na ramce od razu.",
+      album: "Album",
+      loading: "Ładowanie…",
+      allPhotos: "Wszystkie zdjęcia",
+      caption: "Podpis (opcjonalny, dotyczy wszystkich)",
+      captionPlaceholder: "np. Lato 2026",
+      tapToChoose: "Dotknij, aby wybrać",
+      orDrag: "lub przeciągnij zdjęcia tutaj",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Oczekiwanie…",
+      uploading: "Przesyłanie",
+      added: "Dodano",
+      duplicate: "Już na ramce",
+      no_file: "Nie otrzymano pliku",
+      unsupported: "Nieobsługiwany typ pliku",
+      rejected: "Nie udało się dodać tego zdjęcia",
+      storage_full: "Pamięć ramki jest pełna",
+      linkExpired: "Link wygasł – zeskanuj kod QR ponownie",
+      failed: "Błąd",
+      networkError: "Błąd sieci",
+      notAnImage: "To nie jest obraz"
+    },
+    pt: {
+      docTitle: "Adicionar fotos ao Memolio",
+      title: "Adicionar fotos",
+      sub: "Arraste fotos para aqui ou toque para escolher. Aparecem na moldura de imediato.",
+      album: "Álbum",
+      loading: "A carregar…",
+      allPhotos: "Todas as fotos",
+      caption: "Legenda (opcional, aplicada a todas)",
+      captionPlaceholder: "ex. Verão 2026",
+      tapToChoose: "Toque para escolher",
+      orDrag: "ou arraste fotos para aqui",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "A aguardar…",
+      uploading: "A enviar",
+      added: "Adicionada",
+      duplicate: "Já está na moldura",
+      no_file: "Nenhum ficheiro recebido",
+      unsupported: "Tipo de ficheiro não suportado",
+      rejected: "Não foi possível adicionar esta foto",
+      storage_full: "Armazenamento da moldura cheio",
+      linkExpired: "Ligação expirada – volte a ler o QR",
+      failed: "Falhou",
+      networkError: "Erro de rede",
+      notAnImage: "Não é uma imagem"
+    },
+    es: {
+      docTitle: "Añadir fotos a Memolio",
+      title: "Añadir fotos",
+      sub: "Arrastra fotos aquí o toca para elegirlas. Aparecen en el marco al instante.",
+      album: "Álbum",
+      loading: "Cargando…",
+      allPhotos: "Todas las fotos",
+      caption: "Pie de foto (opcional, se aplica a todas)",
+      captionPlaceholder: "ej. Verano 2026",
+      tapToChoose: "Toca para elegir",
+      orDrag: "o arrastra fotos aquí",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Esperando…",
+      uploading: "Subiendo",
+      added: "Añadida",
+      duplicate: "Ya está en el marco",
+      no_file: "No se recibió ningún archivo",
+      unsupported: "Tipo de archivo no compatible",
+      rejected: "No se pudo añadir esta foto",
+      storage_full: "Almacenamiento del marco lleno",
+      linkExpired: "Enlace caducado – vuelve a escanear el QR",
+      failed: "Error",
+      networkError: "Error de red",
+      notAnImage: "No es una imagen"
+    },
+    ru: {
+      docTitle: "Добавить фото в Memolio",
+      title: "Добавить фото",
+      sub: "Перетащите фото сюда или нажмите, чтобы выбрать. Они сразу появятся на рамке.",
+      album: "Альбом",
+      loading: "Загрузка…",
+      allPhotos: "Все фото",
+      caption: "Подпись (необязательно, для всех фото)",
+      captionPlaceholder: "напр. Лето 2026",
+      tapToChoose: "Нажмите, чтобы выбрать",
+      orDrag: "или перетащите фото сюда",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "Ожидание…",
+      uploading: "Загружается",
+      added: "Добавлено",
+      duplicate: "Уже на рамке",
+      no_file: "Файл не получен",
+      unsupported: "Неподдерживаемый тип файла",
+      rejected: "Не удалось добавить это фото",
+      storage_full: "Хранилище рамки заполнено",
+      linkExpired: "Ссылка устарела – отсканируйте QR снова",
+      failed: "Ошибка",
+      networkError: "Ошибка сети",
+      notAnImage: "Это не изображение"
+    },
+    zh: {
+      docTitle: "向 Memolio 添加照片",
+      title: "添加照片",
+      sub: "将照片拖到这里，或点击选择。照片会立即显示在相框上。",
+      album: "相册",
+      loading: "加载中…",
+      allPhotos: "所有照片",
+      caption: "说明文字（可选，应用于全部照片）",
+      captionPlaceholder: "例如：2026年夏天",
+      tapToChoose: "点击选择",
+      orDrag: "或将照片拖到这里",
+      formats: "JPEG · PNG · HEIC · WebP",
+      waiting: "等待中…",
+      uploading: "上传中",
+      added: "已添加",
+      duplicate: "已在相框上",
+      no_file: "未收到文件",
+      unsupported: "不支持的文件类型",
+      rejected: "无法添加此照片",
+      storage_full: "相框存储空间已满",
+      linkExpired: "链接已过期，请重新扫描二维码",
+      failed: "失败",
+      networkError: "网络错误",
+      notAnImage: "不是图片"
+    }
+  };
+
+  const LANG = (navigator.language || "en").toLowerCase().split("-")[0];
+  function T(key) {
+    const d = I18N[LANG] || I18N.en;
+    return (d && d[key]) || I18N.en[key] || key;
+  }
+  const byId = (id) => document.getElementById(id);
+
   // Token comes from this page's own URL (?t=...). Every request reuses it.
   const TOKEN = new URLSearchParams(location.search).get("t") || "";
   const drop = document.getElementById("drop");
@@ -68,6 +332,20 @@
   const list = document.getElementById("list");
   const albumSel = document.getElementById("album");
   const captionInput = document.getElementById("caption");
+
+  function applyStaticI18n() {
+    document.documentElement.lang = LANG;
+    document.title = T("docTitle");
+    byId("h-title").textContent = T("title");
+    byId("h-sub").textContent = T("sub");
+    byId("l-album").textContent = T("album");
+    byId("l-caption").textContent = T("caption");
+    byId("d-strong").textContent = T("tapToChoose");
+    byId("d-or").textContent = T("orDrag");
+    byId("d-formats").textContent = T("formats");
+    captionInput.placeholder = T("captionPlaceholder");
+    albumSel.querySelector("option").textContent = T("loading");
+  }
 
   function withToken(path) {
     const sep = path.includes("?") ? "&" : "?";
@@ -82,7 +360,7 @@
       albumSel.innerHTML = "";
       if (!albums.length) {
         const o = document.createElement("option");
-        o.value = ""; o.textContent = "All Photos";
+        o.value = ""; o.textContent = T("allPhotos");
         albumSel.appendChild(o);
       }
       for (const a of albums) {
@@ -91,7 +369,10 @@
         albumSel.appendChild(o);
       }
     } catch (e) {
-      albumSel.innerHTML = "<option value=''>All Photos</option>";
+      albumSel.innerHTML = "";
+      const o = document.createElement("option");
+      o.value = ""; o.textContent = T("allPhotos");
+      albumSel.appendChild(o);
     }
   }
 
@@ -99,9 +380,10 @@
     const el = document.createElement("div");
     el.className = "item";
     el.innerHTML =
-      "<div class='name'></div><div class='status'>Waiting...</div>" +
+      "<div class='name'></div><div class='status'></div>" +
       "<div class='bar'><span></span></div>";
     el.querySelector(".name").textContent = file.name;
+    el.querySelector(".status").textContent = T("waiting");
     list.prepend(el);
     return {
       el,
@@ -125,33 +407,36 @@
       if (e.lengthComputable) {
         const pct = Math.round((e.loaded / e.total) * 100);
         row.setProgress(pct);
-        row.setStatus("Uploading " + pct + "%");
+        row.setStatus(T("uploading") + " " + pct + "%");
       }
     };
     xhr.onload = () => {
       row.setProgress(100);
+      // Prefer the server's machine status code (localized via T); fall back to HTTP status.
+      let code = null;
+      try { const j = JSON.parse(xhr.responseText); code = j.status; } catch (e) {}
       if (xhr.status === 200) {
-        let msg = "Added";
-        try { const j = JSON.parse(xhr.responseText); if (j.status) msg = j.message || j.status; } catch (e) {}
-        row.ok(msg);
-      } else if (xhr.status === 507) {
-        row.err("Frame storage full");
+        row.ok(code && I18N.en[code] ? T(code) : T("added"));
       } else if (xhr.status === 403) {
-        row.err("Link expired - rescan the QR");
+        row.err(T("linkExpired"));
+      } else if (code && I18N.en[code]) {
+        row.err(T(code));
+      } else if (xhr.status === 507) {
+        row.err(T("storage_full"));
       } else if (xhr.status === 415) {
-        row.err("Unsupported file type");
+        row.err(T("unsupported"));
       } else {
-        row.err("Failed (" + xhr.status + ")");
+        row.err(T("failed") + " (" + xhr.status + ")");
       }
     };
-    xhr.onerror = () => row.err("Network error");
+    xhr.onerror = () => row.err(T("networkError"));
     xhr.send(form);
   }
 
   function handleFiles(files) {
     for (const f of files) {
       if (f.type.startsWith("image/")) upload(f);
-      else { const r = addRow(f); r.err("Not an image"); }
+      else { const r = addRow(f); r.err(T("notAnImage")); }
     }
   }
 
@@ -163,6 +448,7 @@
     drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("drag"); }));
   drop.addEventListener("drop", (e) => { if (e.dataTransfer) handleFiles(e.dataTransfer.files); });
 
+  applyStaticI18n();
   loadAlbums();
 </script>
 </body>

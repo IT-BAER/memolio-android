@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  pl — Polish quantity strings.
+  Polish uses four categories:
+    one   — 1 (and only 1)
+    few   — 2–4, 22–24, 32–34 … (ends in 2–4, excluding 12–14)
+    many  — 0, 5–21, 25–31, 35–41 … (and all teens 11–19)
+    other — fractional numbers
+  Each <item> uses %1$d for the count.
+-->
+<resources>
+
+    <!-- Upload banner running count: "Dodano 1 zdjęcie" / "Dodano 3 zdjęcia" / "Dodano 5 zdjęć". -->
+    <plurals name="photos_added">
+        <item quantity="one">Dodano %1$d zdjęcie</item>
+        <item quantity="few">Dodano %1$d zdjęcia</item>
+        <item quantity="many">Dodano %1$d zdjęć</item>
+        <item quantity="other">Dodano %1$d zdjęcia</item>
+    </plurals>
+
+    <!-- Library multi-select count: "Wybrano 2". -->
+    <plurals name="selected_count">
+        <item quantity="one">Wybrano %1$d</item>
+        <item quantity="few">Wybrano %1$d</item>
+        <item quantity="many">Wybrano %1$d</item>
+        <item quantity="other">Wybrano %1$d</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 zdjęć". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d zdjęcie</item>
+        <item quantity="few">%1$d zdjęcia</item>
+        <item quantity="many">%1$d zdjęć</item>
+        <item quantity="other">%1$d zdjęcia</item>
+    </plurals>
+
+</resources>

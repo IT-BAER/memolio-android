@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Text
+import com.baer.memolio.R
 import com.baer.memolio.core.ui.component.IconButtonSize
 import com.baer.memolio.core.ui.component.IconButtonVariant
 import com.baer.memolio.core.ui.component.MemolioIconButton
@@ -152,7 +154,7 @@ fun MenuButton(
     Box(modifier.fillMaxSize()) {
         MemolioIconButton(
             icon = "menu",
-            contentDescription = "Open settings",
+            contentDescription = stringResource(R.string.frame_open_settings),
             onClick = onClick,
             variant = IconButtonVariant.Glass,
             size = IconButtonSize.Md,

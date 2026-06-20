@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Indietro</string>
+    <string name="action_next">Avanti</string>
+    <string name="action_finish">Fine</string>
+    <string name="action_done">Fatto</string>
+    <string name="action_close">Chiudi</string>
+    <string name="action_maybe_later">Forse dopo</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">Scopri Pro</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Apri impostazioni</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Benvenuto in Memolio</string>
+    <string name="onboard_welcome_body">Trasformiamo questo tablet in una cornice fotografica silenziosa, per le persone e i luoghi che vuoi sempre vicino. Ci vorrà circa un minuto.</string>
+    <string name="onboard_permissions_title">Permessi</string>
+    <string name="onboard_permissions_body">Memolio ha bisogno dei permessi per le notifiche e per l\'avvio automatico, così la cornice rimane sempre attiva da sola. Tocca solo la propria cartella, mai la tua galleria.</string>
+    <string name="onboard_qr_title">Aggiungi le tue prime foto</string>
+    <string name="onboard_qr_sub">Scansiona da qualsiasi telefono sulla stessa Wi-Fi</string>
+    <string name="onboard_qr_preparing">Preparazione del link di caricamento… (assicurati che la Wi-Fi sia attiva)</string>
+    <string name="onboard_homekiosk_title">Home &amp; kiosk</string>
+    <string name="onboard_homekiosk_body">Opzionale: imposta Memolio come app Home e bloccala (kiosk).</string>
+    <string name="onboard_homekiosk_enable">Attiva Home + kiosk</string>
+    <string name="onboard_sleep_title">Programma sonno</string>
+    <string name="onboard_sleep_body">Opzionale: spegni lo schermo durante la notte (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Attiva il programma sonno</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Opzionale: sblocca album, la suite appliance e sfondi personalizzati con un acquisto una tantum. Puoi farlo in qualsiasi momento.</string>
+    <string name="onboard_finish_title">Tutto pronto</string>
+    <string name="onboard_finish_body">Tocca Fine per avviare la cornice.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro è sbloccato. Grazie!</string>
+    <string name="paywall_offline">Connettiti alla Wi-Fi per sbloccare Pro. Il resto di Memolio funziona offline.</string>
+    <string name="paywall_pitch">Paghi una volta e Pro rimane attivo per sempre, qui sul tablet.</string>
+    <string name="paywall_perk_albums_title">Album &amp; playlist</string>
+    <string name="paywall_perk_albums_desc">Raggruppa le foto e scegli esattamente cosa mostrare.</string>
+    <string name="paywall_perk_appliance_title">Suite appliance</string>
+    <string name="paywall_perk_appliance_desc">Avvio automatico, blocco kiosk, programma sonno, riduzione luminosità ambientale.</string>
+    <string name="paywall_perk_wallpaper_title">Sfondi personalizzati</string>
+    <string name="paywall_perk_wallpaper_desc">Scegli lo sfondo dietro il tuo orologio.</string>
+    <string name="paywall_price_caption">una volta · per sempre</string>
+    <string name="paywall_unlock_cta">Sblocca Pro</string>
+    <string name="paywall_restore">Ripristina</string>
+    <string name="paywall_error">Errore: %1$s</string>
+
+    <!-- ===== Billing errors ===== -->
+    <string name="billing_error_no_package">Nessun pacchetto Pro disponibile</string>
+    <string name="billing_error_not_granted">L\'acquisto non ha sbloccato Pro</string>
+    <string name="billing_error_purchase_failed">Acquisto non riuscito</string>
+    <string name="billing_error_no_restore">Nessun acquisto Pro trovato da ripristinare</string>
+    <string name="billing_error_restore_failed">Ripristino non riuscito</string>
+    <string name="billing_error_load">Impossibile caricare le offerte</string>
+
+    <!-- ===== Pro feature catalog ===== -->
+    <string name="profeature_albums_title">Album &amp; playlist</string>
+    <string name="profeature_albums_blurb">Organizza le foto in album e scegli quali far scorrere.</string>
+    <string name="profeature_albums_lock">Album</string>
+    <string name="profeature_appliance_title">Modalità appliance</string>
+    <string name="profeature_appliance_blurb">Avvio automatico, blocco kiosk, app Home, sonno programmato e riduzione luminosità ambientale.</string>
+    <string name="profeature_appliance_lock">Suite appliance</string>
+    <string name="profeature_wallpaper_title">Sfondi personalizzati</string>
+    <string name="profeature_wallpaper_blurb">Usa sfondi alternativi e personalizzati oltre a quello predefinito.</string>
+    <string name="profeature_wallpaper_lock">Sfondo personalizzato</string>
+    <string name="prolock_blurb">Un singolo acquisto lo attiva per sempre, direttamente sul tablet.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Menu</string>
+    <string name="manage_back_to_menu">Torna al menu</string>
+    <string name="manage_back_to_frame">Torna alla cornice</string>
+    <string name="manage_section_library">Libreria</string>
+    <string name="manage_section_playlist">Playlist</string>
+    <string name="manage_section_addphotos">Aggiungi foto</string>
+    <string name="manage_section_appliance">Appliance</string>
+    <string name="manage_section_storage">Archiviazione</string>
+    <string name="manage_section_wallpaper">Sfondo</string>
+    <string name="manage_section_about">Informazioni</string>
+    <string name="manage_section_language">Lingua</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Libreria</string>
+    <string name="library_subtitle">Raggruppa le foto in album</string>
+    <string name="library_new_album_label">Nome del nuovo album</string>
+    <string name="library_create_album">Crea album</string>
+    <string name="library_album_fallback">Album</string>
+    <string name="library_albums">Album</string>
+    <string name="library_favorite">Preferito</string>
+    <string name="library_delete">Elimina</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Playlist</string>
+    <string name="playlist_subtitle">Cosa mostra la cornice e come</string>
+    <string name="playlist_active_albums">Album attivi</string>
+    <string name="playlist_display">Visualizzazione</string>
+    <string name="playlist_interval">Intervallo tra le foto</string>
+    <string name="playlist_interval_suffix">s</string>
+    <string name="playlist_shuffle">Casuale</string>
+    <string name="playlist_show_clock">Mostra orologio</string>
+    <string name="playlist_show_date">Mostra data</string>
+    <string name="playlist_show_caption">Mostra didascalia</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Aggiungi foto</string>
+    <string name="addphotos_subtitle">Scansiona da qualsiasi telefono sulla stessa Wi-Fi</string>
+    <string name="addphotos_server_starting">Avvio del server in corso. Connetti il tablet alla Wi-Fi.</string>
+    <string name="addphotos_point_camera">Punta la fotocamera qui</string>
+    <string name="addphotos_instructions">Carica una foto e appare sulla cornice in pochi secondi. Viene salvata nella cartella di Memolio, mai nella galleria del tablet, e non esce mai da questa stanza.</string>
+    <string name="addphotos_rotate_token">Ruota token (invalida il vecchio QR)</string>
+    <string name="addphotos_qr_cd">Codice QR di caricamento</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Appliance</string>
+    <string name="appliance_subtitle">Usa Memolio come un dispositivo fisso</string>
+    <string name="appliance_autostart">Avvio automatico all\'accensione</string>
+    <string name="appliance_kiosk">Blocco kiosk (app Home)</string>
+    <string name="appliance_sleep">Spegni schermo %1$s–%2$s</string>
+    <string name="appliance_ambient">Riduzione luminosità ambientale</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Archiviazione</string>
+    <string name="storage_usage">%1$s di %2$s utilizzato</string>
+    <string name="storage_usage_short">%1$s utilizzato</string>
+    <string name="storage_auto_empty">Svuota automaticamente il cestino dopo 30 giorni</string>
+    <string name="storage_recently_deleted">Eliminati di recente · %1$d</string>
+    <string name="storage_restore">Ripristina</string>
+    <string name="storage_empty_trash">Svuota cestino</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Sfondo</string>
+    <string name="wallpaper_subtitle">Lo sfondo inattivo dietro l\'orologio</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">Informazioni</string>
+    <string name="about_body">Un tablet di scorta, a cui è stata data una seconda vita sul tuo scaffale. Memolio mostra le persone e i luoghi che vale la pena guardare, e conserva ogni foto nella propria cartella su questo dispositivo, raggiungibile solo tramite la tua Wi-Fi di casa.</string>
+    <string name="about_offline_first">Offline prima di tutto</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Già sulla cornice</string>
+    <string name="upload_failed">Caricamento non riuscito</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Cornice fotografica</string>
+    <string name="notif_channel_desc">Mantiene il server di caricamento attivo così puoi aggiungere foto.</string>
+    <string name="notif_title">Cornice Memolio</string>
+    <string name="notif_content_ready">Pronta a ricevere foto</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Scegli la lingua di visualizzazione</string>
+    <string name="language_system_default">Predefinita di sistema</string>
+
+</resources>

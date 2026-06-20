@@ -217,6 +217,8 @@ class FrameServerTest {
             setBody(jpegPart("notes.txt", "plain text".toByteArray()))
         }
         assertThat(res.status).isEqualTo(HttpStatusCode.UnsupportedMediaType)
+        // Stable machine code the browser page maps to a localized string.
+        assertThat(res.bodyAsText()).contains("unsupported")
     }
 
     @Test
@@ -234,6 +236,7 @@ class FrameServerTest {
         installRoutes(importerOverride = diskFull)
         val res = client.post("/upload?t=$token") { setBody(jpegPart("a.jpg", "x".toByteArray())) }
         assertThat(res.status).isEqualTo(HttpStatusCode.InsufficientStorage)
+        assertThat(res.bodyAsText()).contains("storage_full")
     }
 
     @Test

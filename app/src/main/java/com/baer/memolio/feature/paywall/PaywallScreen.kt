@@ -19,13 +19,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.annotation.StringRes
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.R
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.Symbol
@@ -42,12 +45,12 @@ import com.baer.memolio.core.ui.component.MemolioIconButton
 import com.baer.memolio.core.ui.component.MemolioWordmark
 import com.baer.memolio.core.ui.component.WordmarkTone
 
-private data class Perk(val icon: String, val title: String, val desc: String)
+private data class Perk(val icon: String, @StringRes val titleRes: Int, @StringRes val descRes: Int)
 
 private val PERKS = listOf(
-    Perk("photo_library", "Albums & playlists", "Group photos and choose exactly what shows."),
-    Perk("tune", "Appliance suite", "Auto-start, kiosk lock, sleep schedule, ambient dimming."),
-    Perk("wallpaper", "Custom wallpapers", "Pick the backdrop behind your clock."),
+    Perk("photo_library", R.string.paywall_perk_albums_title, R.string.paywall_perk_albums_desc),
+    Perk("tune", R.string.paywall_perk_appliance_title, R.string.paywall_perk_appliance_desc),
+    Perk("wallpaper", R.string.paywall_perk_wallpaper_title, R.string.paywall_perk_wallpaper_desc),
 )
 
 @Composable
@@ -80,7 +83,7 @@ fun PaywallScreen(
             // Close affordance, top-right.
             MemolioIconButton(
                 icon = "close",
-                contentDescription = "Close",
+                contentDescription = stringResource(R.string.action_close),
                 onClick = onClose,
                 variant = IconButtonVariant.Bare,
                 size = IconButtonSize.Sm,
@@ -89,33 +92,33 @@ fun PaywallScreen(
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     MemolioWordmark(tone = WordmarkTone.Solid, size = 22.sp)
-                    MemolioBadge("Pro", tone = BadgeTone.Pro)
+                    MemolioBadge(stringResource(R.string.badge_pro), tone = BadgeTone.Pro)
                 }
 
                 when {
                     state.isPro -> {
                         Text(
-                            "Pro is unlocked. Thank you!",
+                            stringResource(R.string.paywall_unlocked),
                             color = MemolioColors.TextSecondary,
                             style = MemolioType.body,
                             modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
                         )
-                        MemolioButton("Done", onClose, variant = ButtonVariant.Primary, size = ButtonSize.Lg)
+                        MemolioButton(stringResource(R.string.action_done), onClose, variant = ButtonVariant.Primary, size = ButtonSize.Lg)
                     }
 
                     state.offline -> {
                         Text(
-                            "Connect to Wi-Fi to unlock Pro. The rest of Memolio works offline.",
+                            stringResource(R.string.paywall_offline),
                             color = MemolioColors.TextSecondary,
                             style = MemolioType.body,
                             modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
                         )
-                        MemolioButton("Maybe later", onClose, variant = ButtonVariant.Quiet)
+                        MemolioButton(stringResource(R.string.action_maybe_later), onClose, variant = ButtonVariant.Quiet)
                     }
 
                     else -> {
                         Text(
-                            "Pay once and Pro stays on for keeps, right here on the tablet.",
+                            stringResource(R.string.paywall_pitch),
                             color = MemolioColors.TextSecondary,
                             style = MemolioType.body,
                             modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
@@ -129,8 +132,8 @@ fun PaywallScreen(
                                     // Design: a bare 26px teal glyph (no tinted tile), top-aligned to the title.
                                     Symbol(p.icon, size = 26.sp, tint = MemolioColors.Teal)
                                     Column {
-                                        Text(p.title, color = MemolioColors.TextPrimary, style = MemolioType.body, fontWeight = FontWeight.Medium)
-                                        Text(p.desc, color = MemolioColors.TextSecondary, style = MemolioType.sm)
+                                        Text(stringResource(p.titleRes), color = MemolioColors.TextPrimary, style = MemolioType.body, fontWeight = FontWeight.Medium)
+                                        Text(stringResource(p.descRes), color = MemolioColors.TextSecondary, style = MemolioType.sm)
                                     }
                                 }
                             }
@@ -140,15 +143,20 @@ fun PaywallScreen(
                             verticalAlignment = Alignment.Bottom,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Text("€12", color = MemolioColors.TextPrimary, style = MemolioType.display)
-                            Text("once · lifetime", color = MemolioColors.TextTertiary, style = MemolioType.sm, modifier = Modifier.padding(bottom = 12.dp))
+                            Text(stringResource(R.string.paywall_price), color = MemolioColors.TextPrimary, style = MemolioType.display)
+                            Text(stringResource(R.string.paywall_price_caption), color = MemolioColors.TextTertiary, style = MemolioType.sm, modifier = Modifier.padding(bottom = 12.dp))
                         }
                         state.error?.let {
-                            Text("Error: $it", color = MemolioColors.Error, style = MemolioType.sm, modifier = Modifier.padding(bottom = 12.dp))
+                            Text(
+                                stringResource(R.string.paywall_error, stringResource(it.messageRes)),
+                                color = MemolioColors.Error,
+                                style = MemolioType.sm,
+                                modifier = Modifier.padding(bottom = 12.dp)
+                            )
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                             MemolioButton(
-                                text = "Unlock Pro",
+                                text = stringResource(R.string.paywall_unlock_cta),
                                 onClick = { activity?.let { viewModel.purchase(it) } },
                                 variant = ButtonVariant.Primary,
                                 size = ButtonSize.Lg,
@@ -157,7 +165,7 @@ fun PaywallScreen(
                                 modifier = Modifier.weight(1f)
                             )
                             MemolioButton(
-                                text = "Restore",
+                                text = stringResource(R.string.paywall_restore),
                                 onClick = { viewModel.restore() },
                                 variant = ButtonVariant.Quiet,
                                 enabled = !state.loading

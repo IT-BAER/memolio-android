@@ -2,6 +2,7 @@ package com.baer.memolio.feature.paywall
 
 import android.app.Activity
 import app.cash.turbine.test
+import com.baer.memolio.core.billing.BillingError
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
@@ -111,13 +112,13 @@ class PaywallViewModelTest {
 
     @Test
     fun erroredPurchaseSurfacesErrorMessage() = runTest {
-        val ent = FakeEntitlement(purchaseResult = PurchaseResult.Error("network down"))
+        val ent = FakeEntitlement(purchaseResult = PurchaseResult.Error(BillingError.PURCHASE_FAILED))
         val vm = PaywallViewModel(ent, FakeConnectivity(true)) { listOf("Memolio Pro") }
         vm.purchase(activity)
         vm.state.test {
             var s = awaitItem()
             while (s.error == null) s = awaitItem()
-            assertThat(s.error).isEqualTo("network down")
+            assertThat(s.error).isEqualTo(BillingError.PURCHASE_FAILED)
             assertThat(s.isPro).isFalse()
         }
     }
@@ -136,13 +137,13 @@ class PaywallViewModelTest {
 
     @Test
     fun erroredRestoreSurfacesError() = runTest {
-        val ent = FakeEntitlement(restoreResult = RestoreResult.Error("nothing to restore"))
+        val ent = FakeEntitlement(restoreResult = RestoreResult.Error(BillingError.RESTORE_FAILED))
         val vm = PaywallViewModel(ent, FakeConnectivity(true)) { listOf("Memolio Pro") }
         vm.restore()
         vm.state.test {
             var s = awaitItem()
             while (s.error == null) s = awaitItem()
-            assertThat(s.error).isEqualTo("nothing to restore")
+            assertThat(s.error).isEqualTo(BillingError.RESTORE_FAILED)
         }
     }
 }

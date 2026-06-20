@@ -56,6 +56,12 @@ class FrameServerDeps(
 @Serializable
 private data class AlbumDto(val id: String, val name: String)
 
+/**
+ * Upload result sent to the browser upload page. [status] is a STABLE machine code the
+ * page maps to a localized string in the uploader's own browser language (see upload.html
+ * I18N); [message] is an English diagnostic kept for logging/debugging and is never shown
+ * to the user. Codes: added, duplicate, no_file, unsupported, rejected, storage_full.
+ */
 @Serializable
 private data class UploadResponse(val status: String, val message: String, val id: String? = null)
 
@@ -111,14 +117,14 @@ fun Application.frameRoutes(deps: FrameServerDeps) {
 
             val bytes = fileBytes
             if (bytes == null || bytes.isEmpty()) {
-                call.respond(HttpStatusCode.BadRequest, UploadResponse("error", "No file received"))
+                call.respond(HttpStatusCode.BadRequest, UploadResponse("no_file", "No file received"))
                 return@post
             }
             val ext = fileName.substringAfterLast('.', "").lowercase()
             if (ext.isEmpty() || ext !in ALLOWED_EXTS) {
                 call.respond(
                     HttpStatusCode.UnsupportedMediaType,
-                    UploadResponse("error", "Unsupported file type")
+                    UploadResponse("unsupported", "Unsupported file type")
                 )
                 return@post
             }
@@ -149,7 +155,7 @@ fun Application.frameRoutes(deps: FrameServerDeps) {
                         deps.uploadEvents.publish(UploadOutcome.REJECTED)
                         call.respond(
                             HttpStatusCode.UnsupportedMediaType,
-                            UploadResponse("error", result.reason)
+                            UploadResponse("rejected", result.reason)
                         )
                     }
                 }
@@ -157,7 +163,7 @@ fun Application.frameRoutes(deps: FrameServerDeps) {
                 deps.uploadEvents.publish(UploadOutcome.REJECTED)
                 call.respond(
                     HttpStatusCode.InsufficientStorage,
-                    UploadResponse("error", "Frame storage full")
+                    UploadResponse("storage_full", "Frame storage full")
                 )
             }
         }

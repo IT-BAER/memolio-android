@@ -6,8 +6,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.baer.memolio.R
 import com.baer.memolio.core.media.QrEncoder
 
 /**
@@ -24,5 +26,5 @@ fun QrImage(
     val density = LocalDensity.current
     val sizePx = with(density) { size.roundToPx() }
     val bitmap = remember(text, sizePx) { encoder.encode(text, sizePx).asImageBitmap() }
-    Image(bitmap = bitmap, contentDescription = "Upload QR code", modifier = modifier)
+    Image(bitmap = bitmap, contentDescription = stringResource(R.string.addphotos_qr_cd), modifier = modifier)
 }

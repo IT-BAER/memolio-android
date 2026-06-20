@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  nl — Dutch quantity strings. Dutch uses one (singular) and other (plural).
+  Each <item> uses %1$d for the count.
+-->
+<resources>
+
+    <!-- Upload banner running count: "1 foto toegevoegd" / "3 foto's toegevoegd". -->
+    <plurals name="photos_added">
+        <item quantity="one">%1$d foto toegevoegd</item>
+        <item quantity="other">%1$d foto\'s toegevoegd</item>
+    </plurals>
+
+    <!-- Library multi-select count: "2 geselecteerd". -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d geselecteerd</item>
+        <item quantity="other">%1$d geselecteerd</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 foto's". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d foto</item>
+        <item quantity="other">%1$d foto\'s</item>
+    </plurals>
+
+</resources>

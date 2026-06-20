@@ -16,6 +16,7 @@ datastore = "1.2.1"
 work = "2.11.2"
 lifecycle = "2.10.0"
 coreKtx = "1.18.0"           # 1.19.0 requires compileSdk 37; 1.18.0 needs only 36
+appcompat = "1.7.1"          # per-app locale backport (AppCompatDelegate.setApplicationLocales) for minSdk 26
 activityCompose = "1.13.0"
 coroutines = "1.11.0"
 robolectric = "4.16.1"
@@ -35,6 +36,7 @@ material3Adaptive = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }

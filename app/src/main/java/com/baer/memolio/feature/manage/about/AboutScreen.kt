@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baer.memolio.BuildConfig
+import com.baer.memolio.R
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.component.BadgeTone
@@ -24,14 +26,12 @@ import com.baer.memolio.core.ui.component.WordmarkTone
 @Composable
 fun AboutScreen(modifier: Modifier = Modifier) {
     Column(modifier) {
-        SectionHead(title = "About")
+        SectionHead(title = stringResource(R.string.about_title))
         MemolioCard(modifier = Modifier.widthIn(max = 480.dp), variant = CardVariant.Surface) {
             Column {
                 MemolioWordmark(tone = WordmarkTone.Solid, size = 26.sp)
                 Text(
-                    "A spare tablet, given a second life on your shelf. Memolio shows the " +
-                        "people and places worth looking up for, and keeps every photo in its " +
-                        "own folder on this device, reachable only over your home Wi-Fi.",
+                    stringResource(R.string.about_body),
                     color = MemolioColors.TextSecondary,
                     style = MemolioType.body,
                     modifier = Modifier.padding(top = 14.dp)
@@ -40,8 +40,8 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     Modifier.padding(top = 18.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    MemolioBadge("v${BuildConfig.VERSION_NAME}", tone = BadgeTone.Neutral)
-                    MemolioBadge("Offline-first", tone = BadgeTone.Teal)
+                    MemolioBadge(stringResource(R.string.about_version, BuildConfig.VERSION_NAME), tone = BadgeTone.Neutral)
+                    MemolioBadge(stringResource(R.string.about_offline_first), tone = BadgeTone.Teal)
                 }
             }
         }

@@ -9,10 +9,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -49,13 +49,12 @@ import com.baer.memolio.service.FrameService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var entitlementRepository: EntitlementRepository
@@ -103,7 +102,7 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val start = startDestination(settings?.onboardingComplete)
                     if (start != null) {
-                        ApplianceHost(sleeping = sleeping.asStateFlow(), onWake = ::wake) {
+                        ApplianceHost(sleeping = sleeping, onWake = ::wake) {
                             UploadFeedbackOverlay(events = uploadEventBus.events) {
                                 MemolioNavHost(
                                     start = start,

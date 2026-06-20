@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Zurück</string>
+    <string name="action_next">Weiter</string>
+    <string name="action_finish">Fertig</string>
+    <string name="action_done">OK</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_maybe_later">Vielleicht später</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">Pro entdecken</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Einstellungen öffnen</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Willkommen bei Memolio</string>
+    <string name="onboard_welcome_body">Lass uns dieses Tablet in einen stillen Bilderrahmen verwandeln – für die Menschen und Orte, die dir wichtig sind. Das dauert etwa eine Minute.</string>
+    <string name="onboard_permissions_title">Berechtigungen</string>
+    <string name="onboard_permissions_body">Memolio benötigt Benachrichtigungs- und Startberechtigungen, damit der Rahmen selbstständig weiterläuft. Die App greift ausschließlich auf ihren eigenen Ordner zu, nie auf deine Galerie.</string>
+    <string name="onboard_qr_title">Erste Fotos hinzufügen</string>
+    <string name="onboard_qr_sub">Mit einem Handy im selben Wi-Fi scannen</string>
+    <string name="onboard_qr_preparing">Upload-Link wird vorbereitet … (Wi-Fi eingeschaltet?)</string>
+    <string name="onboard_homekiosk_title">Startseite &amp; Kiosk</string>
+    <string name="onboard_homekiosk_body">Optional: Memolio als Home-App festlegen und sperren (Kiosk-Modus).</string>
+    <string name="onboard_homekiosk_enable">Startseite + Kiosk aktivieren</string>
+    <string name="onboard_sleep_title">Schlafplan</string>
+    <string name="onboard_sleep_body">Optional: den Bildschirm nachts ausschalten (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Schlafplan aktivieren</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Optional: Alben, die Geräte-Suite und eigene Hintergrundbilder mit einem einmaligen Kauf freischalten. Das lässt sich jederzeit nachholen.</string>
+    <string name="onboard_finish_title">Alles bereit</string>
+    <string name="onboard_finish_body">Tippe auf Fertig, um den Rahmen zu starten.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro ist freigeschaltet. Vielen Dank!</string>
+    <string name="paywall_offline">Mit Wi-Fi verbinden, um Pro freizuschalten. Der Rest von Memolio funktioniert offline.</string>
+    <string name="paywall_pitch">Einmal kaufen – Pro bleibt für immer hier auf dem Tablet.</string>
+    <string name="paywall_perk_albums_title">Alben &amp; Wiedergabelisten</string>
+    <string name="paywall_perk_albums_desc">Fotos gruppieren und genau festlegen, was zu sehen ist.</string>
+    <string name="paywall_perk_appliance_title">Geräte-Suite</string>
+    <string name="paywall_perk_appliance_desc">Autostart, Kiosk-Sperre, Schlafplan, Umgebungsdimming.</string>
+    <string name="paywall_perk_wallpaper_title">Eigene Hintergrundbilder</string>
+    <string name="paywall_perk_wallpaper_desc">Den Hintergrund hinter deiner Uhr selbst wählen.</string>
+    <string name="paywall_price_caption">einmalig · lebenslang</string>
+    <string name="paywall_unlock_cta">Pro freischalten</string>
+    <string name="paywall_restore">Wiederherstellen</string>
+    <string name="paywall_error">Fehler: %1$s</string>
+
+    <!-- ===== Billing errors ===== -->
+    <string name="billing_error_no_package">Kein Pro-Paket verfügbar</string>
+    <string name="billing_error_not_granted">Kauf hat Pro nicht freigeschaltet</string>
+    <string name="billing_error_purchase_failed">Kauf fehlgeschlagen</string>
+    <string name="billing_error_no_restore">Kein Pro-Kauf zum Wiederherstellen gefunden</string>
+    <string name="billing_error_restore_failed">Wiederherstellung fehlgeschlagen</string>
+    <string name="billing_error_load">Angebote konnten nicht geladen werden</string>
+
+    <!-- ===== Pro feature catalog ===== -->
+    <string name="profeature_albums_title">Alben &amp; Wiedergabelisten</string>
+    <string name="profeature_albums_blurb">Fotos in Alben organisieren und festlegen, welche davon laufen.</string>
+    <string name="profeature_albums_lock">Alben</string>
+    <string name="profeature_appliance_title">Gerätemodus</string>
+    <string name="profeature_appliance_blurb">Autostart, Kiosk-Sperre, Home-App, Schlafplan und Umgebungsdimming.</string>
+    <string name="profeature_appliance_lock">Geräte-Suite</string>
+    <string name="profeature_wallpaper_title">Eigene Hintergrundbilder</string>
+    <string name="profeature_wallpaper_blurb">Andere und eigene Hintergrundbilder über das Standardbild hinaus verwenden.</string>
+    <string name="profeature_wallpaper_lock">Eigener Hintergrund</string>
+    <string name="prolock_blurb">Ein einziger Kauf schaltet das dauerhaft frei – direkt hier auf dem Tablet.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Menü</string>
+    <string name="manage_back_to_menu">Zurück zum Menü</string>
+    <string name="manage_back_to_frame">Zurück zum Rahmen</string>
+    <string name="manage_section_library">Bibliothek</string>
+    <string name="manage_section_playlist">Wiedergabeliste</string>
+    <string name="manage_section_addphotos">Fotos hinzufügen</string>
+    <string name="manage_section_appliance">Gerät</string>
+    <string name="manage_section_storage">Speicher</string>
+    <string name="manage_section_wallpaper">Hintergrundbild</string>
+    <string name="manage_section_about">Über</string>
+    <string name="manage_section_language">Sprache</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Bibliothek</string>
+    <string name="library_subtitle">Fotos in Alben gruppieren</string>
+    <string name="library_new_album_label">Name des neuen Albums</string>
+    <string name="library_create_album">Album erstellen</string>
+    <string name="library_album_fallback">Album</string>
+    <string name="library_albums">Alben</string>
+    <string name="library_favorite">Favorit</string>
+    <string name="library_delete">Löschen</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Wiedergabeliste</string>
+    <string name="playlist_subtitle">Was der Rahmen zeigt und wie</string>
+    <string name="playlist_active_albums">Aktive Alben</string>
+    <string name="playlist_display">Anzeige</string>
+    <string name="playlist_interval">Abstand zwischen Fotos</string>
+    <string name="playlist_interval_suffix">s</string>
+    <string name="playlist_shuffle">Zufällige Reihenfolge</string>
+    <string name="playlist_show_clock">Uhr anzeigen</string>
+    <string name="playlist_show_date">Datum anzeigen</string>
+    <string name="playlist_show_caption">Bildunterschrift anzeigen</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Fotos hinzufügen</string>
+    <string name="addphotos_subtitle">Mit einem Handy im selben Wi-Fi scannen</string>
+    <string name="addphotos_server_starting">Server startet. Tablet mit Wi-Fi verbinden.</string>
+    <string name="addphotos_point_camera">Kamera hier draufhalten</string>
+    <string name="addphotos_instructions">Ein Foto ablegen – und es erscheint innerhalb von Sekunden auf dem Rahmen. Es liegt in Memolio\'s eigenem Ordner auf diesem Gerät, nie in deiner Galerie, und verlässt diesen Raum nicht.</string>
+    <string name="addphotos_rotate_token">Token erneuern (alten QR ungültig machen)</string>
+    <string name="addphotos_qr_cd">Upload-QR-Code</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Gerät</string>
+    <string name="appliance_subtitle">Memolio wie ein festes Gerät betreiben</string>
+    <string name="appliance_autostart">Autostart beim Hochfahren</string>
+    <string name="appliance_kiosk">Kiosk-Sperre (Home-App)</string>
+    <string name="appliance_sleep">Bildschirm schlafen %1$s–%2$s</string>
+    <string name="appliance_ambient">Umgebungshelligkeit dimmen</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Speicher</string>
+    <string name="storage_usage">%1$s von %2$s belegt</string>
+    <string name="storage_usage_short">%1$s belegt</string>
+    <string name="storage_auto_empty">Papierkorb nach 30 Tagen automatisch leeren</string>
+    <string name="storage_recently_deleted">Zuletzt gelöscht · %1$d</string>
+    <string name="storage_restore">Wiederherstellen</string>
+    <string name="storage_empty_trash">Papierkorb leeren</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Hintergrundbild</string>
+    <string name="wallpaper_subtitle">Das Hintergrundbild hinter der Uhr</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">Über</string>
+    <string name="about_body">Ein ungenutztes Tablet bekommt ein neues Leben in deinem Regal. Memolio zeigt die Menschen und Orte, die es wert sind, aufzublicken – und bewahrt jedes Foto in einem eigenen Ordner auf diesem Gerät, erreichbar nur über dein Heimnetzwerk.</string>
+    <string name="about_offline_first">Offline-first</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Bereits auf dem Rahmen</string>
+    <string name="upload_failed">Upload fehlgeschlagen</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Fotorahmen</string>
+    <string name="notif_channel_desc">Hält den Upload-Server am Laufen, damit Fotos hinzugefügt werden können.</string>
+    <string name="notif_title">Memolio-Rahmen</string>
+    <string name="notif_content_ready">Bereit, Fotos zu empfangen</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Anzeigesprache wählen</string>
+    <string name="language_system_default">Systemstandard</string>
+
+</resources>

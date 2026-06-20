@@ -7,6 +7,7 @@ import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import com.baer.memolio.R
 import com.baer.memolio.appliance.AmbientDimmer
 import com.baer.memolio.appliance.SleepDriver
 import com.baer.memolio.appliance.TimeProvider
@@ -92,7 +93,7 @@ class FrameService : Service() {
 
     private fun startForegroundCompat() {
         val id = FrameNotification.NOTIFICATION_ID
-        val notification = FrameNotification.build(this, "Ready to receive photos")
+        val notification = FrameNotification.build(this, getString(R.string.notif_content_ready))
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ->
                 startForeground(id, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)

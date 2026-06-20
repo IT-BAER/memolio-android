@@ -55,8 +55,19 @@ class FrameViewModel @Inject constructor(
 
     private val clock = FrameClock(timeProvider, defaultDispatcher)
 
-    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
-    private val dateFormatter = DateTimeFormatter.ofPattern("EEEE, d MMMM", Locale.getDefault())
+    // The hero clock stays 24h by design (giant thin numerals, no AM/PM); digits are
+    // locale-neutral. The date line, however, follows the locale's own field order and
+    // grammar (e.g. de "Samstag, 20. Juni", ru genitive month, zh "6月20日星期六") via the
+    // best-fit skeleton, falling back to the day-month pattern if a locale yields an
+    // expression DateTimeFormatter can't parse.
+    private val locale: Locale = Locale.getDefault()
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", locale)
+    private val dateFormatter = runCatching {
+        DateTimeFormatter.ofPattern(
+            android.text.format.DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"),
+            locale
+        )
+    }.getOrElse { DateTimeFormatter.ofPattern("EEEE, d MMMM", locale) }
 
     private val config: Flow<PlaylistConfig> = settingsRepository.playlistConfig
 

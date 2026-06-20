@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  en-US — the source of truth for all UI text. Every other values-<locale>/strings.xml
+  is a translation of THIS file; lint (MissingTranslation/ExtraTranslation, errors in
+  build.gradle.kts) fails the build if any locale drifts. Keys are area_element.
+
+  translatable="false" marks brand names and autonyms that must NOT be translated:
+  the app name, wordmark, wallpaper preset names, the throwaway price, and the language
+  autonyms (each shown in its own language in the picker, identical across locales).
+-->
+<resources>
+
+    <!-- ===== Brand / non-translatable ===== -->
+    <string name="app_name" translatable="false">Memolio</string>
+
+    <!-- ===== Shared actions / dialog primitives ===== -->
+    <string name="action_back">Back</string>
+    <string name="action_next">Next</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_done">Done</string>
+    <string name="action_close">Close</string>
+    <string name="action_maybe_later">Maybe later</string>
+    <string name="badge_pro">Pro</string>
+    <string name="cta_see_pro">See Pro</string>
+
+    <!-- ===== Frame overlays ===== -->
+    <string name="frame_open_settings">Open settings</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboard_welcome_title">Welcome to Memolio</string>
+    <string name="onboard_welcome_body">Let\'s turn this tablet into a quiet photo frame for the people and places you want close. It takes about a minute.</string>
+    <string name="onboard_permissions_title">Permissions</string>
+    <string name="onboard_permissions_body">Memolio needs notification and boot permissions so the frame keeps running on its own. It only ever touches its own folder, never your gallery.</string>
+    <string name="onboard_qr_title">Add your first photos</string>
+    <string name="onboard_qr_sub">Scan from any phone on the same Wi-Fi</string>
+    <string name="onboard_qr_preparing">Preparing the upload link… (make sure Wi-Fi is on)</string>
+    <string name="onboard_homekiosk_title">Home &amp; kiosk</string>
+    <string name="onboard_homekiosk_body">Optional: set Memolio as the Home app and lock it (kiosk).</string>
+    <string name="onboard_homekiosk_enable">Enable Home + kiosk</string>
+    <string name="onboard_sleep_title">Sleep schedule</string>
+    <string name="onboard_sleep_body">Optional: sleep the screen overnight (22:00–07:00).</string>
+    <string name="onboard_sleep_enable">Enable sleep schedule</string>
+    <string name="onboard_pro_title">Memolio Pro</string>
+    <string name="onboard_pro_body">Optional: unlock albums, the appliance suite, and custom wallpapers with a one-time purchase. You can do this any time later.</string>
+    <string name="onboard_finish_title">All set</string>
+    <string name="onboard_finish_body">Tap Finish to start the frame.</string>
+
+    <!-- ===== Paywall ===== -->
+    <string name="paywall_unlocked">Pro is unlocked. Thank you!</string>
+    <string name="paywall_offline">Connect to Wi-Fi to unlock Pro. The rest of Memolio works offline.</string>
+    <string name="paywall_pitch">Pay once and Pro stays on for keeps, right here on the tablet.</string>
+    <string name="paywall_perk_albums_title">Albums &amp; playlists</string>
+    <string name="paywall_perk_albums_desc">Group photos and choose exactly what shows.</string>
+    <string name="paywall_perk_appliance_title">Appliance suite</string>
+    <string name="paywall_perk_appliance_desc">Auto-start, kiosk lock, sleep schedule, ambient dimming.</string>
+    <string name="paywall_perk_wallpaper_title">Custom wallpapers</string>
+    <string name="paywall_perk_wallpaper_desc">Pick the backdrop behind your clock.</string>
+    <!-- Throwaway hardcoded price pending the RevenueCat-hosted paywall; not translated. -->
+    <string name="paywall_price" translatable="false">€12</string>
+    <string name="paywall_price_caption">once · lifetime</string>
+    <string name="paywall_unlock_cta">Unlock Pro</string>
+    <string name="paywall_restore">Restore</string>
+    <string name="paywall_error">Error: %1$s</string>
+
+    <!-- ===== Billing errors (mapped from BillingError codes at the paywall) ===== -->
+    <string name="billing_error_no_package">No Pro package available</string>
+    <string name="billing_error_not_granted">Purchase did not grant Pro</string>
+    <string name="billing_error_purchase_failed">Purchase failed</string>
+    <string name="billing_error_no_restore">No Pro purchase found to restore</string>
+    <string name="billing_error_restore_failed">Restore failed</string>
+    <string name="billing_error_load">Couldn\'t load offerings</string>
+
+    <!-- ===== Pro feature catalog (ProFeature enum) ===== -->
+    <string name="profeature_albums_title">Albums &amp; playlists</string>
+    <string name="profeature_albums_blurb">Organize photos into albums and choose which ones cycle.</string>
+    <string name="profeature_albums_lock">Albums</string>
+    <string name="profeature_appliance_title">Appliance mode</string>
+    <string name="profeature_appliance_blurb">Auto-start, kiosk lock, Home app, scheduled sleep, and ambient dimming.</string>
+    <string name="profeature_appliance_lock">Appliance suite</string>
+    <string name="profeature_wallpaper_title">Custom wallpapers</string>
+    <string name="profeature_wallpaper_blurb">Use alternate and custom wallpapers beyond the default.</string>
+    <string name="profeature_wallpaper_lock">Custom wallpaper</string>
+    <string name="prolock_blurb">A single purchase switches this on for good, right on the tablet.</string>
+
+    <!-- ===== Manage rail / sections ===== -->
+    <string name="manage_menu">Menu</string>
+    <string name="manage_back_to_menu">Back to menu</string>
+    <string name="manage_back_to_frame">Back to frame</string>
+    <string name="manage_section_library">Library</string>
+    <string name="manage_section_playlist">Playlist</string>
+    <string name="manage_section_addphotos">Add photos</string>
+    <string name="manage_section_appliance">Appliance</string>
+    <string name="manage_section_storage">Storage</string>
+    <string name="manage_section_wallpaper">Wallpaper</string>
+    <string name="manage_section_about">About</string>
+    <string name="manage_section_language">Language</string>
+
+    <!-- ===== Library ===== -->
+    <string name="library_title">Library</string>
+    <string name="library_subtitle">Group photos into albums</string>
+    <string name="library_new_album_label">New album name</string>
+    <string name="library_create_album">Create album</string>
+    <string name="library_album_fallback">Album</string>
+    <string name="library_albums">Albums</string>
+    <string name="library_favorite">Favorite</string>
+    <string name="library_delete">Delete</string>
+
+    <!-- ===== Playlist ===== -->
+    <string name="playlist_title">Playlist</string>
+    <string name="playlist_subtitle">What the frame shows, and how</string>
+    <string name="playlist_active_albums">Active albums</string>
+    <string name="playlist_display">Display</string>
+    <string name="playlist_interval">Interval between photos</string>
+    <!-- Abbreviated unit appended to the slider value, e.g. "5 s". -->
+    <string name="playlist_interval_suffix">s</string>
+    <string name="playlist_shuffle">Shuffle</string>
+    <string name="playlist_show_clock">Show clock</string>
+    <string name="playlist_show_date">Show date</string>
+    <string name="playlist_show_caption">Show caption</string>
+
+    <!-- ===== Add photos ===== -->
+    <string name="addphotos_title">Add photos</string>
+    <string name="addphotos_subtitle">Scan from any phone on the same Wi-Fi</string>
+    <string name="addphotos_server_starting">Server starting. Connect the tablet to Wi-Fi.</string>
+    <string name="addphotos_point_camera">Point a camera here</string>
+    <string name="addphotos_instructions">Drop a photo and it lands on the frame within seconds. It lives in Memolio\'s own folder, never your tablet\'s gallery, and goes no further than this room.</string>
+    <string name="addphotos_rotate_token">Rotate token (invalidate old QR)</string>
+    <string name="addphotos_qr_cd">Upload QR code</string>
+
+    <!-- ===== Appliance ===== -->
+    <string name="appliance_title">Appliance</string>
+    <string name="appliance_subtitle">Run Memolio like a fixed device</string>
+    <string name="appliance_autostart">Auto-start on boot</string>
+    <string name="appliance_kiosk">Kiosk lock (Home app)</string>
+    <string name="appliance_sleep">Sleep screen %1$s–%2$s</string>
+    <string name="appliance_ambient">Ambient brightness dimming</string>
+
+    <!-- ===== Storage ===== -->
+    <string name="storage_title">Storage</string>
+    <string name="storage_usage">%1$s of %2$s used</string>
+    <string name="storage_usage_short">%1$s used</string>
+    <string name="storage_auto_empty">Auto-empty trash after 30 days</string>
+    <string name="storage_recently_deleted">Recently deleted · %1$d</string>
+    <string name="storage_restore">Restore</string>
+    <string name="storage_empty_trash">Empty trash</string>
+
+    <!-- ===== Wallpaper ===== -->
+    <string name="wallpaper_title">Wallpaper</string>
+    <string name="wallpaper_subtitle">The idle backdrop behind the clock</string>
+    <!-- Preset names are brand-ish; kept identical across locales. -->
+    <string name="wallpaper_name_default" translatable="false">Memolio</string>
+    <string name="wallpaper_name_ember" translatable="false">Ember</string>
+    <string name="wallpaper_name_slate" translatable="false">Slate</string>
+
+    <!-- ===== About ===== -->
+    <string name="about_title">About</string>
+    <string name="about_body">A spare tablet, given a second life on your shelf. Memolio shows the people and places worth looking up for, and keeps every photo in its own folder on this device, reachable only over your home Wi-Fi.</string>
+    <string name="about_offline_first">Offline-first</string>
+    <string name="about_version">v%1$s</string>
+
+    <!-- ===== Upload feedback banner ===== -->
+    <string name="upload_duplicate">Already on the frame</string>
+    <string name="upload_failed">Upload failed</string>
+
+    <!-- ===== Notification ===== -->
+    <string name="notif_channel_name">Photo frame</string>
+    <string name="notif_channel_desc">Keeps the upload server running so photos can be added.</string>
+    <string name="notif_title">Memolio frame</string>
+    <string name="notif_content_ready">Ready to receive photos</string>
+
+    <!-- ===== Language picker ===== -->
+    <string name="language_subtitle">Choose the display language</string>
+    <string name="language_system_default">System default</string>
+    <!-- Autonyms: each language's name in its own language; identical in every locale. -->
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_de" translatable="false">Deutsch</string>
+    <string name="lang_fr" translatable="false">Français</string>
+    <string name="lang_it" translatable="false">Italiano</string>
+    <string name="lang_nl" translatable="false">Nederlands</string>
+    <string name="lang_pl" translatable="false">Polski</string>
+    <string name="lang_pt" translatable="false">Português</string>
+    <string name="lang_es" translatable="false">Español</string>
+    <string name="lang_ru" translatable="false">Русский</string>
+    <string name="lang_zh" translatable="false">中文</string>
+
+</resources>

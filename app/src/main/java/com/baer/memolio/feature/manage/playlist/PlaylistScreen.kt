@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.baer.memolio.R
 import com.baer.memolio.core.billing.ProFeature
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
@@ -35,13 +37,13 @@ fun PlaylistScreen(
 ) {
     val state by viewModel.state.collectAsState()
     Column(modifier.verticalScroll(rememberScrollState())) {
-        SectionHead(title = "Playlist", sub = "What the frame shows, and how")
+        SectionHead(title = stringResource(R.string.playlist_title), sub = stringResource(R.string.playlist_subtitle))
         AdaptiveTwoPane(
             // Active albums
             first = { paneModifier ->
                 MemolioCard(modifier = paneModifier, variant = CardVariant.Surface) {
                     Column {
-                        Eyebrow("Active albums")
+                        Eyebrow(stringResource(R.string.playlist_active_albums))
                         ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
                             Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                                 state.allAlbums.forEach { album ->
@@ -60,19 +62,19 @@ fun PlaylistScreen(
             second = { paneModifier ->
                 MemolioCard(modifier = paneModifier, variant = CardVariant.Surface) {
                     Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
-                        Eyebrow("Display")
+                        Eyebrow(stringResource(R.string.playlist_display))
                         MemolioSlider(
                             value = state.intervalSeconds,
                             onValueChange = viewModel::setInterval,
                             valueRange = 5f..300f,
-                            suffix = "s",
-                            label = "Interval between photos"
+                            suffix = stringResource(R.string.playlist_interval_suffix),
+                            label = stringResource(R.string.playlist_interval)
                         )
-                        MemolioSwitch(state.shuffle, viewModel::setShuffle, label = "Shuffle")
+                        MemolioSwitch(state.shuffle, viewModel::setShuffle, label = stringResource(R.string.playlist_shuffle))
                         Box(Modifier.fillMaxWidth().height(1.dp).background(MemolioColors.BorderSoft))
-                        MemolioSwitch(state.showClock, viewModel::setShowClock, label = "Show clock")
-                        MemolioSwitch(state.showDate, viewModel::setShowDate, label = "Show date")
-                        MemolioSwitch(state.showCaption, viewModel::setShowCaption, label = "Show caption")
+                        MemolioSwitch(state.showClock, viewModel::setShowClock, label = stringResource(R.string.playlist_show_clock))
+                        MemolioSwitch(state.showDate, viewModel::setShowDate, label = stringResource(R.string.playlist_show_date))
+                        MemolioSwitch(state.showCaption, viewModel::setShowCaption, label = stringResource(R.string.playlist_show_caption))
                     }
                 }
             }

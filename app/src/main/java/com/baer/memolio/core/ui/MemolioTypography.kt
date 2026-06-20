@@ -4,15 +4,15 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontWeight
 
 /**
- * M3 Typography so MaterialTheme-driven components (adaptive scaffold, etc.)
- * inherit Inter and the design scale. Maps the closest design tier to each role.
+ * M3 Typography so MaterialTheme-driven components (adaptive scaffold, etc.) inherit Inter
+ * and the design scale. Maps the closest design tier to each role.
  *
- * Kept in its own file (not alongside [MemolioType]) to avoid a static-init cycle:
- * the [MemolioType] object references the file-level [InterFamily]/clock-shadow
- * vals, so co-locating this Typography (which reads [MemolioType] members) in the
- * same file facade would re-enter the half-initialized object.
+ * A function (not a val) so it is rebuilt per composition by [MemolioTheme] AFTER it sets
+ * [activeUiFontFamily] for the active locale: the text-tier members of [MemolioType] are
+ * getters, so building the Typography here captures the right family (Inter, or the system
+ * font for CJK). Being a function also sidesteps the original static-init cycle.
  */
-val MemolioTypography = Typography(
+fun memolioTypography(): Typography = Typography(
     displayLarge = MemolioType.display,
     headlineLarge = MemolioType.h1,
     headlineMedium = MemolioType.h2,

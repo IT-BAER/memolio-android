@@ -22,6 +22,7 @@ val MemolioSymbolCodepoints: Map<String, Char> = mapOf(
     "favorite_border" to 0xE87E.toChar(),
     "image" to 0xE3F4.toChar(),
     "info" to 0xE88E.toChar(),
+    "language" to 0xE894.toChar(),
     "link" to 0xE250.toChar(),
     "lock" to 0xE899.toChar(),
     "lock_open" to 0xE898.toChar(),

@@ -37,6 +37,12 @@ android {
         )
     }
 
+    // Every shipped string must exist in all 10 locales; an extra/missing key fails
+    // the build. The primary "didn't miss anything" guard for translations.
+    lint {
+        error += listOf("MissingTranslation", "ExtraTranslation")
+    }
+
     signingConfigs {
         if (keystorePropertiesFile.exists()) {
             create("release") {
@@ -91,6 +97,7 @@ dependencies {
     testImplementation(platform(libs.compose.bom))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.ui)
     implementation(libs.compose.foundation)

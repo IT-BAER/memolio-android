@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  es — Spanish (Spain). Quantity strings translated from values/plurals.xml.
+  Spanish uses only "one" (n=1) and "other" (everything else).
+  Each <item> uses %1$d so callers pass (count, count) to pluralStringResource.
+-->
+<resources>
+
+    <!-- Upload banner running count: "1 foto añadida" / "3 fotos añadidas". -->
+    <plurals name="photos_added">
+        <item quantity="one">%1$d foto añadida</item>
+        <item quantity="other">%1$d fotos añadidas</item>
+    </plurals>
+
+    <!-- Library multi-select count: "2 seleccionadas". -->
+    <plurals name="selected_count">
+        <item quantity="one">%1$d seleccionada</item>
+        <item quantity="other">%1$d seleccionadas</item>
+    </plurals>
+
+    <!-- Album photo count subtitle: "12 fotos". -->
+    <plurals name="album_photos">
+        <item quantity="one">%1$d foto</item>
+        <item quantity="other">%1$d fotos</item>
+    </plurals>
+
+</resources>

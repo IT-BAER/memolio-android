@@ -37,14 +37,14 @@ class RevenueCatClientImpl @Inject constructor() : RevenueCatClient {
     override suspend fun purchase(activity: Activity): PurchaseResult {
         val offerings = purchases.awaitOfferings()
         val pkg = offerings.current?.availablePackages?.firstOrNull()
-            ?: return PurchaseResult.Error("No Pro package available")
+            ?: return PurchaseResult.Error(BillingError.NO_PACKAGE)
         return try {
             val result = purchases.awaitPurchase(PurchaseParams.Builder(activity, pkg).build())
             val active = result.customerInfo.entitlements[PRO_ENTITLEMENT_ID]?.isActive == true
-            if (active) PurchaseResult.Success else PurchaseResult.Error("Purchase did not grant Pro")
+            if (active) PurchaseResult.Success else PurchaseResult.Error(BillingError.NOT_GRANTED)
         } catch (e: PurchasesTransactionException) {
             if (e.userCancelled) PurchaseResult.Cancelled
-            else PurchaseResult.Error(e.message ?: "Purchase failed")
+            else PurchaseResult.Error(BillingError.PURCHASE_FAILED)
         }
     }
 
@@ -52,9 +52,9 @@ class RevenueCatClientImpl @Inject constructor() : RevenueCatClient {
         return try {
             val info = purchases.awaitRestore()
             if (info.entitlements[PRO_ENTITLEMENT_ID]?.isActive == true) RestoreResult.Success
-            else RestoreResult.Error("No Pro purchase found to restore")
+            else RestoreResult.Error(BillingError.NO_RESTORE)
         } catch (e: PurchasesException) {
-            RestoreResult.Error(e.message ?: "Restore failed")
+            RestoreResult.Error(BillingError.RESTORE_FAILED)
         }
     }
 
