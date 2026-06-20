@@ -11,6 +11,7 @@ import com.baer.memolio.core.server.FrameServer
 import com.baer.memolio.core.server.FrameServerDeps
 import com.baer.memolio.core.server.SettingsTokenProvider
 import com.baer.memolio.core.server.TokenProvider
+import com.baer.memolio.core.server.UploadEventBus
 import com.baer.memolio.core.server.UploadUrlProvider
 import com.baer.memolio.core.server.UploadUrlProviderImpl
 import dagger.Binds
@@ -67,6 +68,7 @@ object ServerModule {
         tokenProvider: TokenProvider,
         importer: MediaImporter,
         albums: AlbumRepository,
-        assetLoader: AssetLoader
-    ): FrameServer = FrameServer(FrameServerDeps(tokenProvider, importer, albums, assetLoader))
+        assetLoader: AssetLoader,
+        uploadEvents: UploadEventBus
+    ): FrameServer = FrameServer(FrameServerDeps(tokenProvider, importer, albums, assetLoader, uploadEvents))
 }

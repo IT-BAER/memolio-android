@@ -35,7 +35,9 @@ import androidx.lifecycle.lifecycleScope
 import com.baer.memolio.appliance.KioskController
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.datastore.SettingsRepository
+import com.baer.memolio.core.server.UploadEventBus
 import com.baer.memolio.core.ui.MemolioTheme
+import com.baer.memolio.core.ui.UploadFeedbackOverlay
 import com.baer.memolio.core.ui.rememberEntitlement
 import com.baer.memolio.feature.frame.FrameRoute
 import com.baer.memolio.feature.manage.ManageScaffold
@@ -57,6 +59,7 @@ class MainActivity : ComponentActivity() {
 
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var entitlementRepository: EntitlementRepository
+    @Inject lateinit var uploadEventBus: UploadEventBus
 
     private var frameService: FrameService? = null
     private val sleeping = MutableStateFlow(false)
@@ -101,21 +104,23 @@ class MainActivity : ComponentActivity() {
                     val start = startDestination(settings?.onboardingComplete)
                     if (start != null) {
                         ApplianceHost(sleeping = sleeping.asStateFlow(), onWake = ::wake) {
-                            MemolioNavHost(
-                                start = start,
-                                frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
-                                manageContent = { onOpenPaywall, onClose ->
-                                    ManageScaffold(
-                                        isPro = rememberEntitlement(entitlementRepository),
-                                        onOpenPaywall = onOpenPaywall,
-                                        onClose = onClose
-                                    )
-                                },
-                                onboardContent = { onFinished, onOpenPaywall ->
-                                    OnboardScreen(onFinished = onFinished, onOpenPaywall = onOpenPaywall)
-                                },
-                                paywallContent = { onClose -> PaywallScreen(onClose = onClose) }
-                            )
+                            UploadFeedbackOverlay(events = uploadEventBus.events) {
+                                MemolioNavHost(
+                                    start = start,
+                                    frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
+                                    manageContent = { onOpenPaywall, onClose ->
+                                        ManageScaffold(
+                                            isPro = rememberEntitlement(entitlementRepository),
+                                            onOpenPaywall = onOpenPaywall,
+                                            onClose = onClose
+                                        )
+                                    },
+                                    onboardContent = { onFinished, onOpenPaywall ->
+                                        OnboardScreen(onFinished = onFinished, onOpenPaywall = onOpenPaywall)
+                                    },
+                                    paywallContent = { onClose -> PaywallScreen(onClose = onClose) }
+                                )
+                            }
                         }
                     }
                 }

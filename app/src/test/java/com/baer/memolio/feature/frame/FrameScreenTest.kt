@@ -242,26 +242,26 @@ class FrameScreenTest {
     }
 
     @Test
-    fun slideshowState_showsWordmark() {
+    fun slideshowState_hidesWordmark() {
+        // The wordmark is idle-only; a photo slideshow stays clean.
         composeRule.setContent {
             MemolioTheme {
                 FrameScreen(state = slideshowState, onOpenManage = {})
             }
         }
-        composeRule.onNodeWithText("MEMOLIO").assertIsDisplayed()
+        composeRule.onNodeWithText("MEMOLIO").assertDoesNotExist()
     }
 
     @Test
-    fun slideshowState_menuButtonClick_invokesOnOpenManage() {
-        var invoked = false
+    fun slideshowState_hidesMenuButtonByDefault() {
+        // In a slideshow the menu button is hidden until a tap reveals it (the timed
+        // tap-reveal itself is verified on-device; here we guard the default-hidden state).
         composeRule.setContent {
             MemolioTheme {
-                FrameScreen(state = slideshowState, onOpenManage = { invoked = true })
+                FrameScreen(state = slideshowState, onOpenManage = {})
             }
         }
-        composeRule.onNodeWithContentDescription("Open settings").performClick()
-        composeRule.waitForIdle()
-        assert(invoked) { "onOpenManage was not invoked after menu button click in slideshow" }
+        composeRule.onNodeWithContentDescription("Open settings").assertDoesNotExist()
     }
 
     @Test

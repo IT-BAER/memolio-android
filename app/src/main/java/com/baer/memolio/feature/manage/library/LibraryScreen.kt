@@ -1,5 +1,6 @@
 package com.baer.memolio.feature.manage.library
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,9 +8,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -59,6 +62,7 @@ fun LibraryScreen(
         state = state,
         onCreateAlbum = viewModel::createAlbum,
         onOpenAlbum = viewModel::openAlbum,
+        onCloseAlbum = viewModel::closeAlbum,
         onToggleSelect = viewModel::toggleSelection,
         onFavorite = { viewModel.favoriteSelected(true) },
         onDelete = viewModel::deleteSelected,
@@ -72,16 +76,22 @@ fun LibraryContent(
     state: LibraryUiState,
     onCreateAlbum: (String) -> Unit,
     onOpenAlbum: (String) -> Unit,
+    onCloseAlbum: () -> Unit,
     onToggleSelect: (String) -> Unit,
     onFavorite: () -> Unit,
     onDelete: () -> Unit,
     onOpenPaywall: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (state.openAlbumId == null) {
+    val albumOpen = !state.openAlbumId.isNullOrBlank()
+    // While an album is open, the system back button returns to the albums list rather
+    // than bubbling up to exit Manage (this handler outranks ManageScaffold's because it
+    // is composed later in the detail pane).
+    BackHandler(enabled = albumOpen) { onCloseAlbum() }
+    if (!albumOpen) {
         AlbumsView(state, onCreateAlbum, onOpenAlbum, onOpenPaywall, modifier)
     } else {
-        AlbumDetailView(state, onOpenAlbum, onToggleSelect, onFavorite, onDelete, modifier)
+        AlbumDetailView(state, onCloseAlbum, onToggleSelect, onFavorite, onDelete, modifier)
     }
 }
 
@@ -98,7 +108,7 @@ private fun AlbumsView(
         SectionHead(title = "Library", sub = "Group photos into albums")
         ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
             Row(
-                Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.Bottom
             ) {
@@ -121,6 +131,7 @@ private fun AlbumsView(
                 )
             }
         }
+        Spacer(Modifier.height(24.dp))
         LazyVerticalGrid(
             columns = GridCells.Adaptive(200.dp),
             modifier = Modifier.fillMaxWidth().weight(1f),
@@ -135,7 +146,17 @@ private fun AlbumsView(
                     onClick = { onOpenAlbum(album.id) }
                 ) {
                     Box(Modifier.fillMaxWidth().aspectRatio(16f / 10f)) {
-                        Box(Modifier.fillMaxSize().background(MemolioColors.Ink150))
+                        val cover = state.albumCovers[album.id]
+                        if (!cover.isNullOrBlank()) {
+                            AsyncImage(
+                                model = cover,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            Box(Modifier.fillMaxSize().background(MemolioColors.Ink150))
+                        }
                         Box(
                             Modifier.fillMaxSize().background(
                                 Brush.verticalGradient(
@@ -160,7 +181,7 @@ private fun AlbumsView(
 @Composable
 private fun AlbumDetailView(
     state: LibraryUiState,
-    onOpenAlbum: (String) -> Unit,
+    onCloseAlbum: () -> Unit,
     onToggleSelect: (String) -> Unit,
     onFavorite: () -> Unit,
     onDelete: () -> Unit,
@@ -174,7 +195,7 @@ private fun AlbumDetailView(
             action = {
                 MemolioButton(
                     text = "Albums",
-                    onClick = { onOpenAlbum("") },
+                    onClick = onCloseAlbum,
                     variant = ButtonVariant.Ghost,
                     size = ButtonSize.Sm,
                     icon = "arrow_back"

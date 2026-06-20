@@ -11,6 +11,7 @@ import com.baer.memolio.core.model.Photo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,6 +27,8 @@ import javax.inject.Inject
 
 data class LibraryUiState(
     val albums: List<Album> = emptyList(),
+    /** albumId -> cover thumbnail path (the album's first live photo). */
+    val albumCovers: Map<String, String> = emptyMap(),
     val openAlbumId: String? = null,
     val openAlbumPhotos: List<Photo> = emptyList(),
     val selectedIds: Set<String> = emptySet(),
@@ -57,19 +61,27 @@ class LibraryViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val openPhotos = openAlbumId.flatMapLatest { id ->
-        if (id == null) flowOf(emptyList()) else photoRepository.observePhotos(id)
+        if (id.isNullOrBlank()) flowOf(emptyList()) else photoRepository.observePhotos(id)
     }
+
+    // albumId -> the first live photo's thumbnail, used as each album card's cover. Derived
+    // from the whole live pool in one query (no per-album subscription).
+    private val albumCovers: Flow<Map<String, String>> =
+        photoRepository.observeAllLivePhotos().map { photos ->
+            photos.groupBy { it.albumId }.mapValues { (_, list) -> list.first().thumbPath }
+        }
 
     val state: StateFlow<LibraryUiState> =
         combine(
-            albumRepository.observeAlbums(),
+            combine(albumRepository.observeAlbums(), albumCovers) { albums, covers -> albums to covers },
             openAlbumId,
             openPhotos,
             selectedIds,
             entitlement.isPro
-        ) { albums, openId, photos, selected, isPro ->
+        ) { (albums, covers), openId, photos, selected, isPro ->
             LibraryUiState(
                 albums = albums,
+                albumCovers = covers,
                 openAlbumId = openId,
                 openAlbumPhotos = photos,
                 selectedIds = selected,
@@ -96,7 +108,15 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun openAlbum(id: String) {
-        openAlbumId.value = id
+        // Blank id is treated as "no album open" so the detail view never queries an
+        // empty album (which would silently show zero photos). See closeAlbum.
+        openAlbumId.value = id.ifBlank { null }
+        selectedIds.value = emptySet()
+    }
+
+    /** Return from album detail to the albums list. Back button + system back both call this. */
+    fun closeAlbum() {
+        openAlbumId.value = null
         selectedIds.value = emptySet()
     }
 

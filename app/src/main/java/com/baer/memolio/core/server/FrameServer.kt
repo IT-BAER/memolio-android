@@ -49,7 +49,8 @@ class FrameServerDeps(
     val tokenProvider: TokenProvider,
     val importer: MediaImporter,
     val albums: AlbumRepository,
-    val assetLoader: AssetLoader
+    val assetLoader: AssetLoader,
+    val uploadEvents: UploadEventBus = UploadEventBus()
 )
 
 @Serializable
@@ -133,20 +134,27 @@ fun Application.frameRoutes(deps: FrameServerDeps) {
                     now = System.currentTimeMillis()
                 )
                 when (result) {
-                    is MediaImporter.ImportResult.Added ->
+                    is MediaImporter.ImportResult.Added -> {
+                        deps.uploadEvents.publish(UploadOutcome.ADDED)
                         call.respond(HttpStatusCode.OK, UploadResponse("added", "Added", result.id))
-                    MediaImporter.ImportResult.Duplicate ->
+                    }
+                    MediaImporter.ImportResult.Duplicate -> {
+                        deps.uploadEvents.publish(UploadOutcome.DUPLICATE)
                         call.respond(
                             HttpStatusCode.OK,
                             UploadResponse("duplicate", "Already on the frame, skipped")
                         )
-                    is MediaImporter.ImportResult.Rejected ->
+                    }
+                    is MediaImporter.ImportResult.Rejected -> {
+                        deps.uploadEvents.publish(UploadOutcome.REJECTED)
                         call.respond(
                             HttpStatusCode.UnsupportedMediaType,
                             UploadResponse("error", result.reason)
                         )
+                    }
                 }
             } catch (_: IOException) {
+                deps.uploadEvents.publish(UploadOutcome.REJECTED)
                 call.respond(
                     HttpStatusCode.InsufficientStorage,
                     UploadResponse("error", "Frame storage full")

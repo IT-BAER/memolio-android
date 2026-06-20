@@ -57,7 +57,8 @@ class LibraryViewModelTest {
             photosByAlbum.map { it[albumId].orEmpty() }
         override fun observeTrash(): Flow<List<Photo>> = flowOf(emptyList())
         override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> = flowOf(emptyList())
-        override fun observeAllLivePhotos(): Flow<List<Photo>> = flowOf(emptyList())
+        override fun observeAllLivePhotos(): Flow<List<Photo>> =
+            photosByAlbum.map { it.values.flatten() }
         override suspend fun isDuplicate(contentHash: String): Boolean = false
         override suspend fun add(
             id: String, originalPath: String, displayCachePath: String, thumbPath: String,
@@ -74,7 +75,7 @@ class LibraryViewModelTest {
     }
 
     private fun photo(id: String, album: String) = Photo(
-        id = id, originalPath = "", displayCachePath = "", thumbPath = "", contentHash = id,
+        id = id, originalPath = "", displayCachePath = "", thumbPath = "/t/$id.jpg", contentHash = id,
         width = 1, height = 1, orientation = 0, caption = null, albumId = album,
         favorite = false, sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
     )
@@ -142,6 +143,57 @@ class LibraryViewModelTest {
 
         vm.state.test {
             assertThat(awaitItem().openAlbumPhotos.map { it.id }).containsExactly("p1", "p2")
+        }
+    }
+
+    @Test
+    fun closeAlbumReturnsToAlbumListAndClearsPhotos() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.state.test {
+            // Settle on the fully-opened album (id + photos resolved through the
+            // combine; intermediate emissions can carry a stale photo list).
+            var s = awaitItem()
+            while (s.openAlbumId != "a1" || s.openAlbumPhotos.size != 1) s = awaitItem()
+
+            vm.closeAlbum()
+            while (s.openAlbumId != null || s.openAlbumPhotos.isNotEmpty()) s = awaitItem()
+            assertThat(s.openAlbumId == null).isTrue()
+            assertThat(s.openAlbumPhotos).isEmpty()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun openingBlankAlbumIsTreatedAsClosed() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        // Open a real album first, then a blank id must reset back to the list (not "").
+        vm.openAlbum("a1")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.openAlbumId != "a1") s = awaitItem()
+
+            vm.openAlbum("")
+            while (s.openAlbumId != null) s = awaitItem()
+            assertThat(s.openAlbumId == null).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun albumCoverResolvesFromFirstPhoto() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1"), photo("p2", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.state.test {
+            var s = awaitItem()
+            while (s.albumCovers["a1"] == null) s = awaitItem()
+            assertThat(s.albumCovers["a1"]).isEqualTo("/t/p1.jpg")
+            cancelAndIgnoreRemainingEvents()
         }
     }
 

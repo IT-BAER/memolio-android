@@ -13,7 +13,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.graphicsLayer
@@ -21,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -35,6 +41,9 @@ import com.baer.memolio.core.ui.MemolioWallpaper
 import com.baer.memolio.core.ui.MenuButton
 import com.baer.memolio.core.ui.OverlayScrim
 import com.baer.memolio.core.ui.Wordmark
+
+/** How long the slideshow menu button stays visible after a tap before fading out. */
+private const val CONTROLS_REVEAL_MS = 4_000L
 
 /**
  * Stateful route: collects [FrameViewModel.uiState] and passes it to the stateless
@@ -57,6 +66,10 @@ fun FrameRoute(
  *
  * Long-press anywhere triggers [onOpenManage] as the kiosk-safe fallback (the menu button
  * is the primary affordance; long-press catches edge cases where it is obscured).
+ *
+ * During a photo slideshow the frame stays uncluttered: the wordmark is hidden and the menu
+ * button only appears on a single tap, fading again after [CONTROLS_REVEAL_MS]. On the
+ * default wallpaper (Idle) the wordmark + menu button are always shown.
  */
 @Composable
 fun FrameScreen(
@@ -64,12 +77,22 @@ fun FrameScreen(
     onOpenManage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var controlsRevealed by remember { mutableStateOf(false) }
+    var revealNonce by remember { mutableIntStateOf(0) }
+    LaunchedEffect(revealNonce) {
+        if (revealNonce == 0) return@LaunchedEffect
+        controlsRevealed = true
+        delay(CONTROLS_REVEAL_MS)
+        controlsRevealed = false
+    }
+
     BoxWithConstraints(
         modifier
             .fillMaxSize()
-            // Long-press anywhere navigates to Manage (kiosk-safe fallback).
+            // Single tap reveals the slideshow controls; long-press navigates to Manage
+            // (kiosk-safe fallback).
             .combinedClickable(
-                onClick = {},
+                onClick = { revealNonce++ },
                 onLongClick = onOpenManage,
                 onLongClickLabel = "Open settings"
             )
@@ -119,9 +142,9 @@ fun FrameScreen(
                     BlurredFillPhoto(photo = photo)
                 }
                 OverlayScrim(isPortrait = metrics.isPortrait)
-                // Overlay layer.
-                Wordmark(metrics = metrics)
-                MenuButton(onClick = onOpenManage, metrics = metrics)
+                // Overlay layer — wordmark stays hidden during a slideshow; the menu button
+                // only appears after a single tap (see controlsRevealed).
+                if (controlsRevealed) MenuButton(onClick = onOpenManage, metrics = metrics)
                 if (state.showClock) ClockOverlay(time = state.time, metrics = metrics, liftAboveDate = state.showDate)
                 if (state.showDate) DateOverlay(date = state.date, metrics = metrics)
                 state.captionText?.let { CaptionOverlay(text = it, metrics = metrics) }

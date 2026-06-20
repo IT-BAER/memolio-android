@@ -1,11 +1,17 @@
 package com.baer.memolio.feature.manage
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,17 +37,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.Symbol
-import com.baer.memolio.core.ui.component.ButtonSize
-import com.baer.memolio.core.ui.component.ButtonVariant
 import com.baer.memolio.core.ui.component.IconButtonSize
 import com.baer.memolio.core.ui.component.IconButtonVariant
-import com.baer.memolio.core.ui.component.MemolioButton
 import com.baer.memolio.core.ui.component.MemolioIconButton
 import com.baer.memolio.core.ui.component.MemolioWordmark
 import com.baer.memolio.core.ui.component.WordmarkTone
@@ -71,9 +75,13 @@ fun ManageScaffold(
     val navigator = rememberListDetailPaneScaffoldNavigator<ManageSection>()
     val scope = rememberCoroutineScope()
     var selected by remember { mutableStateOf(ManageSection.default) }
-    // Single-pane (portrait): the rail is hidden while a section is open, so the detail
-    // pane needs its own back affordance; in two-pane (landscape) the rail is always
-    // visible and this is false. Also routes the system back button to the list.
+    // Single-pane (portrait): the rail is hidden while a section is open, so the detail pane
+    // needs its own back affordance; in two-pane (landscape) the rail is always visible.
+    // Derived from orientation (not navigator.canNavigateBack()) so the back row stays put
+    // while the pane animates back — otherwise canNavigateBack() flips to false the instant
+    // back is tapped and the header pops away before the slide. canBack still gates the
+    // SYSTEM back button (only meaningful when there is a pane to pop).
+    val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
     val canBack = navigator.canNavigateBack()
     BackHandler(enabled = canBack) {
         scope.launch { navigator.navigateBack() }
@@ -87,9 +95,7 @@ fun ManageScaffold(
             AnimatedPane {
                 ManageSectionRail(
                     selected = selected,
-                    isPro = isPro,
                     onClose = onClose,
-                    onOpenPaywall = onOpenPaywall,
                     onSelect = { section ->
                         selected = section
                         scope.launch {
@@ -102,17 +108,30 @@ fun ManageScaffold(
         detailPane = {
             AnimatedPane {
                 DetailPane(
-                    showBack = canBack,
+                    showBack = portrait,
                     onBack = { scope.launch { navigator.navigateBack() } }
                 ) {
-                    when (selected) {
-                        ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
-                        ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
-                        ManageSection.AddPhotos -> AddPhotosScreen()
-                        ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
-                        ManageSection.Storage -> StorageScreen()
-                        ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
-                        ManageSection.About -> AboutScreen()
+                    // Modern page transition: the new section fades in and eases up from
+                    // slightly below while the old one fades out. The back-row header above
+                    // stays fixed, so only the content animates.
+                    AnimatedContent(
+                        targetState = selected,
+                        transitionSpec = {
+                            (fadeIn(tween(260, delayMillis = 40)) +
+                                slideInHorizontally(tween(320)) { full -> full / 16 })
+                                .togetherWith(fadeOut(tween(160)))
+                        },
+                        label = "manage-section"
+                    ) { section ->
+                        when (section) {
+                            ManageSection.Library -> LibraryScreen(onOpenPaywall = onOpenPaywall)
+                            ManageSection.Playlist -> PlaylistScreen(onOpenPaywall = onOpenPaywall)
+                            ManageSection.AddPhotos -> AddPhotosScreen()
+                            ManageSection.Appliance -> ApplianceScreen(isPro = isPro, onOpenPaywall = onOpenPaywall)
+                            ManageSection.Storage -> StorageScreen()
+                            ManageSection.Wallpaper -> WallpaperScreen(onOpenPaywall = onOpenPaywall)
+                            ManageSection.About -> AboutScreen()
+                        }
                     }
                 }
             }
@@ -131,8 +150,10 @@ private fun DetailPane(
     onBack: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    // Roomier 24dp in single-pane (portrait), the original 48dp in two-pane (landscape).
-    val pad = if (showBack) 24.dp else 48.dp
+    // Roomier 24dp in portrait, the original 48dp in landscape. Keyed off orientation (not
+    // showBack) so the padding doesn't jump while the pane animates back to the menu.
+    val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    val pad = if (portrait) 24.dp else 48.dp
     Column(
         Modifier
             .fillMaxSize()
@@ -162,68 +183,54 @@ private fun DetailPane(
 }
 
 /**
- * Left rail (design ManageApp): near-black surface, wordmark + back-to-frame, the
- * seven sections with icon + active glass pill + Pro lock, and an "Unlock Pro"
- * button pinned to the bottom for free users.
+ * Left rail (design ManageApp): near-black surface, wordmark + back-to-frame, and the
+ * seven sections with icon + active glass pill. Pro features upsell from inside their
+ * own pages, so the rail carries no lock badges or "Unlock Pro" button.
  */
 @Composable
 private fun ManageSectionRail(
     selected: ManageSection,
-    isPro: Boolean,
     onClose: () -> Unit,
-    onOpenPaywall: () -> Unit,
     onSelect: (ManageSection) -> Unit
 ) {
     // The list pane is a narrow 240dp rail in two-pane (landscape) but full-width when
-    // single-pane (portrait). Enlarge the items where there's room; keep them compact in
-    // the narrow rail. The list scrolls so all sections are reachable at any height.
-    BoxWithConstraints(Modifier.fillMaxSize()) {
-        val big = maxWidth > 360.dp
+    // single-pane (portrait). Enlarge the items in portrait; keep them compact in the narrow
+    // landscape rail. Keyed off orientation (NOT the pane's animating width) so the items
+    // don't resize mid-transition when the pane slides back to the menu.
+    val big = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MemolioColors.Ink050)
+            .padding(horizontal = 12.dp, vertical = 24.dp)
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp, bottom = 22.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MemolioWordmark(tone = WordmarkTone.Solid, size = if (big) 22.sp else 18.sp)
+            MemolioIconButton(
+                icon = "photo_camera_back",
+                contentDescription = "Back to frame",
+                onClick = onClose,
+                variant = IconButtonVariant.Bare,
+                size = IconButtonSize.Sm
+            )
+        }
         Column(
             Modifier
-                .fillMaxSize()
-                .background(MemolioColors.Ink050)
-                .padding(horizontal = 12.dp, vertical = 24.dp)
+                .fillMaxWidth()
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(if (big) 6.dp else 2.dp)
         ) {
-            Row(
-                Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp, bottom = 22.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                MemolioWordmark(tone = WordmarkTone.Solid, size = if (big) 22.sp else 18.sp)
-                MemolioIconButton(
-                    icon = "photo_camera_back",
-                    contentDescription = "Back to frame",
-                    onClick = onClose,
-                    variant = IconButtonVariant.Bare,
-                    size = IconButtonSize.Sm
-                )
-            }
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(if (big) 6.dp else 2.dp)
-            ) {
-                ManageSection.entries.forEach { section ->
-                    RailItem(
-                        section = section,
-                        active = section == selected,
-                        locked = section.pro && !isPro,
-                        big = big,
-                        onClick = { onSelect(section) }
-                    )
-                }
-            }
-            if (!isPro) {
-                MemolioButton(
-                    text = "Unlock Pro",
-                    onClick = onOpenPaywall,
-                    variant = ButtonVariant.Secondary,
-                    size = ButtonSize.Sm,
-                    icon = "auto_awesome",
-                    modifier = Modifier.fillMaxWidth()
+            ManageSection.entries.forEach { section ->
+                RailItem(
+                    section = section,
+                    active = section == selected,
+                    big = big,
+                    onClick = { onSelect(section) }
                 )
             }
         }
@@ -234,7 +241,6 @@ private fun ManageSectionRail(
 private fun RailItem(
     section: ManageSection,
     active: Boolean,
-    locked: Boolean,
     big: Boolean,
     onClick: () -> Unit
 ) {
@@ -260,9 +266,5 @@ private fun RailItem(
             style = if (big) MemolioType.bodyLg else MemolioType.body,
             fontWeight = if (active) FontWeight.Medium else FontWeight.Normal
         )
-        if (locked) {
-            Spacer(Modifier.weight(1f))
-            Symbol("lock", size = if (big) 18.sp else 15.sp, tint = MemolioColors.AmberSoft)
-        }
     }
 }

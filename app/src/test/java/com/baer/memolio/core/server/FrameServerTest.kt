@@ -76,14 +76,16 @@ class FrameServerTest {
 
     private fun ApplicationTestBuilder.installRoutes(
         importerOverride: MediaImporter = importer,
-        currentToken: () -> String = { token }
+        currentToken: () -> String = { token },
+        events: UploadEventBus = UploadEventBus()
     ) = application {
         frameRoutes(
             FrameServerDeps(
                 tokenProvider = TokenProvider { currentToken() },
                 importer = importerOverride,
                 albums = albums,
-                assetLoader = { "<!DOCTYPE html><html><body>upload</body></html>".byteInputStream() }
+                assetLoader = { "<!DOCTYPE html><html><body>upload</body></html>".byteInputStream() },
+                uploadEvents = events
             )
         )
     }
@@ -163,6 +165,29 @@ class FrameServerTest {
         assertThat(res.status).isEqualTo(HttpStatusCode.OK)
         photos.observePhotos("all").test {
             assertThat(awaitItem()).hasSize(1)
+        }
+    }
+
+    @Test
+    fun successfulUploadPublishesAddedEvent() = testApplication {
+        val bus = UploadEventBus()
+        installRoutes(events = bus)
+        bus.events.test {
+            val res = client.post("/upload?t=$token") { setBody(jpegPart("a.jpg", "ev-bytes".toByteArray())) }
+            assertThat(res.status).isEqualTo(HttpStatusCode.OK)
+            assertThat(awaitItem()).isEqualTo(UploadOutcome.ADDED)
+        }
+    }
+
+    @Test
+    fun duplicateUploadPublishesDuplicateEvent() = testApplication {
+        val bus = UploadEventBus()
+        installRoutes(events = bus)
+        val bytes = "dup-bytes".toByteArray()
+        client.post("/upload?t=$token") { setBody(jpegPart("a.jpg", bytes)) }
+        bus.events.test {
+            client.post("/upload?t=$token") { setBody(jpegPart("a.jpg", bytes)) }
+            assertThat(awaitItem()).isEqualTo(UploadOutcome.DUPLICATE)
         }
     }
 

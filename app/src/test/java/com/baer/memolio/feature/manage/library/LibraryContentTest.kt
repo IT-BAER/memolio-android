@@ -4,6 +4,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.google.common.truth.Truth.assertThat
 import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.ui.MemolioTheme
 import org.junit.Rule
@@ -32,12 +34,13 @@ class LibraryContentTest {
         sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
     )
 
-    private fun content(state: LibraryUiState) {
+    private fun content(state: LibraryUiState, onCloseAlbum: () -> Unit = {}) {
         composeRule.setContent {
             MemolioTheme {
                 LibraryContent(
                     state = state,
-                    onCreateAlbum = {}, onOpenAlbum = {}, onToggleSelect = {},
+                    onCreateAlbum = {}, onOpenAlbum = {}, onCloseAlbum = onCloseAlbum,
+                    onToggleSelect = {},
                     onFavorite = {}, onDelete = {}, onOpenPaywall = {}
                 )
             }
@@ -68,6 +71,21 @@ class LibraryContentTest {
             )
         )
         composeRule.onNodeWithTag("photo_p1").assertIsDisplayed()
+    }
+
+    @Test
+    fun albumsBackButtonClosesAlbum() {
+        var closed = false
+        content(
+            LibraryUiState(
+                openAlbumId = "all",
+                openAlbumPhotos = listOf(photo("p1")),
+                isPro = false
+            ),
+            onCloseAlbum = { closed = true }
+        )
+        composeRule.onNodeWithText("Albums").performClick()
+        assertThat(closed).isTrue()
     }
 
     @Test
