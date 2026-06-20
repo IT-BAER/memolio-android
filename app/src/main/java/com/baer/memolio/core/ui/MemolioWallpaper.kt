@@ -28,12 +28,13 @@ import kotlin.math.sin
 @Composable
 fun MemolioWallpaper(
     modifier: Modifier = Modifier,
-    driftPhase: Float = 0f
+    driftPhase: Float = 0f,
+    isPortrait: Boolean = false
 ) {
     Box(
         modifier
             .fillMaxSize()
-            .drawBehind { drawMemolioWallpaper(driftPhase) }
+            .drawBehind { drawMemolioWallpaper(driftPhase, isPortrait) }
     )
 }
 
@@ -78,7 +79,7 @@ private fun DrawScope.linear(
  *  4. `::after` edge-darkening scrim (left+bottom heavier)
  * [driftPhase] translates the whole thing within a small radius for burn-in.
  */
-fun DrawScope.drawMemolioWallpaper(driftPhase: Float = 0f) {
+fun DrawScope.drawMemolioWallpaper(driftPhase: Float = 0f, isPortrait: Boolean = false) {
     val drift = idleDriftOffset(driftPhase, radiusPx = size.minDimension * 0.012f)
     translate(drift.x, drift.y) {
         // 1. base deep diagonal
@@ -155,25 +156,41 @@ fun DrawScope.drawMemolioWallpaper(driftPhase: Float = 0f) {
         )
     }
     // 4. `::after` edge scrim — drawn OUTSIDE the drift so the darkened frame edges
-    //    always cover the canvas corners regardless of drift translation.
-    drawRect(
-        linear(
-            90f,
-            arrayOf(
-                0.00f to Color.Black.copy(alpha = 0.54f),
-                0.34f to Color.Transparent,
-                1.00f to Color.Black.copy(alpha = 0.28f)
+    //    always cover the canvas corners regardless of drift translation. Follows
+    //    orientation: portrait uses the bottom-heavy `--wall-scrim-portrait`; landscape
+    //    keeps the left+bottom `--wall-scrim-x` + `--wall-scrim-y`.
+    if (isPortrait) {
+        drawRect(
+            linear(
+                180f,
+                arrayOf(
+                    0.00f to Color.Black.copy(alpha = 0.30f),
+                    0.22f to Color.Transparent,
+                    0.50f to Color.Transparent,
+                    1.00f to Color.Black.copy(alpha = 0.66f)
+                )
             )
         )
-    )
-    drawRect(
-        linear(
-            180f,
-            arrayOf(
-                0.00f to Color.Black.copy(alpha = 0.36f),
-                0.34f to Color.Transparent,
-                1.00f to Color.Black.copy(alpha = 0.48f)
+    } else {
+        drawRect(
+            linear(
+                90f,
+                arrayOf(
+                    0.00f to Color.Black.copy(alpha = 0.54f),
+                    0.34f to Color.Transparent,
+                    1.00f to Color.Black.copy(alpha = 0.28f)
+                )
             )
         )
-    )
+        drawRect(
+            linear(
+                180f,
+                arrayOf(
+                    0.00f to Color.Black.copy(alpha = 0.36f),
+                    0.34f to Color.Transparent,
+                    1.00f to Color.Black.copy(alpha = 0.48f)
+                )
+            )
+        )
+    }
 }

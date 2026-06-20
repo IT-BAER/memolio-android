@@ -10,6 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.ui.CaptionOverlay
 import com.baer.memolio.core.ui.ClockOverlay
 import com.baer.memolio.core.ui.DateOverlay
+import com.baer.memolio.core.ui.frameMetrics
 import com.baer.memolio.core.ui.MemolioBackground
 import com.baer.memolio.core.ui.MemolioTheme
 import com.baer.memolio.core.ui.MemolioWallpaper
@@ -62,7 +64,7 @@ fun FrameScreen(
     onOpenManage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    BoxWithConstraints(
         modifier
             .fillMaxSize()
             // Long-press anywhere navigates to Manage (kiosk-safe fallback).
@@ -72,6 +74,8 @@ fun FrameScreen(
                 onLongClickLabel = "Open settings"
             )
     ) {
+        // Overlay sizes/insets re-flow off the short edge — portrait-first, both orientations.
+        val metrics = frameMetrics(maxWidth, maxHeight)
         when (state) {
             is FrameUiState.Loading -> {
                 Box(
@@ -85,21 +89,24 @@ fun FrameScreen(
             is FrameUiState.Idle -> {
                 MemolioWallpaper(
                     modifier = Modifier.fillMaxSize(),
-                    driftPhase = state.driftPhase
+                    driftPhase = state.driftPhase,
+                    isPortrait = metrics.isPortrait
                 )
-                OverlayScrim()
+                OverlayScrim(isPortrait = metrics.isPortrait)
                 // Overlay layer.
-                Wordmark()
-                MenuButton(onClick = onOpenManage)
+                Wordmark(metrics = metrics)
+                MenuButton(onClick = onOpenManage, metrics = metrics)
                 if (state.showClock) {
                     // Burn-in: nudge position by day fraction (±12dp over 24 h).
                     val driftDp = ((state.driftPhase - 0.5f) * 24f).dp
                     ClockOverlay(
                         time = state.time,
+                        metrics = metrics,
+                        liftAboveDate = state.showDate,
                         modifier = Modifier.graphicsLayer { translationY = driftDp.toPx() }
                     )
                 }
-                if (state.showDate) DateOverlay(date = state.date)
+                if (state.showDate) DateOverlay(date = state.date, metrics = metrics)
             }
 
             is FrameUiState.Slideshow -> {
@@ -111,13 +118,13 @@ fun FrameScreen(
                 ) { photo ->
                     BlurredFillPhoto(photo = photo)
                 }
-                OverlayScrim()
+                OverlayScrim(isPortrait = metrics.isPortrait)
                 // Overlay layer.
-                Wordmark()
-                MenuButton(onClick = onOpenManage)
-                if (state.showClock) ClockOverlay(time = state.time)
-                if (state.showDate) DateOverlay(date = state.date)
-                state.captionText?.let { CaptionOverlay(text = it) }
+                Wordmark(metrics = metrics)
+                MenuButton(onClick = onOpenManage, metrics = metrics)
+                if (state.showClock) ClockOverlay(time = state.time, metrics = metrics, liftAboveDate = state.showDate)
+                if (state.showDate) DateOverlay(date = state.date, metrics = metrics)
+                state.captionText?.let { CaptionOverlay(text = it, metrics = metrics) }
             }
         }
     }
@@ -128,8 +135,9 @@ fun FrameScreen(
  * letterbox bars for mixed aspect ratios), with the sharp Fit copy on top. Both layers
  * share a slow Ken Burns scale+translate so the still frame always feels alive.
  *
- * Scale: 1.00 -> 1.08 over 20 s, reversing smoothly.
- * Translate: ±20 px horizontal pan tracking the same progress.
+ * Ken Burns is scale-only (design: scale 1.00 -> 1.08 over 20 s, reversing smoothly) so
+ * it reads identically in portrait and landscape; the whole idle composition's slow
+ * burn-in drift lives in the wallpaper/clock, not here.
  */
 @Composable
 private fun BlurredFillPhoto(photo: Photo, modifier: Modifier = Modifier) {
@@ -145,7 +153,6 @@ private fun BlurredFillPhoto(photo: Photo, modifier: Modifier = Modifier) {
         )
 
     val scale = 1.0f + 0.08f * kbProgress       // 1.00 -> 1.08
-    val translateX = (kbProgress - 0.5f) * 40f  // ±20 px horizontal pan
 
     Box(modifier.fillMaxSize()) {
         // Blurred fill: heavy blur + extra scale so the blurred content bleeds to edges.
@@ -171,7 +178,6 @@ private fun BlurredFillPhoto(photo: Photo, modifier: Modifier = Modifier) {
                 .graphicsLayer {
                     scaleX = scale
                     scaleY = scale
-                    this.translationX = translateX
                 }
         )
     }

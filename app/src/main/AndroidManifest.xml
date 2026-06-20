@@ -22,7 +22,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="fullUser"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden">
+            <!-- Portrait-first frame: the device is a digital picture frame, used in
+                 portrait the majority of the time; landscape is fully supported but
+                 secondary. fullUser honors the user's auto-rotate setting. configChanges
+                 keeps the Compose/ViewModel state across rotation (no Activity recreation,
+                 no flicker mid-crossfade). -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

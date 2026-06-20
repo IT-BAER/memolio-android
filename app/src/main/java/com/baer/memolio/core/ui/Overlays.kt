@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
 import com.baer.memolio.core.ui.component.IconButtonSize
 import com.baer.memolio.core.ui.component.IconButtonVariant
@@ -25,50 +24,64 @@ import com.baer.memolio.core.ui.component.WordmarkTone
 
 /**
  * Shared overlay composables used in both the idle home and slideshow states.
- * Styling is the Memolio design system (docs/design/Memolio Frame.html FrameView):
- * sizes target the landscape-tablet upper bound of the mockup's clamp() rules.
+ * Styling is the Memolio design system (claude.ai/design "Memolio Design System",
+ * FrameView). Sizes and insets are driven off the SHORT edge via [FrameMetrics] so the
+ * one composition re-flows identically in portrait (primary) and landscape (secondary).
+ * Each overlay defaults to [FrameMetrics.Default] (≈ landscape tablet) so previews/tests
+ * render without a BoxWithConstraints; the live frame passes real metrics.
  */
 
 /** Large, light clock — bottom-left. Design: Thin weight, 0.82 line-height, soft drop. */
 @Composable
 fun ClockOverlay(
     time: String,
+    metrics: FrameMetrics = FrameMetrics.Default,
+    liftAboveDate: Boolean = true,
     modifier: Modifier = Modifier
 ) {
+    // When the date block is shown below, lift the clock to clear the date + rule.
+    val dateReserve = if (liftAboveDate) (metrics.dateSize.value * 1.5f + 18f).dp else 0.dp
     Box(modifier.fillMaxSize()) {
         Text(
             text = time,
             color = MemolioColors.Paper,
-            style = MemolioType.clock,
+            style = MemolioType.clock.copy(
+                fontSize = metrics.clockSize,
+                lineHeight = metrics.clockSize * 0.82f,
+            ),
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 90.dp, bottom = 110.dp, end = 24.dp)
+                .padding(start = metrics.insetX, bottom = metrics.insetBottom + dateReserve, end = metrics.insetX)
         )
     }
 }
 
-/** Date line + quiet gradient rule — sits just above the clock block at bottom-left. */
+/** Date line + quiet gradient rule — sits at the bottom-left, beneath the clock. */
 @Composable
 fun DateOverlay(
     date: String,
+    metrics: FrameMetrics = FrameMetrics.Default,
     modifier: Modifier = Modifier
 ) {
     Box(modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 90.dp, bottom = 70.dp, end = 24.dp),
+                .padding(start = metrics.insetX, bottom = metrics.insetBottom, end = metrics.insetX),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
                 text = date,
                 color = MemolioColors.Paper680,
-                style = MemolioType.h1,
+                style = MemolioType.h1.copy(
+                    fontSize = metrics.dateSize,
+                    lineHeight = metrics.dateSize * 1.2f,
+                ),
             )
-            // The mockup's quiet rule: thin gradient fading left → transparent.
+            // The design's quiet rule: thin gradient fading left → transparent.
             Box(
                 Modifier
-                    .width(280.dp)
+                    .width(metrics.ruleWidth)
                     .height(1.dp)
                     .drawBehind {
                         drawRect(
@@ -90,6 +103,7 @@ fun DateOverlay(
 @Composable
 fun CaptionOverlay(
     text: String,
+    metrics: FrameMetrics = FrameMetrics.Default,
     modifier: Modifier = Modifier
 ) {
     if (text.isBlank()) return
@@ -97,26 +111,29 @@ fun CaptionOverlay(
         Text(
             text = text,
             color = MemolioColors.Paper680,
-            fontSize = 28.sp,
-            fontFamily = InterFamily,
+            style = MemolioType.body.copy(fontSize = metrics.captionSize),
             textAlign = TextAlign.End,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 72.dp, bottom = 72.dp, start = 96.dp)
+                // Leave the clock room on the left (start inset ×2).
+                .padding(end = metrics.insetX, bottom = metrics.insetBottom, start = metrics.insetX * 2)
         )
     }
 }
 
-/** Faint uppercase brand mark — top-left. Design: faint tone (paper 34%), 20sp. */
+/** Faint uppercase brand mark — top-left. Design: faint tone (paper 34%). */
 @Composable
-fun Wordmark(modifier: Modifier = Modifier) {
+fun Wordmark(
+    metrics: FrameMetrics = FrameMetrics.Default,
+    modifier: Modifier = Modifier
+) {
     Box(modifier.fillMaxSize()) {
         MemolioWordmark(
             tone = WordmarkTone.Faint,
-            size = 20.sp,
+            size = metrics.wordmarkSize,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 56.dp, top = 48.dp)
+                .padding(start = metrics.insetX, top = metrics.insetTop)
         )
     }
 }
@@ -129,6 +146,7 @@ fun Wordmark(modifier: Modifier = Modifier) {
 @Composable
 fun MenuButton(
     onClick: () -> Unit,
+    metrics: FrameMetrics = FrameMetrics.Default,
     modifier: Modifier = Modifier
 ) {
     Box(modifier.fillMaxSize()) {
@@ -140,36 +158,51 @@ fun MenuButton(
             size = IconButtonSize.Md,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(end = 56.dp, top = 44.dp)
+                .padding(end = metrics.insetX, top = metrics.insetTop)
         )
     }
 }
 
 /**
- * Legibility scrim between the background layer and the overlays — the design's
- * `--wall-scrim-x` + `--wall-scrim-y`: heavier on the left and bottom edges (where
- * the clock/date live) so light photos never wash out the text.
+ * Legibility scrim between the background layer and the overlays. Follows orientation:
+ * - Portrait ([isPortrait] = true): the design's `--wall-scrim-portrait` — bottom-heavy
+ *   (the clock sits low) with a soft top wash for the wordmark/menu row.
+ * - Landscape: `--wall-scrim-x` + `--wall-scrim-y` — heavier on the left and bottom edges.
  */
 @Composable
-fun OverlayScrim(modifier: Modifier = Modifier) {
+fun OverlayScrim(
+    isPortrait: Boolean = false,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier
             .fillMaxSize()
             .drawBehind {
-                drawRect(
-                    Brush.horizontalGradient(
-                        0f to Color.Black.copy(alpha = 0.54f),
-                        0.34f to Color.Transparent,
-                        1f to Color.Black.copy(alpha = 0.28f)
+                if (isPortrait) {
+                    drawRect(
+                        Brush.verticalGradient(
+                            0.00f to Color.Black.copy(alpha = 0.30f),
+                            0.22f to Color.Transparent,
+                            0.50f to Color.Transparent,
+                            1.00f to Color.Black.copy(alpha = 0.66f)
+                        )
                     )
-                )
-                drawRect(
-                    Brush.verticalGradient(
-                        0f to Color.Black.copy(alpha = 0.36f),
-                        0.34f to Color.Transparent,
-                        1f to Color.Black.copy(alpha = 0.48f)
+                } else {
+                    drawRect(
+                        Brush.horizontalGradient(
+                            0f to Color.Black.copy(alpha = 0.54f),
+                            0.34f to Color.Transparent,
+                            1f to Color.Black.copy(alpha = 0.28f)
+                        )
                     )
-                )
+                    drawRect(
+                        Brush.verticalGradient(
+                            0f to Color.Black.copy(alpha = 0.36f),
+                            0.34f to Color.Transparent,
+                            1f to Color.Black.copy(alpha = 0.48f)
+                        )
+                    )
+                }
             }
     )
 }

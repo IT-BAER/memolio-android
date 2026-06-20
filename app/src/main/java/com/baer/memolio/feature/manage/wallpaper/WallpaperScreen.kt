@@ -6,7 +6,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import com.baer.memolio.core.ui.MemolioWallpaper
 import com.baer.memolio.core.ui.component.ProLock
 import com.baer.memolio.core.ui.component.SectionHead
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun WallpaperScreen(
     onOpenPaywall: () -> Unit = {},
@@ -46,7 +48,11 @@ fun WallpaperScreen(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        // Wraps to the next line when the pane is narrow (portrait) instead of clipping.
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             WALLPAPERS.forEach { w ->
                 Swatch(
                     spec = w,

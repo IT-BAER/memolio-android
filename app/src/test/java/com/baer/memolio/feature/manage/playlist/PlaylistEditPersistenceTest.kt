@@ -20,8 +20,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+// Manage is a landscape-tablet experience; render at tablet width so the Playlist
+// two-pane (AdaptiveTwoPane) lays out side-by-side as it does on the device.
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [34], qualifiers = "w1280dp-h800dp-land-xhdpi")
 class PlaylistEditPersistenceTest {
 
     @get:Rule val composeRule = createComposeRule()

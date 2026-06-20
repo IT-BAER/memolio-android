@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -49,13 +51,17 @@ fun AddPhotosScreen(
                 style = MemolioType.body
             )
         } else {
-            Row(horizontalArrangement = Arrangement.spacedBy(28.dp), verticalAlignment = Alignment.CenterVertically) {
+            // QR is intrinsic-width beside the instructions in landscape; in portrait
+            // (narrow pane) the instructions stack beneath the QR instead of being crushed.
+            val qrCard = @Composable {
                 MemolioCard(variant = CardVariant.Raised, contentPadding = PaddingValues(24.dp)) {
                     Box(Modifier.size(220.dp)) {
                         QrImage(text = url, encoder = qrEncoder)
                     }
                 }
-                Column {
+            }
+            val instructions = @Composable { instModifier: Modifier ->
+                Column(instModifier) {
                     Text("Point a camera here", color = MemolioColors.TextPrimary, style = MemolioType.h3)
                     Text(
                         "Drop a photo and it lands on the frame within seconds. It lives in Memolio's own folder, never your tablet's gallery, and goes no further than this room.",
@@ -82,6 +88,22 @@ fun AddPhotosScreen(
                         icon = "autorenew",
                         maxLines = 2
                     )
+                }
+            }
+            BoxWithConstraints(Modifier.fillMaxWidth()) {
+                if (maxWidth < 560.dp) {
+                    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+                        qrCard()
+                        instructions(Modifier.fillMaxWidth())
+                    }
+                } else {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(28.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        qrCard()
+                        instructions(Modifier.weight(1f))
+                    }
                 }
             }
         }
