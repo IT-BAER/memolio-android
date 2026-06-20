@@ -77,6 +77,7 @@
     <string name="manage_section_addphotos">Dodaj zdjęcia</string>
     <string name="manage_section_appliance">Urządzenie</string>
     <string name="manage_section_storage">Pamięć</string>
+    <string name="manage_section_settings">Ustawienia</string>
     <string name="manage_section_wallpaper">Tapeta</string>
     <string name="manage_section_about">O aplikacji</string>
     <string name="manage_section_language">Język</string>
@@ -90,6 +91,9 @@
     <string name="library_albums">Albumy</string>
     <string name="library_favorite">Ulubione</string>
     <string name="library_delete">Usuń</string>
+    <string name="library_all_photos">Wszystkie zdjęcia</string>
+    <string name="library_pool_hint">Dotknij zdjęcia, aby ukryć je w pokazie slajdów. Ukryte zdjęcia pozostają w Twojej bibliotece.</string>
+    <string name="photo_hidden">Ukryte</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Playlista</string>

@@ -82,6 +82,36 @@ class PhotoRepositoryPhase4Test {
     }
 
     @Test
+    fun setInPlaylistTogglesPhotoInSlideshowPool() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "A1", null, 0L, 0))
+        seed("p1", "a1")
+        seed("p2", "a1")
+
+        repo.setInPlaylist("p1", false)
+
+        repo.observeSlideshowPool().test {
+            assertThat(awaitItem().map { it.id }).containsExactly("p2")
+        }
+
+        repo.setInPlaylist("p1", true)
+
+        repo.observeSlideshowPool().test {
+            assertThat(awaitItem().map { it.id }).containsExactly("p1", "p2")
+        }
+    }
+
+    @Test
+    fun observeSlideshowInAlbumsEmptySetReturnsEmpty() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "A1", null, 0L, 0))
+        seed("p1", "a1")
+
+        repo.observeSlideshowInAlbums(emptySet()).test {
+            assertThat(awaitItem()).isEmpty()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun reorderAppliesNewSortOrderInOrderOfList() = runTest {
         db.albumDao().upsert(AlbumEntity("a1", "A1", null, 0L, 0))
         seed("p1", "a1", sortOrder = 0)

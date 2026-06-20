@@ -32,6 +32,9 @@ data class LibraryUiState(
     val openAlbumId: String? = null,
     val openAlbumPhotos: List<Photo> = emptyList(),
     val selectedIds: Set<String> = emptySet(),
+    /** Free "All photos" pool view: the whole live pool, with per-photo slideshow toggles. */
+    val showAllPhotos: Boolean = false,
+    val allPhotos: List<Photo> = emptyList(),
     val isPro: Boolean = false
 )
 
@@ -58,11 +61,15 @@ class LibraryViewModel @Inject constructor(
 
     private val openAlbumId = MutableStateFlow<String?>(null)
     private val selectedIds = MutableStateFlow<Set<String>>(emptySet())
+    private val showAllPhotos = MutableStateFlow(false)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val openPhotos = openAlbumId.flatMapLatest { id ->
         if (id.isNullOrBlank()) flowOf(emptyList()) else photoRepository.observePhotos(id)
     }
+
+    // The whole live pool (including photos hidden from the slideshow) for the All-photos view.
+    private val allPhotos: Flow<List<Photo>> = photoRepository.observeAllLivePhotos()
 
     // albumId -> the first live photo's thumbnail, used as each album card's cover. Derived
     // from the whole live pool in one query (no per-album subscription).
@@ -73,16 +80,20 @@ class LibraryViewModel @Inject constructor(
 
     val state: StateFlow<LibraryUiState> =
         combine(
-            combine(albumRepository.observeAlbums(), albumCovers) { albums, covers -> albums to covers },
-            openAlbumId,
+            combine(albumRepository.observeAlbums(), albumCovers, allPhotos) { albums, covers, all ->
+                Triple(albums, covers, all)
+            },
+            combine(openAlbumId, showAllPhotos) { openId, showAll -> openId to showAll },
             openPhotos,
             selectedIds,
             entitlement.isPro
-        ) { (albums, covers), openId, photos, selected, isPro ->
+        ) { (albums, covers, all), (openId, showAll), photos, selected, isPro ->
             LibraryUiState(
                 albums = albums,
                 albumCovers = covers,
+                allPhotos = all,
                 openAlbumId = openId,
+                showAllPhotos = showAll,
                 openAlbumPhotos = photos,
                 selectedIds = selected,
                 isPro = isPro
@@ -118,6 +129,20 @@ class LibraryViewModel @Inject constructor(
     fun closeAlbum() {
         openAlbumId.value = null
         selectedIds.value = emptySet()
+    }
+
+    /** Open/close the free "All photos" pool view (per-photo slideshow include/exclude). */
+    fun openAllPhotos() {
+        showAllPhotos.value = true
+        selectedIds.value = emptySet()
+    }
+
+    fun closeAllPhotos() {
+        showAllPhotos.value = false
+    }
+
+    fun setInPlaylist(photoId: String, inPlaylist: Boolean) = viewModelScope.launch {
+        photoRepository.setInPlaylist(photoId, inPlaylist)
     }
 
     fun toggleSelection(photoId: String) = selectedIds.update { current ->

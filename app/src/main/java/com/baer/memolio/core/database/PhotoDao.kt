@@ -23,6 +23,16 @@ interface PhotoDao {
     )
     fun observeLivePhotosInAlbums(albumIds: Set<String>): Flow<List<PhotoEntity>>
 
+    /** Slideshow sources: live AND included in the playlist (excludes hidden photos). */
+    @Query("SELECT * FROM photos WHERE deletedAt IS NULL AND inPlaylist = 1 ORDER BY addedAt DESC")
+    fun observeSlideshowPool(): Flow<List<PhotoEntity>>
+
+    @Query(
+        "SELECT * FROM photos WHERE albumId IN (:albumIds) AND deletedAt IS NULL " +
+            "AND inPlaylist = 1 ORDER BY sortOrder, addedAt"
+    )
+    fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<PhotoEntity>>
+
     @Query("SELECT * FROM photos WHERE deletedAt IS NOT NULL ORDER BY deletedAt DESC")
     fun observeTrash(): Flow<List<PhotoEntity>>
 
@@ -43,6 +53,9 @@ interface PhotoDao {
 
     @Query("UPDATE photos SET favorite = :favorite WHERE id = :id")
     suspend fun updateFavorite(id: String, favorite: Boolean)
+
+    @Query("UPDATE photos SET inPlaylist = :inPlaylist WHERE id = :id")
+    suspend fun updateInPlaylist(id: String, inPlaylist: Boolean)
 
     @Query("UPDATE photos SET caption = :caption WHERE id = :id")
     suspend fun updateCaption(id: String, caption: String?)

@@ -71,6 +71,10 @@ class FrameViewModel @Inject constructor(
 
     private val config: Flow<PlaylistConfig> = settingsRepository.playlistConfig
 
+    /** Selected wallpaper id (applies to the idle home); defaults to the live vector. */
+    private val wallpaperId: Flow<String> =
+        settingsRepository.appSettings.map { it.wallpaperId }.distinctUntilChanged()
+
     /**
      * Photos for the current active album set, re-querying when the set changes. An
      * empty set means "no album filter" → show the whole live pool, which is the
@@ -80,8 +84,8 @@ class FrameViewModel @Inject constructor(
         config.map { it.activeAlbumIds }
             .distinctUntilChanged()
             .flatMapLatest { ids ->
-                if (ids.isEmpty()) photoRepository.observeAllLivePhotos()
-                else photoRepository.observePhotosInAlbums(ids)
+                if (ids.isEmpty()) photoRepository.observeSlideshowPool()
+                else photoRepository.observeSlideshowInAlbums(ids)
             }
 
     /**
@@ -114,9 +118,10 @@ class FrameViewModel @Inject constructor(
             cursor,
             photos,
             config,
-            clock.now
-        ) { playlistCursor, livePhotos, playlistConfig, tick ->
-            buildState(playlistCursor, livePhotos, playlistConfig, tick)
+            clock.now,
+            wallpaperId
+        ) { playlistCursor, livePhotos, playlistConfig, tick, wallpaper ->
+            buildState(playlistCursor, livePhotos, playlistConfig, tick, wallpaper)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -127,7 +132,8 @@ class FrameViewModel @Inject constructor(
         cursor: FramePlaylist,
         livePhotos: List<Photo>,
         config: PlaylistConfig,
-        tick: FrameTick
+        tick: FrameTick,
+        wallpaperId: String
     ): FrameUiState {
         val time = tick.time.format(timeFormatter)
         val date = tick.date.format(dateFormatter)
@@ -140,7 +146,8 @@ class FrameViewModel @Inject constructor(
                 date = date,
                 driftPhase = tick.dayFraction,
                 showClock = config.showClock,
-                showDate = config.showDate
+                showDate = config.showDate,
+                wallpaperId = wallpaperId
             )
         } else {
             FrameUiState.Slideshow(

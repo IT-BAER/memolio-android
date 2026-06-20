@@ -38,6 +38,9 @@ class LibraryGatingTest {
         override fun observeTrash(): Flow<List<Photo>> = MutableStateFlow(emptyList())
         override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> = MutableStateFlow(emptyList())
         override fun observeAllLivePhotos(): Flow<List<Photo>> = MutableStateFlow(emptyList())
+        override fun observeSlideshowPool(): Flow<List<Photo>> = MutableStateFlow(emptyList())
+        override fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>> = MutableStateFlow(emptyList())
+        override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) {}
         override suspend fun isDuplicate(contentHash: String) = false
         override suspend fun add(id: String, originalPath: String, displayCachePath: String, thumbPath: String, contentHash: String, width: Int, height: Int, orientation: Int, caption: String?, albumId: String, sourceDevice: String?, addedAt: Long) {}
         override suspend fun softDelete(id: String, now: Long) {}

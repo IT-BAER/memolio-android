@@ -82,6 +82,7 @@
     <string name="manage_section_addphotos">Adicionar fotos</string>
     <string name="manage_section_appliance">Aparelho</string>
     <string name="manage_section_storage">Armazenamento</string>
+    <string name="manage_section_settings">Definições</string>
     <string name="manage_section_wallpaper">Fundo</string>
     <string name="manage_section_about">Acerca de</string>
     <string name="manage_section_language">Idioma</string>
@@ -95,6 +96,9 @@
     <string name="library_albums">Álbuns</string>
     <string name="library_favorite">Favorito</string>
     <string name="library_delete">Eliminar</string>
+    <string name="library_all_photos">Todas as fotos</string>
+    <string name="library_pool_hint">Toca numa foto para a esconder da apresentação. As fotos escondidas ficam na tua biblioteca.</string>
+    <string name="photo_hidden">Escondida</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Lista</string>

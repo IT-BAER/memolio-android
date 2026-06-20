@@ -15,7 +15,9 @@ data class Photo(
     val sortOrder: Int,
     val addedAt: Long,
     val sourceDevice: String?,
-    val deletedAt: Long?
+    val deletedAt: Long?,
+    /** When false the photo is hidden from the slideshow but stays in the library. */
+    val inPlaylist: Boolean = true
 ) {
     val isInTrash: Boolean get() = deletedAt != null
 }

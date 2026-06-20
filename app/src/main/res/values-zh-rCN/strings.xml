@@ -81,6 +81,7 @@
     <string name="manage_section_addphotos">添加照片</string>
     <string name="manage_section_appliance">设备</string>
     <string name="manage_section_storage">存储</string>
+    <string name="manage_section_settings">设置</string>
     <string name="manage_section_wallpaper">壁纸</string>
     <string name="manage_section_about">关于</string>
     <string name="manage_section_language">语言</string>
@@ -94,6 +95,9 @@
     <string name="library_albums">相册</string>
     <string name="library_favorite">收藏</string>
     <string name="library_delete">删除</string>
+    <string name="library_all_photos">全部照片</string>
+    <string name="library_pool_hint">轻触照片可将其从幻灯片中隐藏。隐藏的照片仍保留在你的相册库中。</string>
+    <string name="photo_hidden">已隐藏</string>
 
     <!-- ===== 播放列表 ===== -->
     <string name="playlist_title">播放列表</string>

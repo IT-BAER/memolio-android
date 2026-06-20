@@ -77,6 +77,7 @@
     <string name="manage_section_addphotos">Ajouter des photos</string>
     <string name="manage_section_appliance">Appareillage</string>
     <string name="manage_section_storage">Stockage</string>
+    <string name="manage_section_settings">Paramètres</string>
     <string name="manage_section_wallpaper">Fond d\'écran</string>
     <string name="manage_section_about">À propos</string>
     <string name="manage_section_language">Langue</string>
@@ -90,6 +91,9 @@
     <string name="library_albums">Albums</string>
     <string name="library_favorite">Favori</string>
     <string name="library_delete">Supprimer</string>
+    <string name="library_all_photos">Toutes les photos</string>
+    <string name="library_pool_hint">Appuie sur une photo pour la masquer du diaporama. Les photos masquées restent dans ta bibliothèque.</string>
+    <string name="photo_hidden">Masquée</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Playlist</string>

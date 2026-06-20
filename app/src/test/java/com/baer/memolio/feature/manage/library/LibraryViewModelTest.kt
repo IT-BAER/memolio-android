@@ -53,12 +53,17 @@ class LibraryViewModelTest {
         var lastFavorite: Pair<String, Boolean>? = null
         var lastDeleted: String? = null
         var lastReorder: List<String>? = null
+        var lastInPlaylist: Pair<String, Boolean>? = null
         override fun observePhotos(albumId: String): Flow<List<Photo>> =
             photosByAlbum.map { it[albumId].orEmpty() }
         override fun observeTrash(): Flow<List<Photo>> = flowOf(emptyList())
         override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> = flowOf(emptyList())
         override fun observeAllLivePhotos(): Flow<List<Photo>> =
             photosByAlbum.map { it.values.flatten() }
+        override fun observeSlideshowPool(): Flow<List<Photo>> =
+            photosByAlbum.map { it.values.flatten() }
+        override fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>> = flowOf(emptyList())
+        override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) { lastInPlaylist = id to inPlaylist }
         override suspend fun isDuplicate(contentHash: String): Boolean = false
         override suspend fun add(
             id: String, originalPath: String, displayCachePath: String, thumbPath: String,

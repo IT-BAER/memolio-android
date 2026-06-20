@@ -82,6 +82,7 @@
     <string name="manage_section_addphotos">Foto\'s toevoegen</string>
     <string name="manage_section_appliance">Apparaat</string>
     <string name="manage_section_storage">Opslag</string>
+    <string name="manage_section_settings">Instellingen</string>
     <string name="manage_section_wallpaper">Achtergrond</string>
     <string name="manage_section_about">Over</string>
     <string name="manage_section_language">Taal</string>
@@ -95,6 +96,9 @@
     <string name="library_albums">Albums</string>
     <string name="library_favorite">Favoriet</string>
     <string name="library_delete">Verwijderen</string>
+    <string name="library_all_photos">Alle foto\'s</string>
+    <string name="library_pool_hint">Tik op een foto om hem te verbergen in de diashow. Verborgen foto\'s blijven in je bibliotheek.</string>
+    <string name="photo_hidden">Verborgen</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Afspeellijst</string>

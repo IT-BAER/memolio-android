@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import kotlin.math.PI
 import kotlin.math.cos
@@ -81,6 +82,12 @@ private fun DrawScope.linear(
  */
 fun DrawScope.drawMemolioWallpaper(driftPhase: Float = 0f, isPortrait: Boolean = false) {
     val drift = idleDriftOffset(driftPhase, radiusPx = size.minDimension * 0.012f)
+    // Overscan the whole composition ~5% about center. The burn-in drift below translates
+    // the layers by up to ~1.2% of the short side. idleDriftOffset is a circle of constant
+    // radius (it is NOT zero at phase 0, since cos(0)=1), so without this margin that constant
+    // shift would expose the backing color as a hairline band at the trailing edge (most
+    // visibly the left edge in Manage, which holds driftPhase at 0).
+    scale(scaleX = 1.05f, scaleY = 1.05f, pivot = center) {
     translate(drift.x, drift.y) {
         // 1. base deep diagonal
         drawRect(
@@ -192,5 +199,6 @@ fun DrawScope.drawMemolioWallpaper(driftPhase: Float = 0f, isPortrait: Boolean =
                 )
             )
         )
+    }
     }
 }

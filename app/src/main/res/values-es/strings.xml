@@ -82,6 +82,7 @@
     <string name="manage_section_addphotos">Añadir fotos</string>
     <string name="manage_section_appliance">Electrodoméstico</string>
     <string name="manage_section_storage">Almacenamiento</string>
+    <string name="manage_section_settings">Ajustes</string>
     <string name="manage_section_wallpaper">Fondo de pantalla</string>
     <string name="manage_section_about">Acerca de</string>
     <string name="manage_section_language">Idioma</string>
@@ -95,6 +96,9 @@
     <string name="library_albums">Álbumes</string>
     <string name="library_favorite">Favorita</string>
     <string name="library_delete">Eliminar</string>
+    <string name="library_all_photos">Todas las fotos</string>
+    <string name="library_pool_hint">Toca una foto para ocultarla del pase de diapositivas. Las fotos ocultas se quedan en tu biblioteca.</string>
+    <string name="photo_hidden">Oculta</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Lista de reproducción</string>

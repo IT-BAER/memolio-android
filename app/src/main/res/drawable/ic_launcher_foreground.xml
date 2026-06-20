@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Memolio adaptive-icon FOREGROUND ("Keepsake" print).
+  Canvas: 108dp, viewport 220. Content scaled to 0.75 so the print bounding-box
+  corners land at ~29.7dp from center, inside the 33dp (66dp-diameter) Play
+  safe-zone. At 1.0 corners were 39.6dp — outside the safe zone and visually large.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+
+    <!-- scale to 75% from center, then rotate -5° -->
+    <group
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:pivotX="110"
+        android:pivotY="110">
+        <group
+            android:rotation="-5"
+            android:pivotX="110"
+            android:pivotY="110">
+
+            <!-- paper-white print -->
+            <path
+                android:fillColor="#FFF4F1EA"
+                android:pathData="M69,50 L151,50 A13,13 0 0 1 164,63 L164,157 A13,13 0 0 1 151,170 L69,170 A13,13 0 0 1 56,157 L56,63 A13,13 0 0 1 69,50 Z" />
+
+            <!-- image area: clay → honey gradient -->
+            <path android:pathData="M76,64 L144,64 A6,6 0 0 1 150,70 L150,132 A6,6 0 0 1 144,138 L76,138 A6,6 0 0 1 70,132 L70,70 A6,6 0 0 1 76,64 Z">
+                <aapt:attr name="android:fillColor">
+                    <gradient
+                        android:type="linear"
+                        android:startX="70"
+                        android:startY="64"
+                        android:endX="150"
+                        android:endY="138">
+                        <item android:offset="0" android:color="#FFC4746A" />
+                        <item android:offset="1" android:color="#FFC6A968" />
+                    </gradient>
+                </aapt:attr>
+            </path>
+
+            <!-- caption bar -->
+            <path
+                android:fillColor="#24000000"
+                android:pathData="M76,150 L120,150 A4,4 0 0 1 124,154 L124,155 A4,4 0 0 1 120,159 L76,159 A4,4 0 0 1 72,155 L72,154 A4,4 0 0 1 76,150 Z" />
+
+        </group>
+    </group>
+</vector>

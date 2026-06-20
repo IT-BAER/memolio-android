@@ -15,9 +15,7 @@ enum class ManageSection(@StringRes val titleRes: Int, val icon: String, val pro
     AddPhotos(R.string.manage_section_addphotos, "add_a_photo", pro = false),
     Appliance(R.string.manage_section_appliance, "tune", pro = true),
     Storage(R.string.manage_section_storage, "sd_storage", pro = false),
-    Wallpaper(R.string.manage_section_wallpaper, "wallpaper", pro = true),
-    Language(R.string.manage_section_language, "language", pro = false),
-    About(R.string.manage_section_about, "info", pro = false);
+    Settings(R.string.manage_section_settings, "settings", pro = false);
 
     companion object {
         val default: ManageSection = Library

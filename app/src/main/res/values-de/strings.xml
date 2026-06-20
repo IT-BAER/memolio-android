@@ -77,6 +77,7 @@
     <string name="manage_section_addphotos">Fotos hinzufügen</string>
     <string name="manage_section_appliance">Gerät</string>
     <string name="manage_section_storage">Speicher</string>
+    <string name="manage_section_settings">Einstellungen</string>
     <string name="manage_section_wallpaper">Hintergrundbild</string>
     <string name="manage_section_about">Über</string>
     <string name="manage_section_language">Sprache</string>
@@ -90,6 +91,9 @@
     <string name="library_albums">Alben</string>
     <string name="library_favorite">Favorit</string>
     <string name="library_delete">Löschen</string>
+    <string name="library_all_photos">Alle Fotos</string>
+    <string name="library_pool_hint">Tippe auf ein Foto, um es aus der Diashow auszublenden. Ausgeblendete Fotos bleiben in deiner Bibliothek.</string>
+    <string name="photo_hidden">Ausgeblendet</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Wiedergabeliste</string>

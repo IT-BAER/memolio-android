@@ -55,6 +55,38 @@ class PhotoDaoTest {
         }
     }
 
+    @Test
+    fun slideshowPoolExcludesHiddenAndTrashed() = runTest {
+        albumDao.upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        photoDao.upsert(photoEntity("p1", deletedAt = null))
+        photoDao.upsert(photoEntity("p2", deletedAt = null))
+        photoDao.upsert(photoEntity("p3", deletedAt = null))
+        photoDao.updateInPlaylist("p3", false)
+
+        photoDao.observeSlideshowPool().test {
+            assertThat(awaitItem().map { it.id }).containsExactly("p1", "p2")
+        }
+
+        photoDao.softDelete("p1", deletedAt = 42L)
+
+        photoDao.observeSlideshowPool().test {
+            assertThat(awaitItem().map { it.id }).containsExactly("p2")
+        }
+    }
+
+    @Test
+    fun slideshowInAlbumsExcludesHidden() = runTest {
+        albumDao.upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        photoDao.upsert(photoEntity("p1", deletedAt = null))
+        photoDao.upsert(photoEntity("p2", deletedAt = null))
+        photoDao.upsert(photoEntity("p3", deletedAt = null))
+        photoDao.updateInPlaylist("p3", false)
+
+        photoDao.observeSlideshowInAlbums(setOf("a1")).test {
+            assertThat(awaitItem().map { it.id }).containsExactly("p1", "p2")
+        }
+    }
+
     private fun photoEntity(id: String, deletedAt: Long?) = PhotoEntity(
         id = id,
         originalPath = "/photos/$id.jpg",

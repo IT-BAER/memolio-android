@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Memolio adaptive-icon BACKGROUND layer ("Keepsake" tile).
+  Ported verbatim from the design source assets/app-icon.svg (viewBox 0 0 220 220);
+  rendered to the 108dp adaptive canvas. Full-bleed so launcher masks never reveal
+  empty corners. Warm-dark linear tile + clay (top-left) and honey (bottom-right)
+  radial glows.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+
+    <!-- tile: warm-dark diagonal gradient -->
+    <path android:pathData="M0,0 L220,0 L220,220 L0,220 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="0" android:startY="0"
+                android:endX="220" android:endY="220">
+                <item android:offset="0" android:color="#FF0A0C11" />
+                <item android:offset="0.55" android:color="#FF161B22" />
+                <item android:offset="1" android:color="#FF221B27" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- clay glow, top-left -->
+    <path android:pathData="M0,0 L220,0 L220,220 L0,220 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="48.4" android:centerY="39.6"
+                android:gradientRadius="176">
+                <item android:offset="0" android:color="#38C4746A" />
+                <item android:offset="1" android:color="#00C4746A" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- honey glow, bottom-right -->
+    <path android:pathData="M0,0 L220,0 L220,220 L0,220 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="176" android:centerY="198"
+                android:gradientRadius="176">
+                <item android:offset="0" android:color="#2EC6A968" />
+                <item android:offset="1" android:color="#00C6A968" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

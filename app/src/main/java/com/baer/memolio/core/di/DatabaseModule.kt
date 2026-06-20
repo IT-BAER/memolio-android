@@ -3,6 +3,7 @@ package com.baer.memolio.core.di
 import android.content.Context
 import androidx.room.Room
 import com.baer.memolio.core.database.AlbumDao
+import com.baer.memolio.core.database.MIGRATION_1_2
 import com.baer.memolio.core.database.MemolioDatabase
 import com.baer.memolio.core.database.PhotoDao
 import com.baer.memolio.core.storage.FileStorage
@@ -20,7 +21,9 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): MemolioDatabase =
-        Room.databaseBuilder(context, MemolioDatabase::class.java, "memolio.db").build()
+        Room.databaseBuilder(context, MemolioDatabase::class.java, "memolio.db")
+            .addMigrations(MIGRATION_1_2)
+            .build()
 
     @Provides
     fun providePhotoDao(db: MemolioDatabase): PhotoDao = db.photoDao()

@@ -262,6 +262,18 @@ private class FakePhotos(
 
     override fun observeAllLivePhotos(): Flow<List<Photo>> = flow
 
+    // FrameViewModel now reads the slideshow-filtered sources; mirror the live ones so the
+    // fake's backing flow drives the same behavior (DB-level inPlaylist filtering is covered
+    // by the DAO/repository tests).
+    override fun observeSlideshowPool(): Flow<List<Photo>> = flow
+
+    override fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>> {
+        onObserve(albumIds)
+        return if (albumIds.isEmpty()) flowOf(emptyList()) else flow
+    }
+
+    override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) = Unit
+
     // Unused by FrameViewModel; not exercised in these tests.
     override fun observePhotos(albumId: String): Flow<List<Photo>> = flowOf(emptyList())
     override fun observeTrash(): Flow<List<Photo>> = flowOf(emptyList())

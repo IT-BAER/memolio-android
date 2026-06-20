@@ -18,7 +18,8 @@ sealed interface FrameUiState {
         val date: String,
         val driftPhase: Float,
         val showClock: Boolean,
-        val showDate: Boolean
+        val showDate: Boolean,
+        val wallpaperId: String = "default"
     ) : FrameUiState
 
     /** At least one photo. [currentPhoto]/[nextPhoto] feed the crossfade. */

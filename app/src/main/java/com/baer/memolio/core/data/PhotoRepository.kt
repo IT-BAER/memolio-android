@@ -27,6 +27,13 @@ interface PhotoRepository {
      * everything", which is the default free-tier slideshow source.
      */
     fun observeAllLivePhotos(): Flow<List<Photo>>
+    /**
+     * The slideshow sources: like [observeAllLivePhotos]/[observePhotosInAlbums] but also
+     * excluding photos the user hid from the playlist (`inPlaylist = false`). The frame uses
+     * these; the library keeps showing everything so hidden photos can be re-enabled.
+     */
+    fun observeSlideshowPool(): Flow<List<Photo>>
+    fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>>
     suspend fun isDuplicate(contentHash: String): Boolean
     suspend fun add(
         id: String,
@@ -47,6 +54,7 @@ interface PhotoRepository {
     suspend fun purgeTrashOlderThan(threshold: Long): Int
     suspend fun moveToAlbum(id: String, albumId: String)
     suspend fun setFavorite(id: String, favorite: Boolean)
+    suspend fun setInPlaylist(id: String, inPlaylist: Boolean)
     suspend fun setCaption(id: String, caption: String?)
     suspend fun reorder(orderedIds: List<String>)
 }
@@ -70,6 +78,15 @@ class PhotoRepositoryImpl @Inject constructor(
 
     override fun observeAllLivePhotos(): Flow<List<Photo>> =
         photoDao.observeAllLivePhotos().map { list -> list.map { it.toDomain() } }
+
+    override fun observeSlideshowPool(): Flow<List<Photo>> =
+        photoDao.observeSlideshowPool().map { list -> list.map { it.toDomain() } }
+
+    override fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>> {
+        if (albumIds.isEmpty()) return flowOf(emptyList())
+        return photoDao.observeSlideshowInAlbums(albumIds)
+            .map { list -> list.map { it.toDomain() } }
+    }
 
     override suspend fun isDuplicate(contentHash: String): Boolean =
         withContext(ioDispatcher) { photoDao.existsByHash(contentHash) }
@@ -124,6 +141,9 @@ class PhotoRepositoryImpl @Inject constructor(
 
     override suspend fun setFavorite(id: String, favorite: Boolean) =
         withContext(ioDispatcher) { photoDao.updateFavorite(id, favorite) }
+
+    override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) =
+        withContext(ioDispatcher) { photoDao.updateInPlaylist(id, inPlaylist) }
 
     override suspend fun setCaption(id: String, caption: String?) =
         withContext(ioDispatcher) { photoDao.updateCaption(id, caption) }

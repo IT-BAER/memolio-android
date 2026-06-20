@@ -39,7 +39,7 @@ import com.baer.memolio.core.ui.DateOverlay
 import com.baer.memolio.core.ui.frameMetrics
 import com.baer.memolio.core.ui.MemolioBackground
 import com.baer.memolio.core.ui.MemolioTheme
-import com.baer.memolio.core.ui.MemolioWallpaper
+import com.baer.memolio.core.ui.WallpaperBackground
 import com.baer.memolio.core.ui.MenuButton
 import com.baer.memolio.core.ui.OverlayScrim
 import com.baer.memolio.core.ui.Wordmark
@@ -112,7 +112,8 @@ fun FrameScreen(
             }
 
             is FrameUiState.Idle -> {
-                MemolioWallpaper(
+                WallpaperBackground(
+                    wallpaperId = state.wallpaperId,
                     modifier = Modifier.fillMaxSize(),
                     driftPhase = state.driftPhase,
                     isPortrait = metrics.isPortrait

@@ -25,8 +25,8 @@ class WallpaperViewModel @Inject constructor(
     private val entitlement: EntitlementRepository
 ) : ViewModel() {
 
-    // v1 ships only the built-in default (custom wallpapers are a future feature).
-    private val builtIn = listOf("default")
+    // Built-in wallpapers are free; only future custom uploads require Pro.
+    private val builtIn = listOf("default", "ember", "slate")
 
     val state: StateFlow<WallpaperUiState> =
         combine(settings.appSettings, entitlement.isPro) { s, isPro ->
@@ -34,7 +34,7 @@ class WallpaperViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WallpaperUiState())
 
     fun select(id: String) = viewModelScope.launch {
-        if (id != "default" && !entitlement.isPro.first()) return@launch
+        if (!builtIn.contains(id) && !entitlement.isPro.first()) return@launch
         settings.setWallpaperId(id)
     }
 }

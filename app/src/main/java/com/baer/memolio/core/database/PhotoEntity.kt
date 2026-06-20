@@ -30,5 +30,6 @@ data class PhotoEntity(
     val sortOrder: Int,
     val addedAt: Long,
     val sourceDevice: String?,
-    val deletedAt: Long?
+    val deletedAt: Long?,
+    val inPlaylist: Boolean = true
 )

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Memolio adaptive-icon MONOCHROME (Android 13+ themed icons).
+  Same 0.75 scale as foreground so glyphs match the safe-zone sizing.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+
+    <group
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:pivotX="110"
+        android:pivotY="110">
+        <group
+            android:rotation="-5"
+            android:pivotX="110"
+            android:pivotY="110">
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:fillType="evenOdd"
+                android:pathData="M69,50 L151,50 A13,13 0 0 1 164,63 L164,157 A13,13 0 0 1 151,170 L69,170 A13,13 0 0 1 56,157 L56,63 A13,13 0 0 1 69,50 Z M76,64 L144,64 A6,6 0 0 1 150,70 L150,132 A6,6 0 0 1 144,138 L76,138 A6,6 0 0 1 70,132 L70,70 A6,6 0 0 1 76,64 Z" />
+        </group>
+    </group>
+</vector>

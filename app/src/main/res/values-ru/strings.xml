@@ -77,6 +77,7 @@
     <string name="manage_section_addphotos">Добавить фото</string>
     <string name="manage_section_appliance">Устройство</string>
     <string name="manage_section_storage">Хранилище</string>
+    <string name="manage_section_settings">Настройки</string>
     <string name="manage_section_wallpaper">Обои</string>
     <string name="manage_section_about">О приложении</string>
     <string name="manage_section_language">Язык</string>
@@ -90,6 +91,9 @@
     <string name="library_albums">Альбомы</string>
     <string name="library_favorite">В избранное</string>
     <string name="library_delete">Удалить</string>
+    <string name="library_all_photos">Все фото</string>
+    <string name="library_pool_hint">Нажми на фото, чтобы скрыть его из слайд-шоу. Скрытые фото остаются в твоей библиотеке.</string>
+    <string name="photo_hidden">Скрыто</string>
 
     <!-- ===== Playlist ===== -->
     <string name="playlist_title">Плейлист</string>
