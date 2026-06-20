@@ -37,6 +37,7 @@ class StorageViewModelTest {
         override fun observeTrash(): Flow<List<Photo>> = trash
         override fun observePhotos(albumId: String): Flow<List<Photo>> = MutableStateFlow(emptyList())
         override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> = MutableStateFlow(emptyList())
+        override fun observeAllLivePhotos(): Flow<List<Photo>> = MutableStateFlow(emptyList())
         override suspend fun isDuplicate(contentHash: String) = false
         override suspend fun add(
             id: String, originalPath: String, displayCachePath: String, thumbPath: String,

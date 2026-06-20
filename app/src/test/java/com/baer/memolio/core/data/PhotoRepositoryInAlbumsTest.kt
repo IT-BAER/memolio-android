@@ -56,6 +56,17 @@ class PhotoRepositoryInAlbumsTest {
     }
 
     @Test
+    fun observeAllLivePhotosReturnsWholeLivePoolAcrossAlbums() = runTest {
+        seed()
+        repo.observeAllLivePhotos().test {
+            val ids = awaitItem().map { it.id }
+            assertThat(ids).containsExactly("p1", "p2", "p3") // every album, live only
+            assertThat(ids).doesNotContain("p4") // trashed excluded
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun emptyAlbumSetReturnsEmptyListWithoutQuerying() = runTest {
         seed()
         repo.observePhotosInAlbums(emptySet()).test {

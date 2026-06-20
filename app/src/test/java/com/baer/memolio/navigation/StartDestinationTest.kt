@@ -13,4 +13,11 @@ class StartDestinationTest {
     fun onboardingCompleteStartsAtFrame() {
         assertThat(startDestination(onboardingComplete = true)).isEqualTo(StartDestination.Frame)
     }
+
+    @Test
+    fun unknownOnboardingStateIsUndecided() {
+        // Until the persisted flag loads we must NOT default to Onboard, or the
+        // welcome screen flashes on every cold start before jumping to the frame.
+        assertThat(startDestination(onboardingComplete = null)).isNull()
+    }
 }

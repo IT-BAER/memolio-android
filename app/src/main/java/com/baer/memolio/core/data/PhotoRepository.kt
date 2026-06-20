@@ -21,6 +21,12 @@ interface PhotoRepository {
      * which SQLite treats as always-false but is wasteful and easy to misread.
      */
     fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>>
+    /**
+     * Every live photo (the whole pool), trashed excluded. Backs the frame's
+     * "no album filter selected" case: an empty active-album set means "show
+     * everything", which is the default free-tier slideshow source.
+     */
+    fun observeAllLivePhotos(): Flow<List<Photo>>
     suspend fun isDuplicate(contentHash: String): Boolean
     suspend fun add(
         id: String,
@@ -61,6 +67,9 @@ class PhotoRepositoryImpl @Inject constructor(
         return photoDao.observeLivePhotosInAlbums(albumIds)
             .map { list -> list.map { it.toDomain() } }
     }
+
+    override fun observeAllLivePhotos(): Flow<List<Photo>> =
+        photoDao.observeAllLivePhotos().map { list -> list.map { it.toDomain() } }
 
     override suspend fun isDuplicate(contentHash: String): Boolean =
         withContext(ioDispatcher) { photoDao.existsByHash(contentHash) }

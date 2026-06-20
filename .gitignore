@@ -31,6 +31,9 @@ secrets.properties
 .DS_Store
 Thumbs.db
 
+# Local device-e2e artifacts (screenshots, ui dumps, generated test images)
+.e2e/
+
 # Local-only (kept out of the public repo): project memory + planning/design docs
 CLAUDE.md
 /docs/superpowers/

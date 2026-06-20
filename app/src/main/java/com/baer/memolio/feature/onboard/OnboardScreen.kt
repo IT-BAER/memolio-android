@@ -34,7 +34,7 @@ fun OnboardScreen(
             OnboardStep.ShowQr -> {
                 Text("Scan to add your first photos:")
                 val url = state.uploadUrl
-                if (url == null) Text("Connect to Wi-Fi to show the QR.")
+                if (url == null) Text("Preparing the upload link… (make sure Wi-Fi is on)")
                 else { QrImage(text = url, encoder = qrEncoder); Text(url) }
             }
             OnboardStep.HomeKiosk -> {

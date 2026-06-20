@@ -60,11 +60,18 @@ class FrameViewModel @Inject constructor(
 
     private val config: Flow<PlaylistConfig> = settingsRepository.playlistConfig
 
-    /** Photos for the current active album set, re-querying when the set changes. */
+    /**
+     * Photos for the current active album set, re-querying when the set changes. An
+     * empty set means "no album filter" → show the whole live pool, which is the
+     * default free-tier source (uploads land in the single pool, no albums selected).
+     */
     private val photos: Flow<List<Photo>> =
         config.map { it.activeAlbumIds }
             .distinctUntilChanged()
-            .flatMapLatest { ids -> photoRepository.observePhotosInAlbums(ids) }
+            .flatMapLatest { ids ->
+                if (ids.isEmpty()) photoRepository.observeAllLivePhotos()
+                else photoRepository.observePhotosInAlbums(ids)
+            }
 
     /**
      * The slideshow cursor. Rebuilt from scratch (index 0) whenever the photo id-set,

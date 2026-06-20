@@ -187,14 +187,30 @@ class FrameViewModelTest {
     }
 
     @Test
-    fun emptyAlbumSelectionObservesNoAlbumsAndStaysIdle() = runTest(dispatcher) {
+    fun emptyAlbumSelectionWithEmptyPoolStaysIdle() = runTest(dispatcher) {
         configFlow.value = PlaylistConfig(activeAlbumIds = emptySet())
         val vm = newViewModel()
         vm.uiState.test {
             skipItems(1)
             runCurrent()
             assertThat(awaitItem()).isInstanceOf(FrameUiState.Idle::class.java)
-            assertThat(observedAlbums).isEmpty()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun emptyAlbumSelectionShowsWholePool() = runTest(dispatcher) {
+        // Default free-tier config: no album filter selected. Photos uploaded to the
+        // single pool MUST still drive the slideshow, not leave the frame idle.
+        configFlow.value = PlaylistConfig(activeAlbumIds = emptySet(), shuffle = false)
+        photosFlow.value = listOf(photo("p1"), photo("p2"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.currentPhoto.id).isEqualTo("p1")
+            assertThat(s.total).isEqualTo(2)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -243,6 +259,8 @@ private class FakePhotos(
         onObserve(albumIds)
         return if (albumIds.isEmpty()) flowOf(emptyList()) else flow
     }
+
+    override fun observeAllLivePhotos(): Flow<List<Photo>> = flow
 
     // Unused by FrameViewModel; not exercised in these tests.
     override fun observePhotos(albumId: String): Flow<List<Photo>> = flowOf(emptyList())

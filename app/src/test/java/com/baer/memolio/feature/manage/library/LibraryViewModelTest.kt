@@ -57,6 +57,7 @@ class LibraryViewModelTest {
             photosByAlbum.map { it[albumId].orEmpty() }
         override fun observeTrash(): Flow<List<Photo>> = flowOf(emptyList())
         override fun observePhotosInAlbums(albumIds: Set<String>): Flow<List<Photo>> = flowOf(emptyList())
+        override fun observeAllLivePhotos(): Flow<List<Photo>> = flowOf(emptyList())
         override suspend fun isDuplicate(contentHash: String): Boolean = false
         override suspend fun add(
             id: String, originalPath: String, displayCachePath: String, thumbPath: String,
