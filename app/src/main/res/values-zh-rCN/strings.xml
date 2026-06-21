@@ -147,6 +147,8 @@
     <string name="about_body">一台闲置的平板，在你的书架上重获新生。Memolio 展示那些值得抬头一望的人和地方，所有照片都保存在这台设备自己的文件夹里，只能通过家中 Wi-Fi 访问。</string>
     <string name="about_offline_first">离线优先</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">开源</string>
+    <string name="about_view_source">在 GitHub 上查看源代码</string>
 
     <!-- ===== 上传反馈横幅 ===== -->
     <string name="upload_duplicate">已在相框上</string>

@@ -147,6 +147,8 @@
     <string name="about_body">Een reservetablet, dat een tweede leven krijgt op je plank. Memolio toont de mensen en plekken die het waard zijn om naar op te kijken, en bewaart elke foto in zijn eigen map op dit apparaat, alleen bereikbaar via je thuisnetwerk.</string>
     <string name="about_offline_first">Offline eerst</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Open Source</string>
+    <string name="about_view_source">Broncode bekijken op GitHub</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Al op het fotolijst</string>

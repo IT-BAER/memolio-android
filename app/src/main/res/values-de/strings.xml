@@ -142,6 +142,8 @@
     <string name="about_body">Ein ungenutztes Tablet bekommt ein neues Leben in deinem Regal. Memolio zeigt die Menschen und Orte, die es wert sind, aufzublicken – und bewahrt jedes Foto in einem eigenen Ordner auf diesem Gerät, erreichbar nur über dein Heimnetzwerk.</string>
     <string name="about_offline_first">Offline-first</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Open Source</string>
+    <string name="about_view_source">Quellcode auf GitHub ansehen</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Bereits auf dem Rahmen</string>

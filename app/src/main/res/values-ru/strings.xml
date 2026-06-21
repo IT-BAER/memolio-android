@@ -142,6 +142,8 @@
     <string name="about_body">Запасной планшет, которому дали вторую жизнь на вашей полке. Memolio показывает людей и места, на которые приятно взглянуть, и хранит все фото в своей папке прямо на этом устройстве — доступно только по вашей домашней сети Wi-Fi.</string>
     <string name="about_offline_first">Работает без интернета</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Открытый код</string>
+    <string name="about_view_source">Исходный код на GitHub</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Уже есть на рамке</string>

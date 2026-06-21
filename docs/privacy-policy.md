@@ -45,7 +45,11 @@ Because your content stays on your device, you control it entirely. Deleting a p
 
 If this policy changes, the updated version will be posted at this address with a revised "Last updated" date.
 
-## 10. Contact
+## 10. Open source
+
+Memolio's source code is public. You can read exactly what the app does, line by line, at [github.com/IT-BAER/memolio-android](https://github.com/IT-BAER/memolio-android).
+
+## 11. Contact
 
 For questions about this policy or the app, contact:
 **IT-BAER** — [admin@it-baer.net](mailto:admin@it-baer.net)

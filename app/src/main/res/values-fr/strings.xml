@@ -142,6 +142,8 @@
     <string name="about_body">Une tablette de rechange, qui retrouve une seconde vie sur votre étagère. Memolio affiche les personnes et les lieux qui méritent un coup d\'œil, et conserve chaque photo dans son propre dossier sur cet appareil, accessible uniquement via votre Wi-Fi domestique.</string>
     <string name="about_offline_first">Hors ligne en priorité</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Open source</string>
+    <string name="about_view_source">Voir le code source sur GitHub</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Déjà sur le cadre</string>

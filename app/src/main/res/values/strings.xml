@@ -161,6 +161,8 @@
     <string name="about_body">A spare tablet, given a second life on your shelf. Memolio shows the people and places worth looking up for, and keeps every photo in its own folder on this device, reachable only over your home Wi-Fi.</string>
     <string name="about_offline_first">Offline-first</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Open source</string>
+    <string name="about_view_source">View source on GitHub</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Already on the frame</string>

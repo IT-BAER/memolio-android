@@ -142,6 +142,8 @@
     <string name="about_body">Un tablet di scorta, a cui è stata data una seconda vita sul tuo scaffale. Memolio mostra le persone e i luoghi che vale la pena guardare, e conserva ogni foto nella propria cartella su questo dispositivo, raggiungibile solo tramite la tua Wi-Fi di casa.</string>
     <string name="about_offline_first">Offline prima di tutto</string>
     <string name="about_version">v%1$s</string>
+    <string name="about_open_source">Open source</string>
+    <string name="about_view_source">Visualizza il codice sorgente su GitHub</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Già sulla cornice</string>
