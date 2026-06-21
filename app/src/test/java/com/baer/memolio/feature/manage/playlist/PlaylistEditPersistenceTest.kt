@@ -95,4 +95,16 @@ class PlaylistEditPersistenceTest {
         composeRule.waitForIdle()
         assertThat(settings.config.value.shuffle).isFalse()
     }
+
+    @Test
+    fun analogClockSwitchWritesThroughToSettings() {
+        val settings = FakeSettings()
+        val vm = PlaylistViewModel(settings, FakeAlbumRepo(), FakeEntitlement(true))
+        composeRule.setContent { PlaylistScreen(viewModel = vm) }
+
+        vm.setAnalogClock(true)
+        composeRule.waitForIdle()
+        assertThat(settings.config.value.clockStyle)
+            .isEqualTo(com.baer.memolio.core.datastore.ClockStyle.ANALOG)
+    }
 }

@@ -126,4 +126,24 @@ class PlaylistViewModelTest {
         assertThat(c.showDate).isFalse()
         assertThat(c.showCaption).isFalse()
     }
+
+    @Test
+    fun setAnalogClockPersistsStyle() = runTest {
+        val (model, settings) = vm()
+        model.setAnalogClock(true)
+        assertThat(settings.config.value.clockStyle)
+            .isEqualTo(com.baer.memolio.core.datastore.ClockStyle.ANALOG)
+        model.setAnalogClock(false)
+        assertThat(settings.config.value.clockStyle)
+            .isEqualTo(com.baer.memolio.core.datastore.ClockStyle.DIGITAL)
+    }
+
+    @Test
+    fun setClockOpacityAndScalePersist() = runTest {
+        val (model, settings) = vm()
+        model.setClockOpacity(0.4f)
+        model.setClockScale(1.4f)
+        assertThat(settings.config.value.clockOpacity).isEqualTo(0.4f)
+        assertThat(settings.config.value.clockScale).isEqualTo(1.4f)
+    }
 }

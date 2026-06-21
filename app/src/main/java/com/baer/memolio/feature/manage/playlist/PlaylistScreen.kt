@@ -73,6 +73,27 @@ fun PlaylistScreen(
                         MemolioSwitch(state.shuffle, viewModel::setShuffle, label = stringResource(R.string.playlist_shuffle))
                         Box(Modifier.fillMaxWidth().height(1.dp).background(MemolioColors.BorderSoft))
                         MemolioSwitch(state.showClock, viewModel::setShowClock, label = stringResource(R.string.playlist_show_clock))
+                        if (state.showClock) {
+                            MemolioSwitch(
+                                checked = state.clockStyle == com.baer.memolio.core.datastore.ClockStyle.ANALOG,
+                                onCheckedChange = viewModel::setAnalogClock,
+                                label = stringResource(R.string.playlist_analog_clock)
+                            )
+                            MemolioSlider(
+                                value = (state.clockOpacity * 100).toInt(),
+                                onValueChange = { viewModel.setClockOpacity(it / 100f) },
+                                valueRange = 20f..100f,
+                                suffix = "%",
+                                label = stringResource(R.string.playlist_clock_opacity)
+                            )
+                            MemolioSlider(
+                                value = (state.clockScale * 100).toInt(),
+                                onValueChange = { viewModel.setClockScale(it / 100f) },
+                                valueRange = 50f..150f,
+                                suffix = "%",
+                                label = stringResource(R.string.playlist_clock_size)
+                            )
+                        }
                         MemolioSwitch(state.showDate, viewModel::setShowDate, label = stringResource(R.string.playlist_show_date))
                         MemolioSwitch(state.showCaption, viewModel::setShowCaption, label = stringResource(R.string.playlist_show_caption))
                     }

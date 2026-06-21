@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.data.AlbumRepository
+import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.datastore.TransitionStyle
@@ -27,6 +28,9 @@ data class PlaylistUiState(
     val showClock: Boolean = true,
     val showDate: Boolean = true,
     val showCaption: Boolean = true,
+    val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+    val clockOpacity: Float = 1f,
+    val clockScale: Float = 1f,
     val isPro: Boolean = false
 )
 
@@ -53,6 +57,9 @@ class PlaylistViewModel @Inject constructor(
                 showClock = config.showClock,
                 showDate = config.showDate,
                 showCaption = config.showCaption,
+                clockStyle = config.clockStyle,
+                clockOpacity = config.clockOpacity,
+                clockScale = config.clockScale,
                 isPro = isPro
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PlaylistUiState())
@@ -72,4 +79,9 @@ class PlaylistViewModel @Inject constructor(
     fun setShowClock(value: Boolean) = viewModelScope.launch { settings.setShowClock(value) }
     fun setShowDate(value: Boolean) = viewModelScope.launch { settings.setShowDate(value) }
     fun setShowCaption(value: Boolean) = viewModelScope.launch { settings.setShowCaption(value) }
+    fun setAnalogClock(on: Boolean) = viewModelScope.launch {
+        settings.setClockStyle(if (on) ClockStyle.ANALOG else ClockStyle.DIGITAL)
+    }
+    fun setClockOpacity(value: Float) = viewModelScope.launch { settings.setClockOpacity(value) }
+    fun setClockScale(value: Float) = viewModelScope.launch { settings.setClockScale(value) }
 }
