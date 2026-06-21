@@ -2,6 +2,7 @@ package com.baer.memolio.feature.frame
 
 import app.cash.turbine.test
 import com.baer.memolio.core.data.PhotoRepository
+import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.time.TimeProvider
@@ -214,6 +215,22 @@ class FrameViewModelTest {
             val s = awaitItem() as FrameUiState.Slideshow
             assertThat(s.currentPhoto.id).isEqualTo("p1")
             assertThat(s.total).isEqualTo(2)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun fitModePropagatesFromConfig() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false, fitMode = FitMode.CROP
+        )
+        photosFlow.value = listOf(photo("p1"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1) // Loading
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.fitMode).isEqualTo(FitMode.CROP)
             cancelAndIgnoreRemainingEvents()
         }
     }

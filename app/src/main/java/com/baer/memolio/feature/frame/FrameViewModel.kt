@@ -172,6 +172,7 @@ class FrameViewModel @Inject constructor(
                 showDate = config.showDate,
                 showCaption = config.showCaption,
                 clockStyle = config.clockStyle,
+                fitMode = config.fitMode,
                 hour = hour,
                 minute = minute,
                 clockOpacity = config.clockOpacity,

@@ -1,6 +1,7 @@
 package com.baer.memolio.feature.frame
 
 import com.baer.memolio.core.datastore.ClockStyle
+import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.model.Photo
 
 /**
@@ -41,6 +42,7 @@ sealed interface FrameUiState {
         val showDate: Boolean,
         val showCaption: Boolean,
         val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+        val fitMode: FitMode = FitMode.BLURRED_FILL,
         val hour: Int = 0,
         val minute: Int = 0,
         val clockOpacity: Float = 1f,
