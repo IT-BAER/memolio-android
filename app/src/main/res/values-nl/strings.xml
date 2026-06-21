@@ -97,6 +97,11 @@
     <string name="library_albums">Albums</string>
     <string name="library_favorite">Favoriet</string>
     <string name="library_delete">Verwijderen</string>
+    <string name="library_hide">Verbergen</string>
+    <string name="library_show">Tonen</string>
+    <string name="library_delete_album">Album verwijderen</string>
+    <string name="library_delete_album_title">Album verwijderen?</string>
+    <string name="library_delete_album_body">‘%1$s’ wordt verwijderd. De foto\'s blijven in je bibliotheek onder ‘Alle foto\'s’.</string>
     <string name="library_all_photos">Alle foto\'s</string>
     <string name="library_pool_hint">Tik op een foto om hem te verbergen in de diashow. Verborgen foto\'s blijven in je bibliotheek.</string>
     <string name="photo_hidden">Verborgen</string>
@@ -115,6 +120,10 @@
     <string name="playlist_clock_size">Klokgrootte</string>
     <string name="playlist_show_date">Datum weergeven</string>
     <string name="playlist_show_caption">Bijschrift weergeven</string>
+    <string name="playlist_photo_fit">Foto passend maken</string>
+    <string name="playlist_fit_blurred">Wazige vulling</string>
+    <string name="playlist_fit_crop">Vullen en bijsnijden</string>
+    <string name="playlist_fit_bars">Passend (balken)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Foto\'s toevoegen</string>

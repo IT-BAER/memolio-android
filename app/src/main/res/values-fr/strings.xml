@@ -92,6 +92,11 @@
     <string name="library_albums">Albums</string>
     <string name="library_favorite">Favori</string>
     <string name="library_delete">Supprimer</string>
+    <string name="library_hide">Masquer</string>
+    <string name="library_show">Afficher</string>
+    <string name="library_delete_album">Supprimer l\'album</string>
+    <string name="library_delete_album_title">Supprimer l\'album ?</string>
+    <string name="library_delete_album_body">«&#160;%1$s&#160;» sera supprimé. Ses photos restent dans votre bibliothèque sous «&#160;Toutes les photos&#160;».</string>
     <string name="library_all_photos">Toutes les photos</string>
     <string name="library_pool_hint">Appuie sur une photo pour la masquer du diaporama. Les photos masquées restent dans ta bibliothèque.</string>
     <string name="photo_hidden">Masquée</string>
@@ -110,6 +115,10 @@
     <string name="playlist_clock_size">Taille de l\'horloge</string>
     <string name="playlist_show_date">Afficher la date</string>
     <string name="playlist_show_caption">Afficher la légende</string>
+    <string name="playlist_photo_fit">Ajustement photo</string>
+    <string name="playlist_fit_blurred">Remplissage flou</string>
+    <string name="playlist_fit_crop">Remplir et rogner</string>
+    <string name="playlist_fit_bars">Ajuster (bandes)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Ajouter des photos</string>

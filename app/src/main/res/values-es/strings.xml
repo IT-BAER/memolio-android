@@ -97,6 +97,11 @@
     <string name="library_albums">Álbumes</string>
     <string name="library_favorite">Favorita</string>
     <string name="library_delete">Eliminar</string>
+    <string name="library_hide">Ocultar</string>
+    <string name="library_show">Mostrar</string>
+    <string name="library_delete_album">Eliminar álbum</string>
+    <string name="library_delete_album_title">¿Eliminar álbum?</string>
+    <string name="library_delete_album_body">«%1$s» se eliminará. Sus fotos permanecen en tu biblioteca en «Todas las fotos».</string>
     <string name="library_all_photos">Todas las fotos</string>
     <string name="library_pool_hint">Toca una foto para ocultarla del pase de diapositivas. Las fotos ocultas se quedan en tu biblioteca.</string>
     <string name="photo_hidden">Oculta</string>
@@ -115,6 +120,10 @@
     <string name="playlist_clock_size">Tamaño del reloj</string>
     <string name="playlist_show_date">Mostrar fecha</string>
     <string name="playlist_show_caption">Mostrar leyenda</string>
+    <string name="playlist_photo_fit">Ajuste de foto</string>
+    <string name="playlist_fit_blurred">Relleno difuminado</string>
+    <string name="playlist_fit_crop">Rellenar y recortar</string>
+    <string name="playlist_fit_bars">Ajustar (barras)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Añadir fotos</string>

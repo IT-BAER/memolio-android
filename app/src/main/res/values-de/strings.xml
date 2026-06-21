@@ -92,6 +92,11 @@
     <string name="library_albums">Alben</string>
     <string name="library_favorite">Favorit</string>
     <string name="library_delete">Löschen</string>
+    <string name="library_hide">Ausblenden</string>
+    <string name="library_show">Einblenden</string>
+    <string name="library_delete_album">Album löschen</string>
+    <string name="library_delete_album_title">Album löschen?</string>
+    <string name="library_delete_album_body">„%1$s" wird entfernt. Die Fotos bleiben in deiner Mediathek unter „Alle Fotos".</string>
     <string name="library_all_photos">Alle Fotos</string>
     <string name="library_pool_hint">Tippe auf ein Foto, um es aus der Diashow auszublenden. Ausgeblendete Fotos bleiben in deiner Bibliothek.</string>
     <string name="photo_hidden">Ausgeblendet</string>
@@ -110,6 +115,10 @@
     <string name="playlist_clock_size">Uhrgröße</string>
     <string name="playlist_show_date">Datum anzeigen</string>
     <string name="playlist_show_caption">Bildunterschrift anzeigen</string>
+    <string name="playlist_photo_fit">Foto-Anpassung</string>
+    <string name="playlist_fit_blurred">Unscharf gefüllt</string>
+    <string name="playlist_fit_crop">Füllen &amp; zuschneiden</string>
+    <string name="playlist_fit_bars">Einpassen (Balken)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Fotos hinzufügen</string>

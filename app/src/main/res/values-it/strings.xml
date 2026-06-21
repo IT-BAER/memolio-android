@@ -92,6 +92,11 @@
     <string name="library_albums">Album</string>
     <string name="library_favorite">Preferito</string>
     <string name="library_delete">Elimina</string>
+    <string name="library_hide">Nascondi</string>
+    <string name="library_show">Mostra</string>
+    <string name="library_delete_album">Elimina album</string>
+    <string name="library_delete_album_title">Eliminare l\'album?</string>
+    <string name="library_delete_album_body">«%1$s» verrà rimosso. Le foto restano nella tua libreria in «Tutte le foto».</string>
     <string name="library_all_photos">Tutte le foto</string>
     <string name="library_pool_hint">Tocca una foto per nasconderla dalla presentazione. Le foto nascoste restano nella tua libreria.</string>
     <string name="photo_hidden">Nascosta</string>
@@ -110,6 +115,10 @@
     <string name="playlist_clock_size">Dimensione orologio</string>
     <string name="playlist_show_date">Mostra data</string>
     <string name="playlist_show_caption">Mostra didascalia</string>
+    <string name="playlist_photo_fit">Adattamento foto</string>
+    <string name="playlist_fit_blurred">Riempimento sfocato</string>
+    <string name="playlist_fit_crop">Riempi e ritaglia</string>
+    <string name="playlist_fit_bars">Adatta (barre)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Aggiungi foto</string>

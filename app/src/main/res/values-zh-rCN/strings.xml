@@ -96,6 +96,11 @@
     <string name="library_albums">相册</string>
     <string name="library_favorite">收藏</string>
     <string name="library_delete">删除</string>
+    <string name="library_hide">隐藏</string>
+    <string name="library_show">显示</string>
+    <string name="library_delete_album">删除相册</string>
+    <string name="library_delete_album_title">删除相册？</string>
+    <string name="library_delete_album_body">"%1$s"将被移除。其中的照片会保留在媒体库的"全部照片"中。</string>
     <string name="library_all_photos">全部照片</string>
     <string name="library_pool_hint">轻触照片可将其从幻灯片中隐藏。隐藏的照片仍保留在你的相册库中。</string>
     <string name="photo_hidden">已隐藏</string>
@@ -115,6 +120,10 @@
     <string name="playlist_clock_size">时钟大小</string>
     <string name="playlist_show_date">显示日期</string>
     <string name="playlist_show_caption">显示说明文字</string>
+    <string name="playlist_photo_fit">照片适配</string>
+    <string name="playlist_fit_blurred">模糊填充</string>
+    <string name="playlist_fit_crop">填充并裁剪</string>
+    <string name="playlist_fit_bars">适应（黑边）</string>
 
     <!-- ===== 添加照片 ===== -->
     <string name="addphotos_title">添加照片</string>

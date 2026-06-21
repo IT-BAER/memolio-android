@@ -92,6 +92,11 @@
     <string name="library_albums">Albumy</string>
     <string name="library_favorite">Ulubione</string>
     <string name="library_delete">Usuń</string>
+    <string name="library_hide">Ukryj</string>
+    <string name="library_show">Pokaż</string>
+    <string name="library_delete_album">Usuń album</string>
+    <string name="library_delete_album_title">Usunąć album?</string>
+    <string name="library_delete_album_body">„%1$s" zostanie usunięty. Zdjęcia pozostaną w bibliotece w sekcji „Wszystkie zdjęcia".</string>
     <string name="library_all_photos">Wszystkie zdjęcia</string>
     <string name="library_pool_hint">Dotknij zdjęcia, aby ukryć je w pokazie slajdów. Ukryte zdjęcia pozostają w Twojej bibliotece.</string>
     <string name="photo_hidden">Ukryte</string>
@@ -110,6 +115,10 @@
     <string name="playlist_clock_size">Rozmiar zegara</string>
     <string name="playlist_show_date">Pokaż datę</string>
     <string name="playlist_show_caption">Pokaż podpis</string>
+    <string name="playlist_photo_fit">Dopasowanie zdjęcia</string>
+    <string name="playlist_fit_blurred">Rozmyte wypełnienie</string>
+    <string name="playlist_fit_crop">Wypełnij i przytnij</string>
+    <string name="playlist_fit_bars">Dopasuj (pasy)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Dodaj zdjęcia</string>

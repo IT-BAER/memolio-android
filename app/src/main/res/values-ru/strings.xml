@@ -92,6 +92,11 @@
     <string name="library_albums">Альбомы</string>
     <string name="library_favorite">В избранное</string>
     <string name="library_delete">Удалить</string>
+    <string name="library_hide">Скрыть</string>
+    <string name="library_show">Показать</string>
+    <string name="library_delete_album">Удалить альбом</string>
+    <string name="library_delete_album_title">Удалить альбом?</string>
+    <string name="library_delete_album_body">«%1$s» будет удалён. Его фото останутся в библиотеке в разделе «Все фото».</string>
     <string name="library_all_photos">Все фото</string>
     <string name="library_pool_hint">Нажми на фото, чтобы скрыть его из слайд-шоу. Скрытые фото остаются в твоей библиотеке.</string>
     <string name="photo_hidden">Скрыто</string>
@@ -110,6 +115,10 @@
     <string name="playlist_clock_size">Размер часов</string>
     <string name="playlist_show_date">Показывать дату</string>
     <string name="playlist_show_caption">Показывать подпись</string>
+    <string name="playlist_photo_fit">Под формат фото</string>
+    <string name="playlist_fit_blurred">Размытый фон</string>
+    <string name="playlist_fit_crop">Заполнить с обрезкой</string>
+    <string name="playlist_fit_bars">Вписать (поля)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Добавить фото</string>
