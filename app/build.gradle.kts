@@ -92,6 +92,9 @@ android {
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
+        // Robolectric + Room + Ktor unit tests are heap-hungry; the forked test JVM
+        // (not the daemon's org.gradle.jvmargs) needs a larger heap or batches OOM.
+        unitTests.all { it.maxHeapSize = "2g" }
     }
 }
 
