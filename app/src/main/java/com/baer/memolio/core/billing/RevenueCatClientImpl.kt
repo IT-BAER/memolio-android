@@ -28,12 +28,6 @@ class RevenueCatClientImpl @Inject constructor() : RevenueCatClient {
         return info.entitlements[PRO_ENTITLEMENT_ID]?.isActive == true
     }
 
-    override suspend fun loadOfferingTitles(): List<String> {
-        val offerings = purchases.awaitOfferings()
-        val current = offerings.current ?: return emptyList()
-        return current.availablePackages.map { it.product.title }
-    }
-
     override suspend fun purchase(activity: Activity): PurchaseResult {
         val offerings = purchases.awaitOfferings()
         val pkg = offerings.current?.availablePackages?.firstOrNull()

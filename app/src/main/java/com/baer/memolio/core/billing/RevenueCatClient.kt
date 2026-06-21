@@ -9,7 +9,6 @@ import android.app.Activity
  */
 interface RevenueCatClient {
     suspend fun isEntitled(): Boolean
-    suspend fun loadOfferingTitles(): List<String>
     suspend fun purchase(activity: Activity): PurchaseResult
     suspend fun restore(): RestoreResult
 }

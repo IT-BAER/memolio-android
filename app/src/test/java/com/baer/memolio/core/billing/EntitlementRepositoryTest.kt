@@ -57,7 +57,6 @@ class EntitlementRepositoryTest {
     ) : RevenueCatClient {
         var refreshCalls = 0
         override suspend fun isEntitled(): Boolean { refreshCalls++; return entitled }
-        override suspend fun loadOfferingTitles(): List<String> = listOf("Memolio Pro")
         override suspend fun purchase(activity: Activity): PurchaseResult = purchaseResult
         override suspend fun restore(): RestoreResult = restoreResult
     }
