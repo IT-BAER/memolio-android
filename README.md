@@ -1,5 +1,7 @@
 # Memolio
 
+![Memolio — turn a spare tablet into a local digital photo frame](assets/store-feature-graphic.png)
+
 Memolio is an Android app that turns a spare tablet into a local digital photo frame.
 Photos are added from a phone or computer on the same Wi-Fi network by scanning a QR code shown on the frame.
 
