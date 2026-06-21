@@ -149,6 +149,8 @@
     <string name="about_version">v%1$s</string>
     <string name="about_open_source">开源</string>
     <string name="about_view_source">在 GitHub 上查看源代码</string>
+    <string name="about_privacy_policy">隐私政策</string>
+    <string name="about_legal_notice">法律声明</string>
 
     <!-- ===== 上传反馈横幅 ===== -->
     <string name="upload_duplicate">已在相框上</string>

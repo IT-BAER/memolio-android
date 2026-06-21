@@ -144,6 +144,8 @@
     <string name="about_version">v%1$s</string>
     <string name="about_open_source">Открытый код</string>
     <string name="about_view_source">Исходный код на GitHub</string>
+    <string name="about_privacy_policy">Конфиденциальность</string>
+    <string name="about_legal_notice">Правовая информация</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Уже есть на рамке</string>

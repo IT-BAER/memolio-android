@@ -144,6 +144,8 @@
     <string name="about_version">v%1$s</string>
     <string name="about_open_source">Otwarte źródło</string>
     <string name="about_view_source">Zobacz kod źródłowy na GitHub</string>
+    <string name="about_privacy_policy">Prywatność</string>
+    <string name="about_legal_notice">Nota prawna</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Już na ramce</string>

@@ -149,6 +149,8 @@
     <string name="about_version">v%1$s</string>
     <string name="about_open_source">Open Source</string>
     <string name="about_view_source">Broncode bekijken op GitHub</string>
+    <string name="about_privacy_policy">Privacybeleid</string>
+    <string name="about_legal_notice">Juridische kennisgeving</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Al op het fotolijst</string>

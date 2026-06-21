@@ -163,6 +163,8 @@
     <string name="about_version">v%1$s</string>
     <string name="about_open_source">Open source</string>
     <string name="about_view_source">View source on GitHub</string>
+    <string name="about_privacy_policy">Privacy Policy</string>
+    <string name="about_legal_notice">Legal Notice</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Already on the frame</string>

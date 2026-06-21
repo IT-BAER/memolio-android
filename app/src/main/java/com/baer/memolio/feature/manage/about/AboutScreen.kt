@@ -36,6 +36,8 @@ import com.baer.memolio.core.ui.component.SectionHead
 import com.baer.memolio.core.ui.component.WordmarkTone
 
 private const val REPO_URL = "https://github.com/IT-BAER/memolio-android"
+private const val PRIVACY_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md"
+private const val LEGAL_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/legal-notice.md"
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -84,6 +86,22 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                         style = MemolioType.body,
                     )
                 }
+                Text(
+                    stringResource(R.string.about_privacy_policy),
+                    color = MemolioColors.TextSecondary,
+                    style = MemolioType.body,
+                    modifier = Modifier.padding(top = 12.dp).clickable {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL)))
+                    }
+                )
+                Text(
+                    stringResource(R.string.about_legal_notice),
+                    color = MemolioColors.TextSecondary,
+                    style = MemolioType.body,
+                    modifier = Modifier.padding(top = 12.dp).clickable {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(LEGAL_URL)))
+                    }
+                )
             }
         }
     }

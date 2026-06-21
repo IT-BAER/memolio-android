@@ -33,6 +33,9 @@
   .bar { height:6px; border-radius:6px; background:#262b36; margin-top:8px; overflow:hidden; }
   .bar > span { display:block; height:100%; width:0; background:var(--accent); transition:width .2s; }
   input[type=file] { display:none; }
+  .legal { margin-top:40px; padding-bottom:24px; text-align:center; font-size:.8rem; color:var(--muted); }
+  .legal a { color:var(--muted); text-decoration:underline; }
+  .legal a:hover { color:var(--fg); }
 </style>
 </head>
 <body>
@@ -451,5 +454,10 @@
   applyStaticI18n();
   loadAlbums();
 </script>
+<footer class="legal">
+  <a href="https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md" target="_blank" rel="noopener">Privacy Policy</a>
+  &middot;
+  <a href="https://github.com/IT-BAER/memolio-android/blob/main/docs/legal-notice.md" target="_blank" rel="noopener">Legal Notice / Impressum</a>
+</footer>
 </body>
 </html>
