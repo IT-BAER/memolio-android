@@ -45,6 +45,7 @@ import com.baer.memolio.core.ui.WallpaperBackground
 import com.baer.memolio.core.ui.MenuButton
 import com.baer.memolio.core.ui.OverlayScrim
 import com.baer.memolio.core.ui.Wordmark
+import com.baer.memolio.core.ui.component.BlurredFillPhoto
 
 /** How long the slideshow menu button stays visible after a tap before fading out. */
 private const val CONTROLS_REVEAL_MS = 4_000L
@@ -150,7 +151,12 @@ fun FrameScreen(
                     animationSpec = tween(durationMillis = 1200),
                     label = "photo-crossfade"
                 ) { photo ->
-                    BlurredFillPhoto(photo = photo)
+                    BlurredFillPhoto(
+                        model = photo.displayCachePath,
+                        contentDescription = photo.caption,
+                        fitMode = state.fitMode,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
                 OverlayScrim(isPortrait = metrics.isPortrait)
                 // Overlay layer — wordmark stays hidden during a slideshow; the menu button
@@ -201,55 +207,3 @@ private fun StyledClock(
     }
 }
 
-/**
- * Blurred-fill: a heavily blurred, zoomed Crop copy fills the whole box (eliminating
- * letterbox bars for mixed aspect ratios), with the sharp Fit copy on top. Both layers
- * share a slow Ken Burns scale+translate so the still frame always feels alive.
- *
- * Ken Burns is scale-only (design: scale 1.00 -> 1.08 over 20 s, reversing smoothly) so
- * it reads identically in portrait and landscape; the whole idle composition's slow
- * burn-in drift lives in the wallpaper/clock, not here.
- */
-@Composable
-private fun BlurredFillPhoto(photo: Photo, modifier: Modifier = Modifier) {
-    val kbProgress by rememberInfiniteTransition(label = "ken-burns")
-        .animateFloat(
-            initialValue = 0f,
-            targetValue = 1f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = 20_000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse
-            ),
-            label = "ken-burns-progress"
-        )
-
-    val scale = 1.0f + 0.08f * kbProgress       // 1.00 -> 1.08
-
-    Box(modifier.fillMaxSize()) {
-        // Blurred fill: heavy blur + extra scale so the blurred content bleeds to edges.
-        AsyncImage(
-            model = photo.displayCachePath,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(48.dp)
-                .graphicsLayer {
-                    scaleX = scale * 1.15f
-                    scaleY = scale * 1.15f
-                }
-        )
-        // Sharp contained photo on top, sharing the Ken Burns transform.
-        AsyncImage(
-            model = photo.displayCachePath,
-            contentDescription = photo.caption,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                }
-        )
-    }
-}
