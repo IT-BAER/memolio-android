@@ -12,7 +12,9 @@ import org.robolectric.RobolectricTestRunner
 class ManifestApplianceTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val pkg = "com.baer.memolio"
+    // Resolve at runtime: debug builds carry a .debug applicationId suffix, but the
+    // component class names (receiver/service) keep the unsuffixed namespace.
+    private val pkg get() = context.packageName
 
     @Test
     fun declaresBootAndForegroundServicePermissions() {

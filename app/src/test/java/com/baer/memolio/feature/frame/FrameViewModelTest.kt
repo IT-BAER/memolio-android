@@ -343,4 +343,5 @@ private class FakePhotos(
     override suspend fun setFavorite(id: String, favorite: Boolean) = Unit
     override suspend fun setCaption(id: String, caption: String?) = Unit
     override suspend fun reorder(orderedIds: List<String>) = Unit
+    override suspend fun setFocalPoint(id: String, x: Float, y: Float) = Unit
 }

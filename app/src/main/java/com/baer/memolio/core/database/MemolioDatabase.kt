@@ -7,7 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [PhotoEntity::class, AlbumEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 abstract class MemolioDatabase : RoomDatabase() {
@@ -19,5 +19,13 @@ abstract class MemolioDatabase : RoomDatabase() {
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE photos ADD COLUMN inPlaylist INTEGER NOT NULL DEFAULT 1")
+    }
+}
+
+/** v3 adds `photos.focalX` and `photos.focalY` (normalized face-aware focal point; nullable). */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE photos ADD COLUMN focalX REAL")
+        db.execSQL("ALTER TABLE photos ADD COLUMN focalY REAL")
     }
 }

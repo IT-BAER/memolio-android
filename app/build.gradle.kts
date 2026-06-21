@@ -141,6 +141,7 @@ dependencies {
     implementation(libs.compose.material3.adaptive.navigation)
     implementation(libs.zxing.core)
     implementation(libs.coil.compose)
+    implementation(libs.mlkit.face.detection)
     implementation(libs.revenuecat.purchases)
     implementation(libs.revenuecat.purchases.ui)
 

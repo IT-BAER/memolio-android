@@ -26,7 +26,8 @@ class MediaImporterTest {
     @get:Rule val tmp = TemporaryFolder()
 
     private lateinit var db: MemolioDatabase
-    private lateinit var repo: PhotoRepository
+    private lateinit var baseRepo: PhotoRepositoryImpl
+    private lateinit var repo: CapturingPhotoRepository
     private lateinit var storage: FileStorage
     private lateinit var importer: MediaImporter
 
@@ -43,7 +44,26 @@ class MediaImporterTest {
         }
     }
 
-    private val fake = FakeTranscoder()
+    /** Controllable FaceDetector: set [result] before each test. */
+    private class FakeFaceDetector(var result: FocalPoint? = null) : FaceDetector {
+        override suspend fun detectFocalPoint(jpeg: File): FocalPoint? = result
+    }
+
+    /** Wraps a real PhotoRepository and captures setFocalPoint calls. */
+    private class CapturingPhotoRepository(
+        private val delegate: PhotoRepository
+    ) : PhotoRepository by delegate {
+        /** Last recorded (id, x, y) from setFocalPoint, or null if never called. */
+        var lastFocal: Triple<String, Float, Float>? = null
+
+        override suspend fun setFocalPoint(id: String, x: Float, y: Float) {
+            lastFocal = Triple(id, x, y)
+            delegate.setFocalPoint(id, x, y)
+        }
+    }
+
+    private val fakeTranscoder = FakeTranscoder()
+    private val fakeDetector = FakeFaceDetector()
 
     @Before
     fun setup() {
@@ -52,9 +72,10 @@ class MediaImporterTest {
             MemolioDatabase::class.java
         ).allowMainThreadQueries().build()
         val dispatcher = UnconfinedTestDispatcher()
-        repo = PhotoRepositoryImpl(db.photoDao(), dispatcher)
+        baseRepo = PhotoRepositoryImpl(db.photoDao(), dispatcher)
+        repo = CapturingPhotoRepository(baseRepo)
         storage = FileStorage(tmp.root)
-        importer = MediaImporter(fake, storage, repo, dispatcher)
+        importer = MediaImporter(fakeTranscoder, storage, repo, fakeDetector, dispatcher)
     }
 
     @After
@@ -73,7 +94,7 @@ class MediaImporterTest {
         assertThat(storage.displayCacheFile(expectedId).exists()).isTrue()
         assertThat(storage.thumbFile(expectedId).exists()).isTrue()
         // display cache at 2560, thumb at 480
-        assertThat(fake.writes.map { it.second }).containsExactly(2560, 480).inOrder()
+        assertThat(fakeTranscoder.writes.map { it.second }).containsExactly(2560, 480).inOrder()
 
         repo.observePhotos("a1").test {
             val photos = awaitItem()
@@ -111,11 +132,39 @@ class MediaImporterTest {
             override fun writeDownscaledJpeg(source: File, dest: File, maxEdge: Int, quality: Int): Decoded =
                 error("must not be called")
         }
-        val rejectingImporter = MediaImporter(nullBounds, storage, repo, UnconfinedTestDispatcher())
+        val rejectingImporter = MediaImporter(nullBounds, storage, repo, fakeDetector, UnconfinedTestDispatcher())
 
         val result = rejectingImporter.import("garbage".toByteArray(), "txt", "a1", null, null, now = 1L)
 
         assertThat(result).isInstanceOf(MediaImporter.ImportResult.Rejected::class.java)
         repo.observePhotos("a1").test { assertThat(awaitItem()).isEmpty() }
+    }
+
+    @Test
+    fun focalPointPersistedWhenDetectorReturnsPoint() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        fakeDetector.result = FocalPoint(0.3f, 0.7f)
+        val bytes = "focal-photo-bytes".toByteArray()
+
+        val result = importer.import(bytes, "jpg", "a1", null, null, now = 10L)
+
+        val expectedId = Hasher.sha256(bytes).take(32)
+        assertThat(result).isEqualTo(MediaImporter.ImportResult.Added(expectedId))
+        assertThat(repo.lastFocal).isEqualTo(Triple(expectedId, 0.3f, 0.7f))
+    }
+
+    @Test
+    fun focalPointNotPersistedWhenDetectorReturnsNull() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        fakeDetector.result = null
+        val bytes = "no-face-photo-bytes".toByteArray()
+
+        val result = importer.import(bytes, "jpg", "a1", null, null, now = 11L)
+
+        val expectedId = Hasher.sha256(bytes).take(32)
+        assertThat(result).isEqualTo(MediaImporter.ImportResult.Added(expectedId))
+        assertThat(repo.lastFocal).isNull()
+        // photo still inserted
+        repo.observePhotos("a1").test { assertThat(awaitItem()).hasSize(1) }
     }
 }

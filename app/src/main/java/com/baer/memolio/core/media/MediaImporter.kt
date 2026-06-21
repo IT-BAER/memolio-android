@@ -20,6 +20,7 @@ class MediaImporter @Inject constructor(
     private val transcoder: Transcoder,
     private val fileStorage: FileStorage,
     private val photoRepository: PhotoRepository,
+    private val faceDetector: FaceDetector,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     sealed interface ImportResult {
@@ -67,6 +68,10 @@ class MediaImporter @Inject constructor(
             sourceDevice = sourceDevice,
             addedAt = now
         )
+        val focal = faceDetector.detectFocalPoint(displayFile)
+        if (focal != null) {
+            photoRepository.setFocalPoint(id, focal.x, focal.y)
+        }
         ImportResult.Added(id)
     }
 }

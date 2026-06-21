@@ -31,5 +31,7 @@ data class PhotoEntity(
     val addedAt: Long,
     val sourceDevice: String?,
     val deletedAt: Long?,
-    val inPlaylist: Boolean = true
+    val inPlaylist: Boolean = true,
+    val focalX: Float? = null,
+    val focalY: Float? = null
 )

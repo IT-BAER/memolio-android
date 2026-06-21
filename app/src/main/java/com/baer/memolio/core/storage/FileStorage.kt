@@ -12,6 +12,7 @@ class FileStorage(private val root: File) {
     private val photosDir get() = File(root, "photos")
     private val displayDir get() = File(root, "cache/display")
     private val thumbDir get() = File(root, "cache/thumb")
+    private val wallpaperDir get() = File(root, "wallpapers")
 
     fun originalFile(id: String, ext: String) = File(photosDir, "$id.$ext")
     fun displayCacheFile(id: String) = File(displayDir, "$id.jpg")
@@ -24,6 +25,19 @@ class FileStorage(private val root: File) {
         return file
     }
 
+    fun customWallpaperFile() = File(wallpaperDir, "custom.jpg")
+
+    fun writeCustomWallpaper(write: (OutputStream) -> Unit): File {
+        val file = customWallpaperFile()
+        file.parentFile?.mkdirs()
+        file.outputStream().use(write)
+        return file
+    }
+
+    fun hasCustomWallpaper(): Boolean = customWallpaperFile().exists()
+
+    fun deleteCustomWallpaper() { customWallpaperFile().delete() }
+
     fun deleteAll(id: String, ext: String) {
         originalFile(id, ext).delete()
         displayCacheFile(id).delete()
@@ -32,7 +46,7 @@ class FileStorage(private val root: File) {
 
     /** Sum of bytes used by all media files. */
     fun usedBytes(): Long =
-        listOf(photosDir, displayDir, thumbDir)
+        listOf(photosDir, displayDir, thumbDir, wallpaperDir)
             .flatMap { it.walkTopDown().filter(File::isFile).toList() }
             .sumOf { it.length() }
 

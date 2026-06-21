@@ -6,6 +6,7 @@ import org.junit.Test
 class SmokeTest {
     @Test
     fun packageNameIsCorrect() {
-        assertThat(BuildConfig.APPLICATION_ID).isEqualTo("com.baer.memolio")
+        // Debug builds append a .debug applicationId suffix; release has none.
+        assertThat(BuildConfig.APPLICATION_ID).startsWith("com.baer.memolio")
     }
 }

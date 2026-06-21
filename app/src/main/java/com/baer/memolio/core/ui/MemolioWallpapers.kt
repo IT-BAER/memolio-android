@@ -8,7 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import com.baer.memolio.R
+
+const val CUSTOM_WALLPAPER_ID = "custom"
 
 /**
  * The single source of truth for selectable wallpapers, shared by the picker (swatches),
@@ -45,7 +51,22 @@ fun WallpaperBackground(
     modifier: Modifier = Modifier,
     driftPhase: Float = 0f,
     isPortrait: Boolean = false,
+    customImagePath: String? = null,
 ) {
+    if (wallpaperId == CUSTOM_WALLPAPER_ID && customImagePath != null) {
+        val file = java.io.File(customImagePath)
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(file)
+                .memoryCacheKey("$customImagePath:${file.lastModified()}")
+                .diskCacheKey("$customImagePath:${file.lastModified()}")
+                .build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier.fillMaxSize(),
+        )
+        return
+    }
     val brush = brushFor(wallpaperId)
     if (brush == null) {
         MemolioWallpaper(modifier = modifier, driftPhase = driftPhase, isPortrait = isPortrait)

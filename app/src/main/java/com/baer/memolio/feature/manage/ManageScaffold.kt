@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -207,6 +206,8 @@ private fun ManageSectionDetail(
             .background(MemolioColors.BgApp.copy(alpha = 0.35f))
             .padding(pad)
     ) {
+        // Back-to-menu arrow only — each section renders its own SectionHead (big title +
+        // subtitle), so repeating the title here would duplicate it.
         Row(
             Modifier.fillMaxWidth().padding(bottom = 12.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -217,12 +218,6 @@ private fun ManageSectionDetail(
                 onClick = onBack,
                 variant = IconButtonVariant.Bare,
                 size = IconButtonSize.Md
-            )
-            Spacer(Modifier.width(8.dp))
-            Text(
-                stringResource(section.titleRes),
-                color = MemolioColors.TextPrimary,
-                style = MemolioType.h2
             )
         }
         Box(Modifier.fillMaxWidth().weight(1f)) {

@@ -41,3 +41,9 @@ Thumbs.db
 CLAUDE.md
 /docs/superpowers/
 .superpowers/
+
+# Local-only working artifacts / generated assets (not for public repo)
+/tools/
+/todo.md
+fastlane/metadata/android/*/images/
+/assets/mockup-photos/

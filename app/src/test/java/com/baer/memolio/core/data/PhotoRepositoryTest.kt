@@ -76,4 +76,37 @@ class PhotoRepositoryTest {
         repo.restore("p1")
         repo.observePhotos("a1").test { assertThat(awaitItem().map { it.id }).containsExactly("p1") }
     }
+
+    @Test
+    fun freshlyAddedPhotoHasNullFocalPoint() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        repo.add(
+            id = "p1", originalPath = "/photos/p1.jpg",
+            displayCachePath = "/c/d/p1.jpg", thumbPath = "/c/t/p1.jpg",
+            contentHash = "h2", width = 100, height = 100, orientation = 0,
+            caption = null, albumId = "a1", sourceDevice = null, addedAt = 2L
+        )
+        repo.observePhotos("a1").test {
+            val photo = awaitItem().single()
+            assertThat(photo.focalX).isNull()
+            assertThat(photo.focalY).isNull()
+        }
+    }
+
+    @Test
+    fun setFocalPointRoundTrips() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        repo.add(
+            id = "p1", originalPath = "/photos/p1.jpg",
+            displayCachePath = "/c/d/p1.jpg", thumbPath = "/c/t/p1.jpg",
+            contentHash = "h3", width = 100, height = 100, orientation = 0,
+            caption = null, albumId = "a1", sourceDevice = null, addedAt = 3L
+        )
+        repo.setFocalPoint("p1", x = 0.3f, y = 0.7f)
+        repo.observePhotos("a1").test {
+            val photo = awaitItem().single()
+            assertThat(photo.focalX).isWithin(0.0001f).of(0.3f)
+            assertThat(photo.focalY).isWithin(0.0001f).of(0.7f)
+        }
+    }
 }

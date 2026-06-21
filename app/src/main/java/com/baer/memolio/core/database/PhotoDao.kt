@@ -62,4 +62,7 @@ interface PhotoDao {
 
     @Query("UPDATE photos SET sortOrder = :sortOrder WHERE id = :id")
     suspend fun updateSortOrder(id: String, sortOrder: Int)
+
+    @Query("UPDATE photos SET focalX = :x, focalY = :y WHERE id = :id")
+    suspend fun updateFocalPoint(id: String, x: Float, y: Float)
 }

@@ -50,6 +50,11 @@ class ApplianceViewModel @Inject constructor(
         settings.setSleep(value, s.sleepStartMinutes, s.sleepEndMinutes)
     }
 
+    fun setSleepTimes(startMinutes: Int, endMinutes: Int) = guard {
+        val s = settings.appSettings.first()
+        settings.setSleep(s.sleepEnabled, startMinutes, endMinutes)
+    }
+
     /** Appliance behaviors are Pro-gated: no-op until purchased (spec section 13). */
     private fun guard(block: suspend () -> Unit) = viewModelScope.launch {
         if (entitlement.isPro.first()) block()

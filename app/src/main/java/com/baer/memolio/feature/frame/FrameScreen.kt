@@ -155,6 +155,8 @@ fun FrameScreen(
                         model = photo.displayCachePath,
                         contentDescription = photo.caption,
                         fitMode = state.fitMode,
+                        focalX = photo.focalX,
+                        focalY = photo.focalY,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

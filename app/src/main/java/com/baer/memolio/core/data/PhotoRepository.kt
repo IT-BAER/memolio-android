@@ -57,6 +57,7 @@ interface PhotoRepository {
     suspend fun setInPlaylist(id: String, inPlaylist: Boolean)
     suspend fun setCaption(id: String, caption: String?)
     suspend fun reorder(orderedIds: List<String>)
+    suspend fun setFocalPoint(id: String, x: Float, y: Float)
 }
 
 class PhotoRepositoryImpl @Inject constructor(
@@ -152,4 +153,7 @@ class PhotoRepositoryImpl @Inject constructor(
     override suspend fun reorder(orderedIds: List<String>) = withContext(ioDispatcher) {
         orderedIds.forEachIndexed { index, id -> photoDao.updateSortOrder(id, index) }
     }
+
+    override suspend fun setFocalPoint(id: String, x: Float, y: Float) =
+        withContext(ioDispatcher) { photoDao.updateFocalPoint(id, x, y) }
 }

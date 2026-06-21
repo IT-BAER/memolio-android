@@ -77,6 +77,7 @@ class LibraryViewModelTest {
         override suspend fun setFavorite(id: String, favorite: Boolean) { lastFavorite = id to favorite }
         override suspend fun setCaption(id: String, caption: String?) {}
         override suspend fun reorder(orderedIds: List<String>) { lastReorder = orderedIds }
+        override suspend fun setFocalPoint(id: String, x: Float, y: Float) {}
     }
 
     private fun photo(id: String, album: String) = Photo(
@@ -203,7 +204,128 @@ class LibraryViewModelTest {
     }
 
     @Test
-    fun selectionTogglesAndBatchActionsCallRepository() = runTest {
+    fun openAllPhotosExposesWholePoolAcrossAlbums() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf(
+            "a1" to listOf(photo("p1", "a1")),
+            "a2" to listOf(photo("p2", "a2"))
+        )
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+
+        vm.openAllPhotos()
+
+        vm.state.test {
+            var s = awaitItem()
+            while (!s.isAllPhotosOpen || s.openAlbumPhotos.size != 2) s = awaitItem()
+            assertThat(s.openAlbumId).isEqualTo(ALL_PHOTOS_ID)
+            assertThat(s.openAlbumPhotos.map { it.id }).containsExactly("p1", "p2")
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun perPhotoActionsCallRepository() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+
+        vm.favorite("p1", true)
+        assertThat(photoRepo.lastFavorite).isEqualTo("p1" to true)
+
+        vm.setInPlaylist("p1", false)
+        assertThat(photoRepo.lastInPlaylist).isEqualTo("p1" to false)
+
+        vm.deletePhoto("p1")
+        assertThat(photoRepo.lastDeleted).isEqualTo("p1")
+    }
+
+    @Test
+    fun previewOpensAndResolvesPhotoThenCloses() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1"), photo("p2", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.openPreview("p2")
+
+        vm.state.test {
+            var s = awaitItem()
+            while (s.previewPhoto?.id != "p2") s = awaitItem()
+            assertThat(s.previewPhotoId).isEqualTo("p2")
+
+            vm.closePreview()
+            while (s.previewPhotoId != null) s = awaitItem()
+            assertThat(s.previewPhoto == null).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun deletingPreviewedPhotoClosesThePreview() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.openPreview("p1")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.previewPhotoId != "p1") s = awaitItem()
+
+            vm.deletePhoto("p1")
+            while (s.previewPhotoId != null) s = awaitItem()
+            assertThat(s.previewPhotoId == null).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun resetViewReturnsToAlbumListAndClearsPreview() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.openPreview("p1")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.openAlbumId != "a1" || s.previewPhotoId != "p1") s = awaitItem()
+
+            vm.resetView()
+            while (s.openAlbumId != null || s.previewPhotoId != null) s = awaitItem()
+            assertThat(s.openAlbumId == null).isTrue()
+            assertThat(s.previewPhotoId == null).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun deleteOpenAlbumReassignsPhotosToAllThenRemovesAlbum() = runTest {
+        val albumRepo = FakeAlbumRepository()
+        albumRepo.albums.value = listOf(Album("fam", "Family", null, 0L, 1))
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("fam" to listOf(photo("p1", "fam"), photo("p2", "fam")))
+        val vm = LibraryViewModel(albumRepo, photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("fam")
+
+        vm.deleteOpenAlbum()
+
+        // Photos were moved to the All-photos bucket (id "all") before the album was removed.
+        assertThat(photoRepo.lastMoved).isEqualTo("p2" to ALL_PHOTOS_ID)
+        assertThat(albumRepo.albums.value).isEmpty()
+    }
+
+    @Test
+    fun deleteOpenAlbumNeverDeletesTheAllPhotosBucket() = runTest {
+        val albumRepo = FakeAlbumRepository()
+        albumRepo.albums.value = listOf(Album(ALL_PHOTOS_ID, "All photos", null, 0L, 0))
+        val vm = LibraryViewModel(albumRepo, FakePhotoRepository(), FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum(ALL_PHOTOS_ID)
+
+        vm.deleteOpenAlbum()
+
+        assertThat(albumRepo.albums.value.map { it.id }).containsExactly(ALL_PHOTOS_ID)
+    }
+
+    @Test
+    fun selectionTogglesAndEntersSelectionMode() = runTest {
         val photoRepo = FakePhotoRepository()
         photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1"), photo("p2", "a1")))
         val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
@@ -211,18 +333,45 @@ class LibraryViewModelTest {
 
         vm.toggleSelection("p1")
         vm.toggleSelection("p2")
-        vm.state.test { assertThat(awaitItem().selectedIds).containsExactly("p1", "p2") }
+        vm.state.test {
+            var s = awaitItem()
+            while (s.selectedIds.size != 2) s = awaitItem()
+            assertThat(s.selectedIds).containsExactly("p1", "p2")
+            assertThat(s.selectionMode).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        vm.toggleSelection("p1")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.selectedIds.size != 1) s = awaitItem()
+            assertThat(s.selectedIds).containsExactly("p2")
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun bulkActionsApplyToSelectionAndDeleteClearsIt() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(photo("p1", "a1")))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.toggleSelection("p1")
 
         vm.favoriteSelected(true)
-        assertThat(photoRepo.lastFavorite).isEqualTo("p2" to true)
+        assertThat(photoRepo.lastFavorite).isEqualTo("p1" to true)
 
-        vm.moveSelectedTo("a2")
-        assertThat(photoRepo.lastMoved).isEqualTo("p2" to "a2")
+        vm.hideSelected(true)
+        assertThat(photoRepo.lastInPlaylist).isEqualTo("p1" to false)
 
         vm.deleteSelected()
-        assertThat(photoRepo.lastDeleted).isEqualTo("p2")
-
-        vm.state.test { assertThat(awaitItem().selectedIds).isEmpty() }
+        assertThat(photoRepo.lastDeleted).isEqualTo("p1")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.selectedIds.isNotEmpty()) s = awaitItem()
+            assertThat(s.selectionMode).isFalse()
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test

@@ -8,6 +8,8 @@ import com.baer.memolio.core.data.AlbumRepositoryImpl
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.data.PhotoRepositoryImpl
 import com.baer.memolio.core.database.MemolioDatabase
+import com.baer.memolio.core.media.FaceDetector
+import com.baer.memolio.core.media.FocalPoint
 import com.baer.memolio.core.media.MediaImporter
 import com.baer.memolio.core.media.Transcoder
 import com.baer.memolio.core.media.Transcoder.Decoded
@@ -57,6 +59,10 @@ class FrameServerTest {
         }
     }
 
+    private val noOpDetector = object : FaceDetector {
+        override suspend fun detectFocalPoint(jpeg: java.io.File): FocalPoint? = null
+    }
+
     @Before
     fun setup() = runTest {
         db = Room.inMemoryDatabaseBuilder(
@@ -67,7 +73,7 @@ class FrameServerTest {
         photos = PhotoRepositoryImpl(db.photoDao(), dispatcher)
         albums = AlbumRepositoryImpl(db.albumDao(), dispatcher)
         storage = FileStorage(tmp.root)
-        importer = MediaImporter(FakeTranscoder(), storage, photos, dispatcher)
+        importer = MediaImporter(FakeTranscoder(), storage, photos, noOpDetector, dispatcher)
         albums.upsert(Album("a1", "All", null, 0L, 0))
     }
 
@@ -210,7 +216,7 @@ class FrameServerTest {
                 override fun writeDownscaledJpeg(source: File, dest: File, maxEdge: Int, quality: Int) =
                     error("unused")
             },
-            storage, photos, UnconfinedTestDispatcher()
+            storage, photos, noOpDetector, UnconfinedTestDispatcher()
         )
         installRoutes(importerOverride = rejecting)
         val res = client.post("/upload?t=$token") {
@@ -231,7 +237,7 @@ class FrameServerTest {
                 override fun writeDownscaledJpeg(source: File, dest: File, maxEdge: Int, quality: Int): Decoded =
                     throw IOException("No space left on device")
             },
-            storage, photos, UnconfinedTestDispatcher()
+            storage, photos, noOpDetector, UnconfinedTestDispatcher()
         )
         installRoutes(importerOverride = diskFull)
         val res = client.post("/upload?t=$token") { setBody(jpegPart("a.jpg", "x".toByteArray())) }

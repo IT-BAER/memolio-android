@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
@@ -21,11 +23,27 @@ import coil3.compose.AsyncImage
 import com.baer.memolio.core.datastore.FitMode
 
 /**
+ * Maps a normalized focal point (each 0..1) to a Crop alignment. BiasAlignment bias runs
+ * -1..1 (-1 = left/top, 1 = right/bottom), so bias = focal*2 - 1. A null focal (no face
+ * detected) falls back to Alignment.Center — the prior always-center-crop behavior.
+ */
+internal fun focalAlignment(focalX: Float?, focalY: Float?): Alignment =
+    if (focalX != null && focalY != null) {
+        BiasAlignment(
+            horizontalBias = focalX.coerceIn(0f, 1f) * 2f - 1f,
+            verticalBias = focalY.coerceIn(0f, 1f) * 2f - 1f,
+        )
+    } else {
+        Alignment.Center
+    }
+
+/**
  * Renders one photo to fill the frame per [fitMode]:
  *  - [FitMode.BLURRED_FILL] ("bokeh"): a heavily blurred, zoomed Crop copy fills the box
  *    (no letterbox bars for mixed aspect ratios) under a sharp Fit copy.
  *  - [FitMode.CROP]: a single Crop copy fills the box, keeping aspect ratio and cropping
- *    the overflow. No blur (also avoids Modifier.blur, a no-op below API 31).
+ *    the overflow. The crop biases toward the detected face ([focalX]/[focalY]) when
+ *    available, falling back to center when the focal point is null. No blur.
  *  - [FitMode.FIT_BARS]: the whole photo (Fit) on plain black bars. No blur.
  *
  * Shared by the slideshow frame and the library preview. The library passes the default
@@ -42,6 +60,8 @@ fun BlurredFillPhoto(
     modifier: Modifier = Modifier,
     kenBurns: Boolean = true,
     fitMode: FitMode = FitMode.BLURRED_FILL,
+    focalX: Float? = null,
+    focalY: Float? = null,
 ) {
     val kbProgress by rememberInfiniteTransition(label = "ken-burns")
         .animateFloat(
@@ -88,10 +108,12 @@ fun BlurredFillPhoto(
 
             FitMode.CROP -> {
                 // Fill the frame, keep aspect ratio, crop the overflow. No blur backdrop.
+                // Crop biases toward the detected face focal point; falls back to center.
                 AsyncImage(
                     model = model,
                     contentDescription = contentDescription,
                     contentScale = ContentScale.Crop,
+                    alignment = focalAlignment(focalX, focalY),
                     modifier = Modifier
                         .fillMaxSize()
                         .graphicsLayer {

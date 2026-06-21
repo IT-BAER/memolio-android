@@ -25,18 +25,35 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The default "All photos" album id. This is a real Room album (created in MemolioApp,
+ * the default bucket for web uploads — see FrameServer's DEFAULT_ALBUM_ID), but the
+ * library treats it specially: its tile shows the WHOLE live pool (every album's photos),
+ * and it is pulled out of the normal album list so it renders exactly once. Free; the
+ * user-created albums are Pro.
+ */
+const val ALL_PHOTOS_ID = "all"
+
 data class LibraryUiState(
     val albums: List<Album> = emptyList(),
     /** albumId -> cover thumbnail path (the album's first live photo). */
     val albumCovers: Map<String, String> = emptyMap(),
+    /** The whole live pool — backs the "All photos" virtual album (cover, count, contents). */
+    val allPhotos: List<Photo> = emptyList(),
+    /** [ALL_PHOTOS_ID], a real album id, or null when showing the album list. */
     val openAlbumId: String? = null,
     val openAlbumPhotos: List<Photo> = emptyList(),
+    /** Photo currently shown full-screen in the preview overlay; null = grid. */
+    val previewPhotoId: String? = null,
+    /** Long-press multi-select: ids checked in the open detail. Non-empty = selection mode. */
     val selectedIds: Set<String> = emptySet(),
-    /** Free "All photos" pool view: the whole live pool, with per-photo slideshow toggles. */
-    val showAllPhotos: Boolean = false,
-    val allPhotos: List<Photo> = emptyList(),
     val isPro: Boolean = false
-)
+) {
+    val isAllPhotosOpen: Boolean get() = openAlbumId == ALL_PHOTOS_ID
+    val selectionMode: Boolean get() = selectedIds.isNotEmpty()
+    /** The previewed photo resolved from the open detail, kept live for favorite/hidden toggles. */
+    val previewPhoto: Photo? get() = previewPhotoId?.let { id -> openAlbumPhotos.firstOrNull { it.id == id } }
+}
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
@@ -60,21 +77,25 @@ class LibraryViewModel @Inject constructor(
     private var nowFn: () -> Long = { System.currentTimeMillis() }
 
     private val openAlbumId = MutableStateFlow<String?>(null)
+    private val previewPhotoId = MutableStateFlow<String?>(null)
     private val selectedIds = MutableStateFlow<Set<String>>(emptySet())
-    private val showAllPhotos = MutableStateFlow(false)
+
+    // The whole live pool (including photos hidden from the slideshow).
+    private val allPhotos: Flow<List<Photo>> = photoRepository.observeAllLivePhotos()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val openPhotos = openAlbumId.flatMapLatest { id ->
-        if (id.isNullOrBlank()) flowOf(emptyList()) else photoRepository.observePhotos(id)
+        when {
+            id.isNullOrBlank() -> flowOf(emptyList())
+            id == ALL_PHOTOS_ID -> photoRepository.observeAllLivePhotos()
+            else -> photoRepository.observePhotos(id)
+        }
     }
-
-    // The whole live pool (including photos hidden from the slideshow) for the All-photos view.
-    private val allPhotos: Flow<List<Photo>> = photoRepository.observeAllLivePhotos()
 
     // albumId -> the first live photo's thumbnail, used as each album card's cover. Derived
     // from the whole live pool in one query (no per-album subscription).
     private val albumCovers: Flow<Map<String, String>> =
-        photoRepository.observeAllLivePhotos().map { photos ->
+        allPhotos.map { photos ->
             photos.groupBy { it.albumId }.mapValues { (_, list) -> list.first().thumbPath }
         }
 
@@ -83,18 +104,18 @@ class LibraryViewModel @Inject constructor(
             combine(albumRepository.observeAlbums(), albumCovers, allPhotos) { albums, covers, all ->
                 Triple(albums, covers, all)
             },
-            combine(openAlbumId, showAllPhotos) { openId, showAll -> openId to showAll },
+            openAlbumId,
             openPhotos,
-            selectedIds,
+            combine(previewPhotoId, selectedIds) { previewId, selected -> previewId to selected },
             entitlement.isPro
-        ) { (albums, covers, all), (openId, showAll), photos, selected, isPro ->
+        ) { (albums, covers, all), openId, photos, (previewId, selected), isPro ->
             LibraryUiState(
                 albums = albums,
                 albumCovers = covers,
                 allPhotos = all,
                 openAlbumId = openId,
-                showAllPhotos = showAll,
                 openAlbumPhotos = photos,
+                previewPhotoId = previewId,
                 selectedIds = selected,
                 isPro = isPro
             )
@@ -118,50 +139,94 @@ class LibraryViewModel @Inject constructor(
         albumRepository.delete(id)
     }
 
+    /**
+     * Delete the currently open album, keeping its photos. The album-delete FK cascades to
+     * its photos, so we first reassign them to the default [ALL_PHOTOS_ID] bucket; the album
+     * is then empty and safe to remove. The "All photos" bucket itself can never be deleted.
+     */
+    fun deleteOpenAlbum() = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
+        val id = openAlbumId.value
+        if (id.isNullOrBlank() || id == ALL_PHOTOS_ID) return@launch
+        photoRepository.observePhotos(id).first().forEach {
+            photoRepository.moveToAlbum(it.id, ALL_PHOTOS_ID)
+        }
+        albumRepository.delete(id)
+        closeAlbum()
+    }
+
+    /** Open a real album, or [ALL_PHOTOS_ID] for the whole pool. Blank id = album list. */
     fun openAlbum(id: String) {
-        // Blank id is treated as "no album open" so the detail view never queries an
-        // empty album (which would silently show zero photos). See closeAlbum.
         openAlbumId.value = id.ifBlank { null }
+        previewPhotoId.value = null
         selectedIds.value = emptySet()
     }
 
-    /** Return from album detail to the albums list. Back button + system back both call this. */
+    /** Open the free "All photos" virtual album (whole live pool). */
+    fun openAllPhotos() = openAlbum(ALL_PHOTOS_ID)
+
+    /** Return from a detail view to the album list. Back button + system back both call this. */
     fun closeAlbum() {
         openAlbumId.value = null
+        previewPhotoId.value = null
         selectedIds.value = emptySet()
     }
 
-    /** Open/close the free "All photos" pool view (per-photo slideshow include/exclude). */
-    fun openAllPhotos() {
-        showAllPhotos.value = true
+    /** Full-screen preview of a single photo within the open detail. */
+    fun openPreview(photoId: String) { previewPhotoId.value = photoId }
+    fun closePreview() { previewPhotoId.value = null }
+
+    /**
+     * Reset the navigation sub-state to the album list. Called when the Library section is
+     * (re)entered, because this ViewModel is activity-scoped and would otherwise reopen the
+     * album/preview the user last left.
+     */
+    fun resetView() {
+        openAlbumId.value = null
+        previewPhotoId.value = null
         selectedIds.value = emptySet()
     }
 
-    fun closeAllPhotos() {
-        showAllPhotos.value = false
+    // ---- Long-press multi-select ----
+
+    /** Toggle a photo's membership in the selection (long-press to start, tap to add/remove). */
+    fun toggleSelection(photoId: String) = selectedIds.update { cur ->
+        if (photoId in cur) cur - photoId else cur + photoId
     }
 
-    fun setInPlaylist(photoId: String, inPlaylist: Boolean) = viewModelScope.launch {
-        photoRepository.setInPlaylist(photoId, inPlaylist)
-    }
-
-    fun toggleSelection(photoId: String) = selectedIds.update { current ->
-        if (photoId in current) current - photoId else current + photoId
-    }
-
-    fun moveSelectedTo(albumId: String) = viewModelScope.launch {
-        if (!entitlement.isPro.first()) { selectedIds.value = emptySet(); return@launch }
-        selectedIds.value.forEach { photoRepository.moveToAlbum(it, albumId) }
-    }
+    fun clearSelection() { selectedIds.value = emptySet() }
 
     fun favoriteSelected(favorite: Boolean) = viewModelScope.launch {
         selectedIds.value.forEach { photoRepository.setFavorite(it, favorite) }
+    }
+
+    fun hideSelected(hidden: Boolean) = viewModelScope.launch {
+        selectedIds.value.forEach { photoRepository.setInPlaylist(it, !hidden) }
     }
 
     fun deleteSelected() = viewModelScope.launch {
         val ts = nowFn()
         selectedIds.value.forEach { photoRepository.softDelete(it, ts) }
         selectedIds.value = emptySet()
+    }
+
+    fun setInPlaylist(photoId: String, inPlaylist: Boolean) = viewModelScope.launch {
+        photoRepository.setInPlaylist(photoId, inPlaylist)
+    }
+
+    fun favorite(photoId: String, favorite: Boolean) = viewModelScope.launch {
+        photoRepository.setFavorite(photoId, favorite)
+    }
+
+    /** Soft-delete a single photo and close the preview (the photo leaves the grid). */
+    fun deletePhoto(photoId: String) = viewModelScope.launch {
+        photoRepository.softDelete(photoId, nowFn())
+        if (previewPhotoId.value == photoId) previewPhotoId.value = null
+    }
+
+    fun moveToAlbum(photoId: String, albumId: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
+        photoRepository.moveToAlbum(photoId, albumId)
     }
 
     fun reorder(orderedIds: List<String>) = viewModelScope.launch {

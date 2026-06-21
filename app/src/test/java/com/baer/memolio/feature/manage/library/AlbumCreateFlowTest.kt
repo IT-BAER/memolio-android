@@ -62,6 +62,7 @@ class AlbumCreateFlowTest {
         override suspend fun setFavorite(id: String, favorite: Boolean) {}
         override suspend fun setCaption(id: String, caption: String?) {}
         override suspend fun reorder(orderedIds: List<String>) {}
+        override suspend fun setFocalPoint(id: String, x: Float, y: Float) {}
     }
 
     @Test

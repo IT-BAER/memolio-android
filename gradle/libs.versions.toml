@@ -31,6 +31,7 @@ zxing = "3.5.4"
 coil = "3.4.0"
 roborazzi = "1.64.0"
 revenueCat = "8.25.0"
+mlkitFace = "16.1.7"
 navigation = "2.9.8"
 material3Adaptive = "1.2.0"
 
@@ -81,6 +82,7 @@ zxing-core = { module = "com.google.zxing:core", version.ref = "zxing" }
 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-test = { module = "io.coil-kt.coil3:coil-test", version.ref = "coil" }
+mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkitFace" }
 
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }

@@ -6,10 +6,15 @@ import com.baer.memolio.appliance.TimeProvider
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.datastore.SettingsRepository
+import com.baer.memolio.core.di.IoDispatcher
+import com.baer.memolio.core.media.FaceDetector
 import com.baer.memolio.core.model.Album
 import com.baer.memolio.core.storage.FileStorage
+import com.baer.memolio.work.FaceBackfillScheduler
+import com.baer.memolio.work.FaceBackfillWorkerFactory
 import com.baer.memolio.work.TrashPurgeScheduler
 import com.baer.memolio.work.TrashPurgeWorkerFactory
+import kotlinx.coroutines.CoroutineDispatcher
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
@@ -29,12 +34,15 @@ class MemolioApp : Application(), Configuration.Provider {
     @Inject lateinit var settingsRepository: SettingsRepository
     @Inject lateinit var timeProvider: TimeProvider
     @Inject lateinit var albumRepository: AlbumRepository
+    @Inject lateinit var faceDetector: FaceDetector
+    @Inject @IoDispatcher lateinit var ioDispatcher: CoroutineDispatcher
 
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(
+        get() {
+            val delegating = androidx.work.DelegatingWorkerFactory()
+            delegating.addFactory(
                 TrashPurgeWorkerFactory(
                     photoRepository = photoRepository,
                     fileStorage = fileStorage,
@@ -42,7 +50,17 @@ class MemolioApp : Application(), Configuration.Provider {
                     time = timeProvider
                 )
             )
-            .build()
+            delegating.addFactory(
+                FaceBackfillWorkerFactory(
+                    photoRepository = photoRepository,
+                    faceDetector = faceDetector,
+                    ioDispatcher = ioDispatcher
+                )
+            )
+            return Configuration.Builder()
+                .setWorkerFactory(delegating)
+                .build()
+        }
 
     override fun onCreate() {
         super.onCreate()
@@ -57,6 +75,7 @@ class MemolioApp : Application(), Configuration.Provider {
             }
         }
         TrashPurgeScheduler.schedule(this)
+        FaceBackfillScheduler.schedule(this)
 
         // RevenueCat configure does NOT hit the network here (the SDK lazily fetches on the
         // first awaitOfferings/awaitCustomerInfo). Guarded so a blank/bad key or odd device

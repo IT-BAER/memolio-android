@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.withContext
@@ -28,15 +29,22 @@ interface EntitlementRepository {
 class EntitlementRepositoryImpl @Inject constructor(
     private val settings: SettingsRepository,
     private val client: RevenueCatClient,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    // Hilt passes BuildConfig.DEBUG (see BillingModule); tests default to false to exercise
+    // the real sticky logic. When true, every Pro surface unlocks for on-device testing.
+    private val debugUnlock: Boolean = false
 ) : EntitlementRepository {
 
     override val isPro: Flow<Boolean> =
-        settings.appSettings
-            .map { it.proUnlocked }
-            .scan(false) { sticky, current -> sticky || current }
-            .drop(1)
-            .distinctUntilChanged()
+        if (debugUnlock) {
+            flowOf(true)
+        } else {
+            settings.appSettings
+                .map { it.proUnlocked }
+                .scan(false) { sticky, current -> sticky || current }
+                .drop(1)
+                .distinctUntilChanged()
+        }
 
     override suspend fun refresh() = withContext(ioDispatcher) {
         if (client.isEntitled()) settings.setProUnlocked(true)
