@@ -2,6 +2,7 @@ package com.baer.memolio.feature.onboard
 
 import app.cash.turbine.test
 import com.baer.memolio.core.datastore.AppSettings
+import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
@@ -49,6 +50,9 @@ class OnboardViewModelTest {
         override suspend fun setShowClock(value: Boolean) {}
         override suspend fun setShowDate(value: Boolean) {}
         override suspend fun setShowCaption(value: Boolean) {}
+        override suspend fun setClockStyle(value: ClockStyle) = Unit
+        override suspend fun setClockOpacity(value: Float) = Unit
+        override suspend fun setClockScale(value: Float) = Unit
         override suspend fun setUploadToken(token: String) {}
         override suspend fun setServerPort(port: Int) {}
         override suspend fun setAutostartEnabled(value: Boolean) {}

@@ -53,4 +53,46 @@ class SettingsRepositoryTest {
             assertThat(cfg.shuffle).isFalse()
         }
     }
+
+    @Test
+    fun clockStyleDefaultsToDigitalAndPersists() = runTest(UnconfinedTestDispatcher()) {
+        val repo = newRepo(this, "settings_clockstyle.preferences_pb")
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.DIGITAL)
+            cancelAndIgnoreRemainingEvents()
+        }
+        repo.setClockStyle(ClockStyle.ANALOG)
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.ANALOG)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun clockOpacityDefaultsToOneAndPersists() = runTest(UnconfinedTestDispatcher()) {
+        val repo = newRepo(this, "settings_clockopacity.preferences_pb")
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockOpacity).isEqualTo(1f)
+            cancelAndIgnoreRemainingEvents()
+        }
+        repo.setClockOpacity(0.5f)
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockOpacity).isEqualTo(0.5f)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun clockScaleDefaultsToOneAndPersists() = runTest(UnconfinedTestDispatcher()) {
+        val repo = newRepo(this, "settings_clockscale.preferences_pb")
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockScale).isEqualTo(1f)
+            cancelAndIgnoreRemainingEvents()
+        }
+        repo.setClockScale(1.25f)
+        repo.playlistConfig.test {
+            assertThat(awaitItem().clockScale).isEqualTo(1.25f)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
+import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
@@ -48,6 +49,9 @@ class PlaylistEditPersistenceTest {
         override suspend fun setShowClock(value: Boolean) {}
         override suspend fun setShowDate(value: Boolean) {}
         override suspend fun setShowCaption(value: Boolean) {}
+        override suspend fun setClockStyle(value: ClockStyle) { config.value = config.value.copy(clockStyle = value) }
+        override suspend fun setClockOpacity(value: Float) { config.value = config.value.copy(clockOpacity = value) }
+        override suspend fun setClockScale(value: Float) { config.value = config.value.copy(clockScale = value) }
         override val appSettings: Flow<AppSettings> = MutableStateFlow(AppSettings())
         override suspend fun setUploadToken(token: String) {}
         override suspend fun setServerPort(port: Int) {}

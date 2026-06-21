@@ -1,9 +1,8 @@
-package com.baer.memolio.feature.manage.wallpaper
+package com.baer.memolio.feature.manage.appliance
 
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
-import com.baer.memolio.core.data.WallpaperRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
@@ -22,18 +21,31 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class WallpaperGatingTest {
+class ApplianceViewModelTest {
 
     private val dispatcher = UnconfinedTestDispatcher()
     @Before fun setMain() = Dispatchers.setMain(dispatcher)
     @After fun reset() = Dispatchers.resetMain()
 
-    private class FakeSettings : SettingsRepository {
-        val app = MutableStateFlow(AppSettings())
-        var lastWallpaper: String? = null
+    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
+        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
+        override suspend fun refresh() {}
+        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
+        override suspend fun restore(): RestoreResult = RestoreResult.Success
+    }
+
+    private class FakeSettings(initial: AppSettings = AppSettings()) : SettingsRepository {
+        val app = MutableStateFlow(initial)
+        data class SleepCall(val enabled: Boolean, val startMinutes: Int, val endMinutes: Int)
+        var lastSleepCall: SleepCall? = null
+
         override val appSettings: Flow<AppSettings> = app
-        override suspend fun setWallpaperId(id: String) { lastWallpaper = id; app.value = app.value.copy(wallpaperId = id) }
+        override suspend fun setSleep(enabled: Boolean, startMinutes: Int, endMinutes: Int) {
+            lastSleepCall = SleepCall(enabled, startMinutes, endMinutes)
+            app.value = app.value.copy(sleepEnabled = enabled, sleepStartMinutes = startMinutes, sleepEndMinutes = endMinutes)
+        }
         override val playlistConfig: Flow<PlaylistConfig> = MutableStateFlow(PlaylistConfig())
+        override suspend fun setWallpaperId(value: String) {}
         override suspend fun setActiveAlbumIds(ids: Set<String>) {}
         override suspend fun setShuffle(value: Boolean) {}
         override suspend fun setIntervalSeconds(value: Int) {}
@@ -47,7 +59,6 @@ class WallpaperGatingTest {
         override suspend fun setClockScale(value: Float) = Unit
         override suspend fun setUploadToken(token: String) {}
         override suspend fun setServerPort(port: Int) {}
-        override suspend fun setSleep(enabled: Boolean, startMinutes: Int, endMinutes: Int) {}
         override suspend fun setKioskEnabled(value: Boolean) {}
         override suspend fun setHomeAppEnabled(value: Boolean) {}
         override suspend fun setAutostartEnabled(value: Boolean) {}
@@ -60,36 +71,27 @@ class WallpaperGatingTest {
         override suspend fun ensureToken(): String = ""
     }
 
-    private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
-        override val isPro: Flow<Boolean> = MutableStateFlow(pro)
-        override suspend fun refresh() {}
-        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
-    }
+    @Test
+    fun `setSleepTimes persists new times when Pro`() = runTest {
+        val settings = FakeSettings(AppSettings(sleepEnabled = true, sleepStartMinutes = 22 * 60, sleepEndMinutes = 7 * 60))
+        val vm = ApplianceViewModel(settings, FakeEntitlement(pro = true))
 
-    private class FakeWallpaperRepo(var path: String? = null) : WallpaperRepository {
-        override suspend fun importCustom(uri: android.net.Uri): String = "custom"
-        override fun customWallpaperPath(): String? = path
-        override suspend fun clearCustom() { path = null }
+        vm.setSleepTimes(8 * 60, 6 * 60)
+
+        val call = settings.lastSleepCall
+        assertThat(call).isNotNull()
+        assertThat(call!!.enabled).isTrue()
+        assertThat(call.startMinutes).isEqualTo(480)
+        assertThat(call.endMinutes).isEqualTo(360)
     }
 
     @Test
-    fun freeUserCanSelectDefaultButNotCustom() = runTest {
-        val settings = FakeSettings()
-        val vm = WallpaperViewModel(settings, FakeEntitlement(pro = false), FakeWallpaperRepo())
-        vm.select("default")
-        assertThat(settings.lastWallpaper).isEqualTo("default")
+    fun `setSleepTimes is a no-op when not Pro`() = runTest {
+        val settings = FakeSettings(AppSettings(sleepEnabled = false, sleepStartMinutes = 22 * 60, sleepEndMinutes = 7 * 60))
+        val vm = ApplianceViewModel(settings, FakeEntitlement(pro = false))
 
-        settings.lastWallpaper = null
-        vm.select("aurora")   // a hypothetical custom wallpaper
-        assertThat(settings.lastWallpaper).isNull()   // gated: ignored when not Pro
-    }
+        vm.setSleepTimes(8 * 60, 6 * 60)
 
-    @Test
-    fun proUserCanSelectCustom() = runTest {
-        val settings = FakeSettings()
-        val vm = WallpaperViewModel(settings, FakeEntitlement(pro = true), FakeWallpaperRepo())
-        vm.select("aurora")
-        assertThat(settings.lastWallpaper).isEqualTo("aurora")
+        assertThat(settings.lastSleepCall).isNull()
     }
 }

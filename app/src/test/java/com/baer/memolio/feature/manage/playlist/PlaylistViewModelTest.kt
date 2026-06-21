@@ -6,6 +6,7 @@ import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
+import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
@@ -47,6 +48,9 @@ class PlaylistViewModelTest {
         override suspend fun setShowClock(value: Boolean) { config.value = config.value.copy(showClock = value) }
         override suspend fun setShowDate(value: Boolean) { config.value = config.value.copy(showDate = value) }
         override suspend fun setShowCaption(value: Boolean) { config.value = config.value.copy(showCaption = value) }
+        override suspend fun setClockStyle(value: ClockStyle) { config.value = config.value.copy(clockStyle = value) }
+        override suspend fun setClockOpacity(value: Float) { config.value = config.value.copy(clockOpacity = value) }
+        override suspend fun setClockScale(value: Float) { config.value = config.value.copy(clockScale = value) }
         // --- stubbed members (not exercised by playlist tests) ---
         override val appSettings: Flow<AppSettings> = MutableStateFlow(AppSettings())
         override suspend fun setUploadToken(token: String) {}

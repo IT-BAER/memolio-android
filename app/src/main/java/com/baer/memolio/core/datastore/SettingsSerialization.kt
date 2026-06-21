@@ -2,6 +2,7 @@ package com.baer.memolio.core.datastore
 
 enum class TransitionStyle { KEN_BURNS_CROSSFADE, CROSSFADE, SLIDE, CUT }
 enum class FitMode { BLURRED_FILL, CROP, FIT_BARS }
+enum class ClockStyle { DIGITAL, ANALOG }
 
 data class PlaylistConfig(
     val activeAlbumIds: Set<String> = emptySet(),
@@ -11,7 +12,10 @@ data class PlaylistConfig(
     val fitMode: FitMode = FitMode.BLURRED_FILL,
     val showClock: Boolean = true,
     val showDate: Boolean = true,
-    val showCaption: Boolean = true
+    val showCaption: Boolean = true,
+    val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+    val clockOpacity: Float = 1f,
+    val clockScale: Float = 1f
 )
 
 /**

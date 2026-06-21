@@ -42,12 +42,15 @@ class FrameViewModelTest {
         sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
     )
 
-    private fun newViewModel(): FrameViewModel {
+    private fun newViewModel(
+        wallpaperRepo: FakeWallpaperRepository = FakeWallpaperRepository()
+    ): FrameViewModel {
         val fakeSettings = FakeSettings(configFlow)
         val fakePhotos = FakePhotos(photosFlow) { observedAlbums = it }
         return FrameViewModel(
             settingsRepository = fakeSettings,
             photoRepository = fakePhotos,
+            wallpaperRepository = wallpaperRepo,
             timeProvider = fixedTime,
             defaultDispatcher = dispatcher,
             shuffleSeed = 1L
@@ -235,6 +238,9 @@ private class FakeSettings(
     override suspend fun setShowClock(value: Boolean) = Unit
     override suspend fun setShowDate(value: Boolean) = Unit
     override suspend fun setShowCaption(value: Boolean) = Unit
+    override suspend fun setClockStyle(value: com.baer.memolio.core.datastore.ClockStyle) = Unit
+    override suspend fun setClockOpacity(value: Float) = Unit
+    override suspend fun setClockScale(value: Float) = Unit
     override suspend fun setUploadToken(token: String) = Unit
     override suspend fun setServerPort(port: Int) = Unit
     override suspend fun setSleep(enabled: Boolean, startMinutes: Int, endMinutes: Int) = Unit
@@ -249,6 +255,14 @@ private class FakeSettings(
     override suspend fun setProUnlocked(value: Boolean) = Unit
     override suspend fun rotateToken(): String = ""
     override suspend fun ensureToken(): String = ""
+}
+
+private class FakeWallpaperRepository(
+    var customPath: String? = null
+) : com.baer.memolio.core.data.WallpaperRepository {
+    override suspend fun importCustom(uri: android.net.Uri): String = "custom"
+    override fun customWallpaperPath(): String? = customPath
+    override suspend fun clearCustom() { customPath = null }
 }
 
 private class FakePhotos(

@@ -24,6 +24,9 @@ interface SettingsRepository {
     suspend fun setShowClock(value: Boolean)
     suspend fun setShowDate(value: Boolean)
     suspend fun setShowCaption(value: Boolean)
+    suspend fun setClockStyle(value: ClockStyle)
+    suspend fun setClockOpacity(value: Float)
+    suspend fun setClockScale(value: Float)
 
     // AppSettings
     val appSettings: Flow<AppSettings>
@@ -57,6 +60,9 @@ class SettingsRepositoryImpl @Inject constructor(
         val SHOW_CLOCK = booleanPreferencesKey("show_clock")
         val SHOW_DATE = booleanPreferencesKey("show_date")
         val SHOW_CAPTION = booleanPreferencesKey("show_caption")
+        val CLOCK_STYLE = stringPreferencesKey("clock_style")
+        val CLOCK_OPACITY = floatPreferencesKey("clock_opacity")
+        val CLOCK_SCALE = floatPreferencesKey("clock_scale")
 
         // AppSettings keys
         val UPLOAD_TOKEN = stringPreferencesKey("upload_token")
@@ -85,7 +91,10 @@ class SettingsRepositoryImpl @Inject constructor(
             fitMode = p[Keys.FIT_MODE]?.let { FitMode.valueOf(it) } ?: defaults.fitMode,
             showClock = p[Keys.SHOW_CLOCK] ?: defaults.showClock,
             showDate = p[Keys.SHOW_DATE] ?: defaults.showDate,
-            showCaption = p[Keys.SHOW_CAPTION] ?: defaults.showCaption
+            showCaption = p[Keys.SHOW_CAPTION] ?: defaults.showCaption,
+            clockStyle = p[Keys.CLOCK_STYLE]?.let { ClockStyle.valueOf(it) } ?: defaults.clockStyle,
+            clockOpacity = p[Keys.CLOCK_OPACITY] ?: defaults.clockOpacity,
+            clockScale = p[Keys.CLOCK_SCALE] ?: defaults.clockScale
         )
     }
 
@@ -97,6 +106,9 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setShowClock(value: Boolean) { store.edit { it[Keys.SHOW_CLOCK] = value } }
     override suspend fun setShowDate(value: Boolean) { store.edit { it[Keys.SHOW_DATE] = value } }
     override suspend fun setShowCaption(value: Boolean) { store.edit { it[Keys.SHOW_CAPTION] = value } }
+    override suspend fun setClockStyle(value: ClockStyle) { store.edit { it[Keys.CLOCK_STYLE] = value.name } }
+    override suspend fun setClockOpacity(value: Float) { store.edit { it[Keys.CLOCK_OPACITY] = value.coerceIn(0f, 1f) } }
+    override suspend fun setClockScale(value: Float) { store.edit { it[Keys.CLOCK_SCALE] = value.coerceIn(0.5f, 1.5f) } }
 
     override val appSettings: Flow<AppSettings> = store.data.map { p ->
         val d = AppSettings()
