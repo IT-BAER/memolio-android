@@ -9,7 +9,8 @@ The app is pre-release. The current Android package is `com.baer.memolio`, with 
 
 ## Features
 
-- Fullscreen photo frame with clock, date, optional captions, shuffle, slideshow intervals, fit modes, and transitions.
+- Fullscreen photo frame with an analog or digital clock, date, optional captions, shuffle, slideshow intervals, fit modes, and crossfade with Ken Burns motion.
+- Face-aware smart crop: in fill & crop mode the crop biases toward a detected face, using an on-device (bundled, no network) face detector, with a center fallback when no face is found.
 - Local browser upload page served from the tablet over Wi-Fi.
 - QR upload links protected by a generated token that can be rotated in the app.
 - JPEG, PNG, HEIC, HEIF, and WebP upload support.
@@ -28,8 +29,9 @@ Pro-gated features in the current tree:
 
 - Albums and album-based playlists.
 - Appliance features: auto-start on boot, kiosk lock, Home-app mode, scheduled sleep, and ambient dimming.
+- Custom wallpaper: import your own image as the frame background.
 
-The app text also refers to custom wallpapers as Pro. The current code has three built-in wallpaper ids, `default`, `ember`, and `slate`. There is no custom wallpaper upload flow in this tree.
+The built-in wallpapers are `default` (a live vector background), `ember`, and `slate`, and are free. Importing a custom wallpaper is Pro.
 
 Pro purchase and restore use RevenueCat over Google Play Billing. After a successful purchase or restore, the entitlement is stored locally so the frame can keep running offline.
 
@@ -46,7 +48,7 @@ See [docs/privacy-policy.md](docs/privacy-policy.md) for the privacy policy draf
 ## Tech stack
 
 - Kotlin Android app with Jetpack Compose and Material 3.
-- Hilt, Room, DataStore, WorkManager, Ktor CIO, Coil, ZXing, and RevenueCat Purchases.
+- Hilt, Room, DataStore, WorkManager, Ktor CIO, Coil, ZXing, ML Kit face detection, and RevenueCat Purchases.
 - Tests use Robolectric, Compose UI testing, Truth, Turbine, Room testing, WorkManager testing, and Roborazzi.
 
 ## Repository
