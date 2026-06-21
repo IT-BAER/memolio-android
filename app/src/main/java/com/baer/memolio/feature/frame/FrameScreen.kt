@@ -33,6 +33,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.baer.memolio.core.model.Photo
+import com.baer.memolio.core.datastore.ClockStyle
+import com.baer.memolio.core.ui.AnalogClockOverlay
 import com.baer.memolio.core.ui.CaptionOverlay
 import com.baer.memolio.core.ui.ClockOverlay
 import com.baer.memolio.core.ui.DateOverlay
@@ -116,7 +118,8 @@ fun FrameScreen(
                     wallpaperId = state.wallpaperId,
                     modifier = Modifier.fillMaxSize(),
                     driftPhase = state.driftPhase,
-                    isPortrait = metrics.isPortrait
+                    isPortrait = metrics.isPortrait,
+                    customImagePath = state.customWallpaperPath
                 )
                 OverlayScrim(isPortrait = metrics.isPortrait)
                 // Overlay layer.
@@ -125,10 +128,15 @@ fun FrameScreen(
                 if (state.showClock) {
                     // Burn-in: nudge position by day fraction (±12dp over 24 h).
                     val driftDp = ((state.driftPhase - 0.5f) * 24f).dp
-                    ClockOverlay(
+                    StyledClock(
+                        style = state.clockStyle,
                         time = state.time,
+                        hour = state.hour,
+                        minute = state.minute,
+                        showDate = state.showDate,
+                        opacity = state.clockOpacity,
+                        sizeScale = state.clockScale,
                         metrics = metrics,
-                        liftAboveDate = state.showDate,
                         modifier = Modifier.graphicsLayer { translationY = driftDp.toPx() }
                     )
                 }
@@ -148,11 +156,48 @@ fun FrameScreen(
                 // Overlay layer — wordmark stays hidden during a slideshow; the menu button
                 // only appears after a single tap (see controlsRevealed).
                 if (controlsRevealed) MenuButton(onClick = onOpenManage, metrics = metrics)
-                if (state.showClock) ClockOverlay(time = state.time, metrics = metrics, liftAboveDate = state.showDate)
+                if (state.showClock) StyledClock(
+                    style = state.clockStyle,
+                    time = state.time,
+                    hour = state.hour,
+                    minute = state.minute,
+                    showDate = state.showDate,
+                    opacity = state.clockOpacity,
+                    sizeScale = state.clockScale,
+                    metrics = metrics
+                )
                 if (state.showDate) DateOverlay(date = state.date, metrics = metrics)
                 state.captionText?.let { CaptionOverlay(text = it, metrics = metrics) }
             }
         }
+    }
+}
+
+/** Renders the digital or analog clock per [style]; shares position/inset/date-lift. */
+@Composable
+private fun StyledClock(
+    style: ClockStyle,
+    time: String,
+    hour: Int,
+    minute: Int,
+    showDate: Boolean,
+    opacity: Float,
+    sizeScale: Float,
+    metrics: com.baer.memolio.core.ui.FrameMetrics,
+    modifier: Modifier = Modifier
+) {
+    when (style) {
+        ClockStyle.DIGITAL ->
+            ClockOverlay(
+                time = time, metrics = metrics, liftAboveDate = showDate,
+                opacity = opacity, sizeScale = sizeScale, modifier = modifier
+            )
+        ClockStyle.ANALOG ->
+            AnalogClockOverlay(
+                hour = hour, minute = minute, contentDescription = time,
+                metrics = metrics, liftAboveDate = showDate,
+                opacity = opacity, sizeScale = sizeScale, modifier = modifier
+            )
     }
 }
 

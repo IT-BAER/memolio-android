@@ -274,4 +274,18 @@ class FrameScreenTest {
         composeRule.onNodeWithText("MEMOLIO").assertDoesNotExist()
         composeRule.onNodeWithText("Sunset at the lake").assertDoesNotExist()
     }
+
+    @Test
+    fun analogStyleRendersDialNotDigits() {
+        val state = FrameUiState.Slideshow(
+            currentPhoto = photo("p1"), nextPhoto = photo("p2"),
+            position = 1, total = 1, time = "14:32", date = "Tuesday, 16 June",
+            showClock = true, showDate = false, showCaption = false,
+            clockStyle = com.baer.memolio.core.datastore.ClockStyle.ANALOG,
+            hour = 14, minute = 32
+        )
+        composeRule.setContent { MemolioTheme { FrameScreen(state = state, onOpenManage = {}) } }
+        composeRule.onNodeWithContentDescription("14:32").assertIsDisplayed()
+        composeRule.onNodeWithText("14:32").assertDoesNotExist()
+    }
 }
