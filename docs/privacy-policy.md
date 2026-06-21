@@ -52,4 +52,6 @@ Memolio's source code is public. You can read exactly what the app does, line by
 ## 11. Contact
 
 For questions about this policy or the app, contact:
-**IT-BAER** — [admin@it-baer.net](mailto:admin@it-baer.net)
+**Bruno Miglar (IT-BAER)** — [admin@it-baer.net](mailto:admin@it-baer.net)
+
+Full operator details are in the [Legal Notice / Impressum](https://github.com/IT-BAER/memolio-android/blob/main/docs/legal-notice.md).
