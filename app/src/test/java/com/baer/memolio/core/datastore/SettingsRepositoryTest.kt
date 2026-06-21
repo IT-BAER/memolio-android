@@ -55,15 +55,15 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun clockStyleDefaultsToDigitalAndPersists() = runTest(UnconfinedTestDispatcher()) {
+    fun clockStyleDefaultsToAnalogAndPersists() = runTest(UnconfinedTestDispatcher()) {
         val repo = newRepo(this, "settings_clockstyle.preferences_pb")
         repo.playlistConfig.test {
-            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.DIGITAL)
+            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.ANALOG)
             cancelAndIgnoreRemainingEvents()
         }
-        repo.setClockStyle(ClockStyle.ANALOG)
+        repo.setClockStyle(ClockStyle.DIGITAL)
         repo.playlistConfig.test {
-            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.ANALOG)
+            assertThat(awaitItem().clockStyle).isEqualTo(ClockStyle.DIGITAL)
             cancelAndIgnoreRemainingEvents()
         }
     }

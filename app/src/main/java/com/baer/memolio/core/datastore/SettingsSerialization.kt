@@ -13,7 +13,7 @@ data class PlaylistConfig(
     val showClock: Boolean = true,
     val showDate: Boolean = true,
     val showCaption: Boolean = true,
-    val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+    val clockStyle: ClockStyle = ClockStyle.ANALOG,
     val clockOpacity: Float = 1f,
     val clockScale: Float = 1f
 )
