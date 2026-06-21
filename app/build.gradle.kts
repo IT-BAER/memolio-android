@@ -55,6 +55,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Distinct applicationId so a debug build coexists with a Play/release build
+            // on the same device (com.baer.memolio.debug). Namespace stays com.baer.memolio.
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
