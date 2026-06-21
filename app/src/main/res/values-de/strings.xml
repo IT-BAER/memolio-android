@@ -7,6 +7,7 @@
     <string name="action_finish">Fertig</string>
     <string name="action_done">OK</string>
     <string name="action_close">Schließen</string>
+    <string name="action_cancel">Abbrechen</string>
     <string name="action_maybe_later">Vielleicht später</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Pro entdecken</string>
@@ -104,6 +105,9 @@
     <string name="playlist_interval_suffix">s</string>
     <string name="playlist_shuffle">Zufällige Reihenfolge</string>
     <string name="playlist_show_clock">Uhr anzeigen</string>
+    <string name="playlist_analog_clock">Analoge Uhr</string>
+    <string name="playlist_clock_opacity">Uhr-Deckkraft</string>
+    <string name="playlist_clock_size">Uhrgröße</string>
     <string name="playlist_show_date">Datum anzeigen</string>
     <string name="playlist_show_caption">Bildunterschrift anzeigen</string>
 
@@ -122,6 +126,9 @@
     <string name="appliance_autostart">Autostart beim Hochfahren</string>
     <string name="appliance_kiosk">Kiosk-Sperre (Home-App)</string>
     <string name="appliance_sleep">Bildschirm schlafen %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Zeiten festlegen</string>
+    <string name="appliance_sleep_start_title">Ruhemodus ab</string>
+    <string name="appliance_sleep_end_title">Aufwachen</string>
     <string name="appliance_ambient">Umgebungshelligkeit dimmen</string>
 
     <!-- ===== Storage ===== -->
@@ -136,6 +143,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Hintergrundbild</string>
     <string name="wallpaper_subtitle">Das Hintergrundbild hinter der Uhr</string>
+    <string name="wallpaper_custom">Eigenes</string>
+    <string name="wallpaper_custom_choose">Foto auswählen</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">Über</string>

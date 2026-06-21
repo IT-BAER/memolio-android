@@ -12,6 +12,7 @@
     <string name="action_finish">Afronden</string>
     <string name="action_done">Klaar</string>
     <string name="action_close">Sluiten</string>
+    <string name="action_cancel">Annuleren</string>
     <string name="action_maybe_later">Misschien later</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Bekijk Pro</string>
@@ -109,6 +110,9 @@
     <string name="playlist_interval_suffix">s</string>
     <string name="playlist_shuffle">Willekeurige volgorde</string>
     <string name="playlist_show_clock">Klok weergeven</string>
+    <string name="playlist_analog_clock">Analoge klok</string>
+    <string name="playlist_clock_opacity">Klokdekking</string>
+    <string name="playlist_clock_size">Klokgrootte</string>
     <string name="playlist_show_date">Datum weergeven</string>
     <string name="playlist_show_caption">Bijschrift weergeven</string>
 
@@ -127,6 +131,9 @@
     <string name="appliance_autostart">Automatisch opstarten</string>
     <string name="appliance_kiosk">Kioskvergrendeling (startscherm-app)</string>
     <string name="appliance_sleep">Scherm slapen %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Tijden instellen</string>
+    <string name="appliance_sleep_start_title">Scherm uit</string>
+    <string name="appliance_sleep_end_title">Scherm aan</string>
     <string name="appliance_ambient">Omgevingshelderheid dimmen</string>
 
     <!-- ===== Storage ===== -->
@@ -141,6 +148,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Achtergrond</string>
     <string name="wallpaper_subtitle">De rustachtergrond achter de klok</string>
+    <string name="wallpaper_custom">Aangepast</string>
+    <string name="wallpaper_custom_choose">Kies een foto</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">Over</string>

@@ -11,6 +11,7 @@
     <string name="action_finish">完成</string>
     <string name="action_done">确定</string>
     <string name="action_close">关闭</string>
+    <string name="action_cancel">取消</string>
     <string name="action_maybe_later">以后再说</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">了解 Pro</string>
@@ -109,6 +110,9 @@
     <string name="playlist_interval_suffix">秒</string>
     <string name="playlist_shuffle">随机播放</string>
     <string name="playlist_show_clock">显示时钟</string>
+    <string name="playlist_analog_clock">模拟时钟</string>
+    <string name="playlist_clock_opacity">时钟不透明度</string>
+    <string name="playlist_clock_size">时钟大小</string>
     <string name="playlist_show_date">显示日期</string>
     <string name="playlist_show_caption">显示说明文字</string>
 
@@ -127,6 +131,9 @@
     <string name="appliance_autostart">开机自启</string>
     <string name="appliance_kiosk">信息亭锁定（主屏幕应用）</string>
     <string name="appliance_sleep">屏幕休眠 %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">设置时间</string>
+    <string name="appliance_sleep_start_title">休眠开始</string>
+    <string name="appliance_sleep_end_title">唤醒时间</string>
     <string name="appliance_ambient">环境亮度自动调节</string>
 
     <!-- ===== 存储 ===== -->
@@ -141,6 +148,8 @@
     <!-- ===== 壁纸 ===== -->
     <string name="wallpaper_title">壁纸</string>
     <string name="wallpaper_subtitle">时钟后面的待机背景</string>
+    <string name="wallpaper_custom">自定义</string>
+    <string name="wallpaper_custom_choose">选择照片</string>
 
     <!-- ===== 关于 ===== -->
     <string name="about_title">关于</string>

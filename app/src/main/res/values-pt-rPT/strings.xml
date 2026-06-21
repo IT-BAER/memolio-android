@@ -12,6 +12,7 @@
     <string name="action_finish">Concluir</string>
     <string name="action_done">Feito</string>
     <string name="action_close">Fechar</string>
+    <string name="action_cancel">Cancelar</string>
     <string name="action_maybe_later">Talvez mais tarde</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Ver Pro</string>
@@ -109,6 +110,9 @@
     <string name="playlist_interval_suffix">s</string>
     <string name="playlist_shuffle">Aleatório</string>
     <string name="playlist_show_clock">Mostrar relógio</string>
+    <string name="playlist_analog_clock">Relógio analógico</string>
+    <string name="playlist_clock_opacity">Opacidade do relógio</string>
+    <string name="playlist_clock_size">Tamanho do relógio</string>
     <string name="playlist_show_date">Mostrar data</string>
     <string name="playlist_show_caption">Mostrar legenda</string>
 
@@ -127,6 +131,9 @@
     <string name="appliance_autostart">Início automático ao arrancar</string>
     <string name="appliance_kiosk">Modo quiosque (aplicação de início)</string>
     <string name="appliance_sleep">Repouso do ecrã %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Definir horas</string>
+    <string name="appliance_sleep_start_title">Início do repouso</string>
+    <string name="appliance_sleep_end_title">Despertar</string>
     <string name="appliance_ambient">Redução de brilho ambiente</string>
 
     <!-- ===== Storage ===== -->
@@ -141,6 +148,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Fundo</string>
     <string name="wallpaper_subtitle">O fundo que aparece por trás do relógio</string>
+    <string name="wallpaper_custom">Personalizado</string>
+    <string name="wallpaper_custom_choose">Escolher uma foto</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">Acerca de</string>

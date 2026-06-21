@@ -7,6 +7,7 @@
     <string name="action_finish">Zakończ</string>
     <string name="action_done">Gotowe</string>
     <string name="action_close">Zamknij</string>
+    <string name="action_cancel">Anuluj</string>
     <string name="action_maybe_later">Może później</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Zobacz Pro</string>
@@ -104,6 +105,9 @@
     <string name="playlist_interval_suffix">s</string>
     <string name="playlist_shuffle">Losowo</string>
     <string name="playlist_show_clock">Pokaż zegar</string>
+    <string name="playlist_analog_clock">Zegar analogowy</string>
+    <string name="playlist_clock_opacity">Krycie zegara</string>
+    <string name="playlist_clock_size">Rozmiar zegara</string>
     <string name="playlist_show_date">Pokaż datę</string>
     <string name="playlist_show_caption">Pokaż podpis</string>
 
@@ -122,6 +126,9 @@
     <string name="appliance_autostart">Automatyczny start przy uruchomieniu</string>
     <string name="appliance_kiosk">Blokada kiosku (aplikacja domowa)</string>
     <string name="appliance_sleep">Uśpij ekran %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Ustaw godziny</string>
+    <string name="appliance_sleep_start_title">Uśpienie ekranu</string>
+    <string name="appliance_sleep_end_title">Wybudzenie</string>
     <string name="appliance_ambient">Przyciemnianie jasności otoczenia</string>
 
     <!-- ===== Storage ===== -->
@@ -136,6 +143,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Tapeta</string>
     <string name="wallpaper_subtitle">Tło bezczynności za zegarem</string>
+    <string name="wallpaper_custom">Własne</string>
+    <string name="wallpaper_custom_choose">Wybierz zdjęcie</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">O aplikacji</string>

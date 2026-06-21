@@ -7,6 +7,7 @@
     <string name="action_finish">Готово</string>
     <string name="action_done">Ок</string>
     <string name="action_close">Закрыть</string>
+    <string name="action_cancel">Отмена</string>
     <string name="action_maybe_later">Позже</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Узнать о Pro</string>
@@ -104,6 +105,9 @@
     <string name="playlist_interval_suffix">с</string>
     <string name="playlist_shuffle">Перемешать</string>
     <string name="playlist_show_clock">Показывать часы</string>
+    <string name="playlist_analog_clock">Аналоговые часы</string>
+    <string name="playlist_clock_opacity">Непрозрачность часов</string>
+    <string name="playlist_clock_size">Размер часов</string>
     <string name="playlist_show_date">Показывать дату</string>
     <string name="playlist_show_caption">Показывать подпись</string>
 
@@ -122,6 +126,9 @@
     <string name="appliance_autostart">Автозапуск при включении</string>
     <string name="appliance_kiosk">Киоск-режим (приложение «Дом»)</string>
     <string name="appliance_sleep">Выключать экран %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Задать время</string>
+    <string name="appliance_sleep_start_title">Экран выключается</string>
+    <string name="appliance_sleep_end_title">Экран включается</string>
     <string name="appliance_ambient">Приглушение яркости</string>
 
     <!-- ===== Storage ===== -->
@@ -136,6 +143,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Обои</string>
     <string name="wallpaper_subtitle">Фоновое изображение за часами</string>
+    <string name="wallpaper_custom">Своё</string>
+    <string name="wallpaper_custom_choose">Выбрать фото</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">О приложении</string>

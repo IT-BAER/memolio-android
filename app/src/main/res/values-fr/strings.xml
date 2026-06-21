@@ -7,6 +7,7 @@
     <string name="action_finish">Terminer</string>
     <string name="action_done">OK</string>
     <string name="action_close">Fermer</string>
+    <string name="action_cancel">Annuler</string>
     <string name="action_maybe_later">Peut-être plus tard</string>
     <string name="badge_pro">Pro</string>
     <string name="cta_see_pro">Voir Pro</string>
@@ -104,6 +105,9 @@
     <string name="playlist_interval_suffix">s</string>
     <string name="playlist_shuffle">Aléatoire</string>
     <string name="playlist_show_clock">Afficher l\'horloge</string>
+    <string name="playlist_analog_clock">Horloge analogique</string>
+    <string name="playlist_clock_opacity">Opacité de l\'horloge</string>
+    <string name="playlist_clock_size">Taille de l\'horloge</string>
     <string name="playlist_show_date">Afficher la date</string>
     <string name="playlist_show_caption">Afficher la légende</string>
 
@@ -122,6 +126,9 @@
     <string name="appliance_autostart">Démarrage automatique au démarrage</string>
     <string name="appliance_kiosk">Verrouillage kiosque (application d\'accueil)</string>
     <string name="appliance_sleep">Écran en veille %1$s–%2$s</string>
+    <string name="appliance_sleep_edit">Définir les horaires</string>
+    <string name="appliance_sleep_start_title">Mise en veille</string>
+    <string name="appliance_sleep_end_title">Réveil</string>
     <string name="appliance_ambient">Atténuation de la luminosité ambiante</string>
 
     <!-- ===== Storage ===== -->
@@ -136,6 +143,8 @@
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Fond d\'écran</string>
     <string name="wallpaper_subtitle">L\'arrière-plan au repos derrière l\'horloge</string>
+    <string name="wallpaper_custom">Personnalisé</string>
+    <string name="wallpaper_custom_choose">Choisir une photo</string>
 
     <!-- ===== About ===== -->
     <string name="about_title">À propos</string>
