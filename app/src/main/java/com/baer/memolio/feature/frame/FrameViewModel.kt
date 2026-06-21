@@ -3,8 +3,10 @@ package com.baer.memolio.feature.frame
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baer.memolio.core.data.PhotoRepository
+import com.baer.memolio.core.data.WallpaperRepository
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
+import com.baer.memolio.core.ui.CUSTOM_WALLPAPER_ID
 import com.baer.memolio.core.di.DefaultDispatcher
 import com.baer.memolio.core.di.ShuffleSeed
 import com.baer.memolio.core.model.Photo
@@ -48,6 +50,7 @@ import javax.inject.Inject
 class FrameViewModel @Inject constructor(
     settingsRepository: SettingsRepository,
     photoRepository: PhotoRepository,
+    private val wallpaperRepository: WallpaperRepository,
     timeProvider: TimeProvider,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     @ShuffleSeed private val shuffleSeed: Long
@@ -137,6 +140,8 @@ class FrameViewModel @Inject constructor(
     ): FrameUiState {
         val time = tick.time.format(timeFormatter)
         val date = tick.date.format(dateFormatter)
+        val hour = tick.time.hour
+        val minute = tick.time.minute
         val byId = livePhotos.associateBy { it.id }
         val current = cursor.currentId?.let(byId::get)
         val next = cursor.nextId?.let(byId::get)
@@ -147,7 +152,13 @@ class FrameViewModel @Inject constructor(
                 driftPhase = tick.dayFraction,
                 showClock = config.showClock,
                 showDate = config.showDate,
-                wallpaperId = wallpaperId
+                wallpaperId = wallpaperId,
+                customWallpaperPath = if (wallpaperId == CUSTOM_WALLPAPER_ID) wallpaperRepository.customWallpaperPath() else null,
+                clockStyle = config.clockStyle,
+                hour = hour,
+                minute = minute,
+                clockOpacity = config.clockOpacity,
+                clockScale = config.clockScale
             )
         } else {
             FrameUiState.Slideshow(
@@ -159,7 +170,12 @@ class FrameViewModel @Inject constructor(
                 date = date,
                 showClock = config.showClock,
                 showDate = config.showDate,
-                showCaption = config.showCaption
+                showCaption = config.showCaption,
+                clockStyle = config.clockStyle,
+                hour = hour,
+                minute = minute,
+                clockOpacity = config.clockOpacity,
+                clockScale = config.clockScale
             )
         }
     }

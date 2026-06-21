@@ -217,6 +217,28 @@ class FrameViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    @Test
+    fun clockStyleAndTimePartsPropagate() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false,
+            clockStyle = com.baer.memolio.core.datastore.ClockStyle.ANALOG,
+            clockOpacity = 0.6f, clockScale = 1.25f
+        )
+        photosFlow.value = listOf(photo("p1"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.clockStyle).isEqualTo(com.baer.memolio.core.datastore.ClockStyle.ANALOG)
+            assertThat(s.hour).isEqualTo(14)
+            assertThat(s.minute).isEqualTo(32)
+            assertThat(s.clockOpacity).isEqualTo(0.6f)
+            assertThat(s.clockScale).isEqualTo(1.25f)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }
 
 // --- Fakes (same file). Per shared-contract addendum A, fakes implement the real

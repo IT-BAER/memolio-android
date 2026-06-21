@@ -1,5 +1,6 @@
 package com.baer.memolio.feature.frame
 
+import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.model.Photo
 
 /**
@@ -19,7 +20,13 @@ sealed interface FrameUiState {
         val driftPhase: Float,
         val showClock: Boolean,
         val showDate: Boolean,
-        val wallpaperId: String = "default"
+        val wallpaperId: String = "default",
+        val customWallpaperPath: String? = null,
+        val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+        val hour: Int = 0,
+        val minute: Int = 0,
+        val clockOpacity: Float = 1f,
+        val clockScale: Float = 1f
     ) : FrameUiState
 
     /** At least one photo. [currentPhoto]/[nextPhoto] feed the crossfade. */
@@ -32,7 +39,12 @@ sealed interface FrameUiState {
         val date: String,
         val showClock: Boolean,
         val showDate: Boolean,
-        val showCaption: Boolean
+        val showCaption: Boolean,
+        val clockStyle: ClockStyle = ClockStyle.DIGITAL,
+        val hour: Int = 0,
+        val minute: Int = 0,
+        val clockOpacity: Float = 1f,
+        val clockScale: Float = 1f
     ) : FrameUiState {
         /** Caption is only shown when toggled on AND the photo actually has one. */
         val captionText: String?
