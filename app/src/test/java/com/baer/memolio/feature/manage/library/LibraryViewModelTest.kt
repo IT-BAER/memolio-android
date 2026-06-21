@@ -54,6 +54,7 @@ class LibraryViewModelTest {
         var lastDeleted: String? = null
         var lastReorder: List<String>? = null
         var lastInPlaylist: Pair<String, Boolean>? = null
+        val inPlaylistCalls = mutableListOf<Pair<String, Boolean>>()
         override fun observePhotos(albumId: String): Flow<List<Photo>> =
             photosByAlbum.map { it[albumId].orEmpty() }
         override fun observeTrash(): Flow<List<Photo>> = flowOf(emptyList())
@@ -63,7 +64,10 @@ class LibraryViewModelTest {
         override fun observeSlideshowPool(): Flow<List<Photo>> =
             photosByAlbum.map { it.values.flatten() }
         override fun observeSlideshowInAlbums(albumIds: Set<String>): Flow<List<Photo>> = flowOf(emptyList())
-        override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) { lastInPlaylist = id to inPlaylist }
+        override suspend fun setInPlaylist(id: String, inPlaylist: Boolean) {
+            lastInPlaylist = id to inPlaylist
+            inPlaylistCalls += id to inPlaylist
+        }
         override suspend fun isDuplicate(contentHash: String): Boolean = false
         override suspend fun add(
             id: String, originalPath: String, displayCachePath: String, thumbPath: String,
@@ -80,10 +84,10 @@ class LibraryViewModelTest {
         override suspend fun setFocalPoint(id: String, x: Float, y: Float) {}
     }
 
-    private fun photo(id: String, album: String) = Photo(
+    private fun photo(id: String, album: String, inPlaylist: Boolean = true) = Photo(
         id = id, originalPath = "", displayCachePath = "", thumbPath = "/t/$id.jpg", contentHash = id,
         width = 1, height = 1, orientation = 0, caption = null, albumId = album,
-        favorite = false, sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
+        favorite = false, inPlaylist = inPlaylist, sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
     )
 
     @Test
@@ -372,6 +376,42 @@ class LibraryViewModelTest {
             assertThat(s.selectionMode).isFalse()
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun toggleHiddenShowsWhenAllSelectedAreHidden() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(
+            photo("p1", "a1", inPlaylist = false),
+            photo("p2", "a1", inPlaylist = false)
+        ))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.toggleSelection("p1")
+        vm.toggleSelection("p2")
+
+        vm.toggleHiddenSelected()
+
+        // every selected photo was hidden -> all are made visible (un-hidden)
+        assertThat(photoRepo.inPlaylistCalls).containsExactly("p1" to true, "p2" to true)
+    }
+
+    @Test
+    fun toggleHiddenHidesWhenAnySelectedIsVisible() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf("a1" to listOf(
+            photo("p1", "a1", inPlaylist = false),
+            photo("p2", "a1", inPlaylist = true)
+        ))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum("a1")
+        vm.toggleSelection("p1")
+        vm.toggleSelection("p2")
+
+        vm.toggleHiddenSelected()
+
+        // mixed selection (one visible) -> hide all
+        assertThat(photoRepo.inPlaylistCalls).containsExactly("p1" to false, "p2" to false)
     }
 
     @Test

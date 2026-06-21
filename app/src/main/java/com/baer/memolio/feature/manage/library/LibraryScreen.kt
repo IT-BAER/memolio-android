@@ -92,7 +92,7 @@ fun LibraryScreen(
         onToggleSelect = viewModel::toggleSelection,
         onClearSelection = viewModel::clearSelection,
         onFavoriteSelected = { viewModel.favoriteSelected(true) },
-        onHideSelected = { viewModel.hideSelected(true) },
+        onToggleHiddenSelected = viewModel::toggleHiddenSelected,
         onDeleteSelected = viewModel::deleteSelected,
         onOpenPaywall = onOpenPaywall,
         modifier = modifier
@@ -117,7 +117,7 @@ fun LibraryContent(
     onToggleSelect: (String) -> Unit = {},
     onClearSelection: () -> Unit = {},
     onFavoriteSelected: () -> Unit = {},
-    onHideSelected: () -> Unit = {},
+    onToggleHiddenSelected: () -> Unit = {},
     onDeleteSelected: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -148,7 +148,7 @@ fun LibraryContent(
             onToggleSelect = onToggleSelect,
             onClearSelection = onClearSelection,
             onFavoriteSelected = onFavoriteSelected,
-            onHideSelected = onHideSelected,
+            onToggleHiddenSelected = onToggleHiddenSelected,
             onDeleteSelected = onDeleteSelected,
             modifier = modifier
         )
@@ -274,7 +274,7 @@ private fun AlbumDetailView(
     onToggleSelect: (String) -> Unit,
     onClearSelection: () -> Unit,
     onFavoriteSelected: () -> Unit,
-    onHideSelected: () -> Unit,
+    onToggleHiddenSelected: () -> Unit,
     onDeleteSelected: () -> Unit,
     modifier: Modifier
 ) {
@@ -352,25 +352,29 @@ private fun AlbumDetailView(
             }
         }
         if (selecting) {
+            val allSelectedHidden = state.openAlbumPhotos
+                .filter { it.id in state.selectedIds }
+                .let { sel -> sel.isNotEmpty() && sel.all { !it.inPlaylist } }
             SelectionActionBar(
+                allHidden = allSelectedHidden,
                 onFavorite = onFavoriteSelected,
-                onHide = onHideSelected,
+                onToggleHidden = onToggleHiddenSelected,
                 onDelete = onDeleteSelected
             )
         }
     }
 }
 
-/** Bulk actions for the long-press selection: favorite, hide, delete the checked photos. */
+/** Bulk actions for the long-press selection: favorite, hide/show, delete the checked photos. */
 @Composable
-private fun SelectionActionBar(onFavorite: () -> Unit, onHide: () -> Unit, onDelete: () -> Unit) {
+private fun SelectionActionBar(allHidden: Boolean, onFavorite: () -> Unit, onToggleHidden: () -> Unit, onDelete: () -> Unit) {
     Row(
         Modifier.fillMaxWidth().padding(top = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         MemolioButton(stringResource(R.string.library_favorite), onFavorite, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "favorite")
-        MemolioButton(stringResource(R.string.library_hide), onHide, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "playlist_play")
+        MemolioButton(stringResource(if (allHidden) R.string.library_show else R.string.library_hide), onToggleHidden, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "playlist_play")
         MemolioButton(stringResource(R.string.library_delete), onDelete, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "delete")
     }
 }

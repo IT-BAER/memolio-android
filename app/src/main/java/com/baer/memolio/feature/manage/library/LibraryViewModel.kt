@@ -204,6 +204,20 @@ class LibraryViewModel @Inject constructor(
         selectedIds.value.forEach { photoRepository.setInPlaylist(it, !hidden) }
     }
 
+    /**
+     * Bulk hide/show toggle for the current selection. If every selected photo is already
+     * hidden, show them all; otherwise hide them all — so selecting hidden photos and tapping
+     * the action actually un-hides them (mirrors the per-photo preview toggle).
+     */
+    fun toggleHiddenSelected() = viewModelScope.launch {
+        val ids = selectedIds.value
+        if (ids.isEmpty()) return@launch
+        val selected = openPhotos.first().filter { it.id in ids }
+        if (selected.isEmpty()) return@launch
+        val makeVisible = selected.all { !it.inPlaylist }
+        ids.forEach { photoRepository.setInPlaylist(it, makeVisible) }
+    }
+
     fun deleteSelected() = viewModelScope.launch {
         val ts = nowFn()
         selectedIds.value.forEach { photoRepository.softDelete(it, ts) }
