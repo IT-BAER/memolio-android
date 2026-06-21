@@ -62,4 +62,16 @@ class OverlaysTest {
         }
         composeRule.onNodeWithText("  ").assertDoesNotExist()
     }
+
+    @Test
+    fun analogClockExposesTimeAsContentDescription() {
+        composeRule.setContent {
+            MemolioTheme {
+                Box(Modifier.fillMaxSize()) {
+                    AnalogClockOverlay(hour = 14, minute = 32, contentDescription = "14:32")
+                }
+            }
+        }
+        composeRule.onNodeWithContentDescription("14:32").assertIsDisplayed()
+    }
 }

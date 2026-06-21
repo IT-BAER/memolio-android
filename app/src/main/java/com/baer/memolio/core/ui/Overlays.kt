@@ -1,19 +1,26 @@
 package com.baer.memolio.core.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Text
@@ -23,6 +30,8 @@ import com.baer.memolio.core.ui.component.IconButtonVariant
 import com.baer.memolio.core.ui.component.MemolioIconButton
 import com.baer.memolio.core.ui.component.MemolioWordmark
 import com.baer.memolio.core.ui.component.WordmarkTone
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * Shared overlay composables used in both the idle home and slideshow states.
@@ -39,6 +48,8 @@ fun ClockOverlay(
     time: String,
     metrics: FrameMetrics = FrameMetrics.Default,
     liftAboveDate: Boolean = true,
+    opacity: Float = 1f,
+    sizeScale: Float = 1f,
     modifier: Modifier = Modifier
 ) {
     // When the date block is shown below, lift the clock to clear the date + rule.
@@ -48,13 +59,94 @@ fun ClockOverlay(
             text = time,
             color = MemolioColors.Paper,
             style = MemolioType.clock.copy(
-                fontSize = metrics.clockSize,
-                lineHeight = metrics.clockSize * 0.82f,
+                fontSize = metrics.clockSize * sizeScale,
+                lineHeight = metrics.clockSize * sizeScale * 0.82f,
             ),
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = metrics.insetX, bottom = metrics.insetBottom + dateReserve, end = metrics.insetX)
+                .graphicsLayer { this.alpha = opacity }
         )
+    }
+}
+
+/**
+ * Analog clock — the dial from the store feature graphic. 12 round dot markers (cardinals
+ * larger), two round-capped hands (no second hand), a center hub. Drawn in [MemolioColors.Paper]
+ * so it adapts to the photo behind it exactly like the digital clock. Sized to
+ * [FrameMetrics.clockDiameter], anchored bottom-left with the same inset + date lift as
+ * [ClockOverlay]. [contentDescription] (the formatted time) carries it for TalkBack + tests.
+ */
+@Composable
+fun AnalogClockOverlay(
+    hour: Int,
+    minute: Int,
+    contentDescription: String,
+    metrics: FrameMetrics = FrameMetrics.Default,
+    liftAboveDate: Boolean = true,
+    opacity: Float = 1f,
+    sizeScale: Float = 1f,
+    modifier: Modifier = Modifier
+) {
+    val dateReserve = if (liftAboveDate) (metrics.dateSize.value * 1.5f + 18f).dp else 0.dp
+    val paper = MemolioColors.Paper
+    Box(modifier.fillMaxSize()) {
+        Canvas(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = metrics.insetX, bottom = metrics.insetBottom + dateReserve)
+                .size(metrics.clockDiameter * sizeScale)
+                .graphicsLayer { this.alpha = opacity }
+                .semantics { this.contentDescription = contentDescription }
+        ) {
+            val d = size.minDimension
+            val r = d / 2f
+            val center = Offset(r, r)
+
+            // 12 dot markers on a ring; cardinals (12/3/6/9) larger.
+            for (i in 0 until 12) {
+                val a = Math.toRadians((i * 30 - 90).toDouble())
+                val mr = r * 0.86f
+                val cardinal = i % 3 == 0
+                drawCircle(
+                    color = paper,
+                    radius = if (cardinal) d * 0.018f else d * 0.012f,
+                    center = Offset(
+                        center.x + (mr * cos(a)).toFloat(),
+                        center.y + (mr * sin(a)).toFloat()
+                    )
+                )
+            }
+
+            // Hour hand (short, thick).
+            val ha = Math.toRadians(((hour % 12) * 30 + minute * 0.5f - 90f).toDouble())
+            drawLine(
+                color = paper,
+                start = center,
+                end = Offset(
+                    center.x + (r * 0.52f * cos(ha)).toFloat(),
+                    center.y + (r * 0.52f * sin(ha)).toFloat()
+                ),
+                strokeWidth = d * 0.022f,
+                cap = StrokeCap.Round
+            )
+
+            // Minute hand (long, thin).
+            val ma = Math.toRadians((minute * 6 - 90).toDouble())
+            drawLine(
+                color = paper,
+                start = center,
+                end = Offset(
+                    center.x + (r * 0.76f * cos(ma)).toFloat(),
+                    center.y + (r * 0.76f * sin(ma)).toFloat()
+                ),
+                strokeWidth = d * 0.014f,
+                cap = StrokeCap.Round
+            )
+
+            // Center hub.
+            drawCircle(color = paper, radius = d * 0.02f, center = center)
+        }
     }
 }
 
