@@ -106,6 +106,11 @@
     <string name="library_albums">Albums</string>
     <string name="library_favorite">Favorite</string>
     <string name="library_delete">Delete</string>
+    <string name="library_hide">Hide</string>
+    <string name="library_show">Show</string>
+    <string name="library_delete_album">Delete album</string>
+    <string name="library_delete_album_title">Delete album?</string>
+    <string name="library_delete_album_body">“%1$s” will be removed. Its photos stay in your library under All photos.</string>
     <string name="library_all_photos">All photos</string>
     <string name="library_pool_hint">Tap a photo to hide it from the slideshow. Hidden photos stay in your library.</string>
     <string name="photo_hidden">Hidden</string>
@@ -125,6 +130,10 @@
     <string name="playlist_clock_size">Clock size</string>
     <string name="playlist_show_date">Show date</string>
     <string name="playlist_show_caption">Show caption</string>
+    <string name="playlist_photo_fit">Photo fit</string>
+    <string name="playlist_fit_blurred">Blurred fill</string>
+    <string name="playlist_fit_crop">Fill &amp; crop</string>
+    <string name="playlist_fit_bars">Fit (bars)</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Add photos</string>

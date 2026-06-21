@@ -26,6 +26,9 @@ import com.baer.memolio.core.ui.component.AdaptiveTwoPane
 import com.baer.memolio.core.ui.component.CardVariant
 import com.baer.memolio.core.ui.component.MemolioCard
 import com.baer.memolio.core.ui.component.MemolioSlider
+import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.ui.component.DropdownItem
+import com.baer.memolio.core.ui.component.MemolioDropdown
 import com.baer.memolio.core.ui.component.MemolioSwitch
 import com.baer.memolio.core.ui.component.SectionHead
 
@@ -71,6 +74,23 @@ fun PlaylistScreen(
                             label = stringResource(R.string.playlist_interval)
                         )
                         MemolioSwitch(state.shuffle, viewModel::setShuffle, label = stringResource(R.string.playlist_shuffle))
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(
+                                stringResource(R.string.playlist_photo_fit),
+                                color = MemolioColors.TextPrimary,
+                                style = MemolioType.body,
+                            )
+                            MemolioDropdown(
+                                items = listOf(
+                                    DropdownItem(FitMode.BLURRED_FILL.name, stringResource(R.string.playlist_fit_blurred)),
+                                    DropdownItem(FitMode.CROP.name, stringResource(R.string.playlist_fit_crop)),
+                                    DropdownItem(FitMode.FIT_BARS.name, stringResource(R.string.playlist_fit_bars)),
+                                ),
+                                selectedKey = state.fitMode.name,
+                                onSelect = { viewModel.setFitMode(FitMode.valueOf(it)) },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
                         Box(Modifier.fillMaxWidth().height(1.dp).background(MemolioColors.BorderSoft))
                         MemolioSwitch(state.showClock, viewModel::setShowClock, label = stringResource(R.string.playlist_show_clock))
                         if (state.showClock) {
