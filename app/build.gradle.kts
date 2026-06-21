@@ -133,6 +133,7 @@ dependencies {
     implementation(libs.zxing.core)
     implementation(libs.coil.compose)
     implementation(libs.revenuecat.purchases)
+    implementation(libs.revenuecat.purchases.ui)
 
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.navigation.testing)

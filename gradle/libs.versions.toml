@@ -90,6 +90,7 @@ compose-material3-adaptive-layout = { module = "androidx.compose.material3.adapt
 compose-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3Adaptive" }
 
 revenuecat-purchases = { module = "com.revenuecat.purchases:purchases", version.ref = "revenueCat" }
+revenuecat-purchases-ui = { module = "com.revenuecat.purchases:purchases-ui", version.ref = "revenueCat" }
 
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
