@@ -9,12 +9,15 @@ The app is pre-release. The current Android package is `com.baer.memolio`, with 
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.baer.memolio">
-    <img alt="Get it on Google Play"
-         src="https://img.shields.io/badge/Get%20it%20on-Google%20Play-000000?style=for-the-badge&logo=googleplay&logoColor=3DDC84">
+    <img alt="Get it on Google Play" height="56"
+         src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
   </a>
+</p>
+
+<p align="center">
   <a href="https://groups.google.com/g/play-test-baer">
-    <img alt="Join the closed test on Google Play"
-         src="https://img.shields.io/badge/Join%20the-Closed%20Test-3DDC84?style=for-the-badge&logo=googleplay&logoColor=white">
+    <img alt="Join the closed test on Google Play" height="56"
+         src="https://img.shields.io/badge/Join%20the%20closed%20test-3DDC84?style=for-the-badge&logo=googleplay&logoColor=white">
   </a>
 </p>
 
