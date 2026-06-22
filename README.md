@@ -7,6 +7,20 @@ Photos are added from a phone or computer on the same Wi-Fi network by scanning 
 
 The app is pre-release. The current Android package is `com.baer.memolio`, with version name `0.1.0` and version code `1`.
 
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.baer.memolio">
+    <img alt="Get it on Google Play" height="56"
+         src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+  </a>
+  &nbsp;
+  <a href="https://groups.google.com/g/play-test-baer">
+    <img alt="Join the closed test on Google Play" height="56"
+         src="https://img.shields.io/badge/Join%20the%20closed%20test-3DDC84?style=for-the-badge&logo=googleplay&logoColor=white">
+  </a>
+</p>
+
+<p align="center"><em>The Google Play listing goes live at release. The closed test is open now — join the group to opt in.</em></p>
+
 ## Features
 
 - Fullscreen photo frame with an analog or digital clock, date, optional captions, shuffle, slideshow intervals, fit modes, and crossfade with Ken Burns motion.
