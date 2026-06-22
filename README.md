@@ -56,7 +56,6 @@ See [docs/privacy-policy.md](docs/privacy-policy.md) for the privacy policy draf
 - App code: `app/src/main/java/com/baer/memolio/`
 - Upload page: `app/src/main/assets/upload.html`
 - Room schemas: `app/schemas/`
-- Store metadata: `fastlane/metadata/android/`
 - Docs and mockups: `docs/`
 
 ## License

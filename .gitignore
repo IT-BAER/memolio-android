@@ -45,5 +45,5 @@ CLAUDE.md
 # Local-only working artifacts / generated assets (not for public repo)
 /tools/
 /todo.md
-fastlane/metadata/android/*/images/
+/fastlane/
 /assets/mockup-photos/
