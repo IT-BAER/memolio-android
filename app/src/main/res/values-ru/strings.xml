@@ -14,6 +14,9 @@
 
     <!-- ===== Frame overlays ===== -->
     <string name="frame_open_settings">Открыть настройки</string>
+    <string name="frame_paused">На паузе</string>
+    <string name="frame_favorite_add">Добавить в избранное</string>
+    <string name="frame_favorite_remove">Убрать из избранного</string>
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Добро пожаловать в Memolio</string>
@@ -119,6 +122,11 @@
     <string name="playlist_fit_blurred">Размытый фон</string>
     <string name="playlist_fit_crop">Заполнить с обрезкой</string>
     <string name="playlist_fit_bars">Вписать (поля)</string>
+    <string name="playlist_transition">Переход</string>
+    <string name="playlist_transition_kenburns">Ken Burns</string>
+    <string name="playlist_transition_crossfade">Плавное растворение</string>
+    <string name="playlist_transition_slide">Сдвиг</string>
+    <string name="playlist_transition_cut">Склейка</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Добавить фото</string>

@@ -71,4 +71,35 @@ class FramePlaylistTest {
         val b = FramePlaylist.create(ids(6), shuffle = true, seed = seed).order
         assertThat(a).isEqualTo(b)
     }
+
+    // ---- rewound() ---------------------------------------------------------------
+
+    @Test
+    fun rewindStepsIndexBack() {
+        val pl = FramePlaylist.create(ids(3), shuffle = false, seed = 0L).advanced().advanced()
+        // index is now 2 (p3)
+        assertThat(pl.currentId).isEqualTo("p3")
+        val rw = pl.rewound()
+        assertThat(rw.currentId).isEqualTo("p2")
+    }
+
+    @Test
+    fun rewindWrapsFromZeroToLast() {
+        val pl = FramePlaylist.create(ids(3), shuffle = false, seed = 0L)
+        assertThat(pl.currentId).isEqualTo("p1")
+        val rw = pl.rewound()
+        assertThat(rw.currentId).isEqualTo("p3")
+    }
+
+    @Test
+    fun rewindOnEmptyIsNoOp() {
+        val pl = FramePlaylist.create(emptyList(), shuffle = false, seed = 0L)
+        assertThat(pl.rewound().currentId).isNull()
+    }
+
+    @Test
+    fun rewindOnSinglePhotoStaysSame() {
+        val pl = FramePlaylist.create(listOf("only"), shuffle = false, seed = 0L)
+        assertThat(pl.rewound().currentId).isEqualTo("only")
+    }
 }

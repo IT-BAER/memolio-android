@@ -14,6 +14,9 @@
 
     <!-- ===== Frame overlays ===== -->
     <string name="frame_open_settings">Ouvrir les réglages</string>
+    <string name="frame_paused">En pause</string>
+    <string name="frame_favorite_add">Ajouter aux favoris</string>
+    <string name="frame_favorite_remove">Retirer des favoris</string>
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Bienvenue dans Memolio</string>
@@ -119,6 +122,11 @@
     <string name="playlist_fit_blurred">Remplissage flou</string>
     <string name="playlist_fit_crop">Remplir et rogner</string>
     <string name="playlist_fit_bars">Ajuster (bandes)</string>
+    <string name="playlist_transition">Transition</string>
+    <string name="playlist_transition_kenburns">Ken Burns</string>
+    <string name="playlist_transition_crossfade">Fondu enchaîné</string>
+    <string name="playlist_transition_slide">Glissement</string>
+    <string name="playlist_transition_cut">Coupe</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Ajouter des photos</string>

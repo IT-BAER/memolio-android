@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [0.2.0] - 2026-06-23
+
+### Added
+
+- Slideshow gestures: tap to pause and reveal the controls, swipe left or right
+  for the next or previous photo, and a favorite (heart) button on the revealed
+  controls. Long-press still opens the Manage screen.
+- Transition style picker (Manage › Playlist › Display): choose how photos change
+  — Ken Burns, Crossfade, Slide, or Cut. The Slide direction follows the swipe
+  (swiping back slides in from the left).
+
 ## [0.1.0] - 2026-06-21
 
 Initial pre-release. Not yet published to Google Play.
@@ -61,5 +72,6 @@ Initial pre-release. Not yet published to Google Play.
   restores; uploaded photos travel directly from the uploader's browser to the
   tablet over the local network.
 
-[Unreleased]: https://github.com/IT-BAER/memolio-android/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/IT-BAER/memolio-android/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/IT-BAER/memolio-android/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/IT-BAER/memolio-android/releases/tag/v0.1.0

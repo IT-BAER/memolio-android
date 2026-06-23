@@ -18,6 +18,9 @@
 
     <!-- ===== 相框叠加层 ===== -->
     <string name="frame_open_settings">打开设置</string>
+    <string name="frame_paused">已暂停</string>
+    <string name="frame_favorite_add">添加到收藏</string>
+    <string name="frame_favorite_remove">从收藏中移除</string>
 
     <!-- ===== 引导流程 ===== -->
     <string name="onboard_welcome_title">欢迎使用 Memolio</string>
@@ -124,6 +127,11 @@
     <string name="playlist_fit_blurred">模糊填充</string>
     <string name="playlist_fit_crop">填充并裁剪</string>
     <string name="playlist_fit_bars">适应（黑边）</string>
+    <string name="playlist_transition">切换效果</string>
+    <string name="playlist_transition_kenburns">Ken Burns</string>
+    <string name="playlist_transition_crossfade">淡入淡出</string>
+    <string name="playlist_transition_slide">滑动</string>
+    <string name="playlist_transition_cut">直接切换</string>
 
     <!-- ===== 添加照片 ===== -->
     <string name="addphotos_title">添加照片</string>

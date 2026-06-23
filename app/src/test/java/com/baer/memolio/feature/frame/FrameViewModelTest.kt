@@ -43,11 +43,13 @@ class FrameViewModelTest {
         sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null
     )
 
+    private lateinit var fakePhotos: FakePhotos
+
     private fun newViewModel(
         wallpaperRepo: FakeWallpaperRepository = FakeWallpaperRepository()
     ): FrameViewModel {
         val fakeSettings = FakeSettings(configFlow)
-        val fakePhotos = FakePhotos(photosFlow) { observedAlbums = it }
+        fakePhotos = FakePhotos(photosFlow) { observedAlbums = it }
         return FrameViewModel(
             settingsRepository = fakeSettings,
             photoRepository = fakePhotos,
@@ -236,6 +238,23 @@ class FrameViewModelTest {
     }
 
     @Test
+    fun transitionPropagatesFromConfig() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false,
+            transition = com.baer.memolio.core.datastore.TransitionStyle.SLIDE
+        )
+        photosFlow.value = listOf(photo("p1"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1) // Loading
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.transition).isEqualTo(com.baer.memolio.core.datastore.TransitionStyle.SLIDE)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun clockStyleAndTimePartsPropagate() = runTest(dispatcher) {
         configFlow.value = PlaylistConfig(
             activeAlbumIds = setOf("a1"), shuffle = false,
@@ -255,6 +274,100 @@ class FrameViewModelTest {
             assertThat(s.clockScale).isEqualTo(1.25f)
             cancelAndIgnoreRemainingEvents()
         }
+    }
+    // ---- Slideshow gesture commands --------------------------------------------
+
+    @Test
+    fun togglePauseStopsAutoAdvance() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false, intervalSeconds = 30
+        )
+        photosFlow.value = listOf(photo("p1"), photo("p2"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            val s0 = awaitItem() as FrameUiState.Slideshow
+            assertThat(s0.currentPhoto.id).isEqualTo("p1")
+            assertThat(s0.paused).isFalse()
+
+            vm.togglePause()
+            runCurrent()
+            val s1 = awaitItem() as FrameUiState.Slideshow
+            assertThat(s1.paused).isTrue()
+            assertThat(s1.currentPhoto.id).isEqualTo("p1") // not advanced
+
+            // No advance even after a full interval while paused.
+            advanceTimeBy(30_001)
+            expectNoEvents()
+
+            // Unpause — next tick should advance.
+            vm.togglePause()
+            runCurrent()
+            val s2 = awaitItem() as FrameUiState.Slideshow
+            assertThat(s2.paused).isFalse()
+            advanceTimeBy(30_001)
+            assertThat((awaitItem() as FrameUiState.Slideshow).currentPhoto.id).isEqualTo("p2")
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun nextCommandAdvancesImmediately() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false, intervalSeconds = 30
+        )
+        photosFlow.value = listOf(photo("p1"), photo("p2"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            assertThat((awaitItem() as FrameUiState.Slideshow).currentPhoto.id).isEqualTo("p1")
+            vm.next()
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.currentPhoto.id).isEqualTo("p2")
+            assertThat(s.advanceForward).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun previousCommandRewindsAndWraps() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false, intervalSeconds = 30
+        )
+        photosFlow.value = listOf(photo("p1"), photo("p2"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            assertThat((awaitItem() as FrameUiState.Slideshow).currentPhoto.id).isEqualTo("p1")
+            // Rewind at index=0 wraps to last.
+            vm.previous()
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.currentPhoto.id).isEqualTo("p2")
+            assertThat(s.advanceForward).isFalse()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun toggleFavoriteCurrentCallsSetFavorite() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(activeAlbumIds = setOf("a1"), shuffle = false)
+        photosFlow.value = listOf(photo("p1"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1)
+            runCurrent()
+            assertThat(awaitItem()).isInstanceOf(FrameUiState.Slideshow::class.java)
+            vm.toggleFavoriteCurrent()
+            runCurrent()
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertThat(fakePhotos.lastFavoriteId).isEqualTo("p1")
+        assertThat(fakePhotos.lastFavoriteValue).isTrue()
     }
 }
 
@@ -340,7 +453,12 @@ private class FakePhotos(
     override suspend fun restore(id: String) = Unit
     override suspend fun purgeTrashOlderThan(threshold: Long): Int = 0
     override suspend fun moveToAlbum(id: String, albumId: String) = Unit
-    override suspend fun setFavorite(id: String, favorite: Boolean) = Unit
+    var lastFavoriteId: String? = null
+    var lastFavoriteValue: Boolean? = null
+    override suspend fun setFavorite(id: String, favorite: Boolean) {
+        lastFavoriteId = id
+        lastFavoriteValue = favorite
+    }
     override suspend fun setCaption(id: String, caption: String?) = Unit
     override suspend fun reorder(orderedIds: List<String>) = Unit
     override suspend fun setFocalPoint(id: String, x: Float, y: Float) = Unit

@@ -2,6 +2,7 @@ package com.baer.memolio.feature.frame
 
 import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionStyle
 import com.baer.memolio.core.model.Photo
 
 /**
@@ -43,6 +44,11 @@ sealed interface FrameUiState {
         val showCaption: Boolean,
         val clockStyle: ClockStyle = ClockStyle.DIGITAL,
         val fitMode: FitMode = FitMode.BLURRED_FILL,
+        val transition: TransitionStyle = TransitionStyle.KEN_BURNS_CROSSFADE,
+        /** Direction of the last cursor move: true = forward (next/auto), false = backward
+         *  (previous). Drives the SLIDE transition so a swipe-right animates left-to-right. */
+        val advanceForward: Boolean = true,
+        val paused: Boolean = false,
         val hour: Int = 0,
         val minute: Int = 0,
         val clockOpacity: Float = 1f,

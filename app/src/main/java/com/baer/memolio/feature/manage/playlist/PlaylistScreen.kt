@@ -27,6 +27,7 @@ import com.baer.memolio.core.ui.component.CardVariant
 import com.baer.memolio.core.ui.component.MemolioCard
 import com.baer.memolio.core.ui.component.MemolioSlider
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionStyle
 import com.baer.memolio.core.ui.component.DropdownItem
 import com.baer.memolio.core.ui.component.MemolioDropdown
 import com.baer.memolio.core.ui.component.MemolioSwitch
@@ -88,6 +89,24 @@ fun PlaylistScreen(
                                 ),
                                 selectedKey = state.fitMode.name,
                                 onSelect = { viewModel.setFitMode(FitMode.valueOf(it)) },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(
+                                stringResource(R.string.playlist_transition),
+                                color = MemolioColors.TextPrimary,
+                                style = MemolioType.body,
+                            )
+                            MemolioDropdown(
+                                items = listOf(
+                                    DropdownItem(TransitionStyle.KEN_BURNS_CROSSFADE.name, stringResource(R.string.playlist_transition_kenburns)),
+                                    DropdownItem(TransitionStyle.CROSSFADE.name, stringResource(R.string.playlist_transition_crossfade)),
+                                    DropdownItem(TransitionStyle.SLIDE.name, stringResource(R.string.playlist_transition_slide)),
+                                    DropdownItem(TransitionStyle.CUT.name, stringResource(R.string.playlist_transition_cut)),
+                                ),
+                                selectedKey = state.transition.name,
+                                onSelect = { viewModel.setTransition(TransitionStyle.valueOf(it)) },
                                 modifier = Modifier.fillMaxWidth(),
                             )
                         }

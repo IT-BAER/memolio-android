@@ -16,16 +16,19 @@ import com.baer.memolio.core.time.TimeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.onTimeout
+import kotlinx.coroutines.selects.select
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -40,8 +43,8 @@ import javax.inject.Inject
  * [shuffleSeed] is injected (defaulting to the wall clock in production via the
  * `@ShuffleSeed` provider) so shuffle order is reproducible in tests.
  *
- * IMPORTANT: the advance ticker lives INSIDE the [uiState] flow (a `flow { while … }`
- * under `flatMapLatest`), so it only runs while [uiState] is subscribed and is torn
+ * IMPORTANT: the advance ticker lives INSIDE the [uiState] flow (a `channelFlow` select-
+ * loop under `flatMapLatest`), so it only runs while [uiState] is subscribed and is torn
  * down by `WhileSubscribed`. It is never launched as a free-running coroutine in
  * `viewModelScope` — doing so leaks a `while(true){delay()}` that can never go idle.
  */
@@ -49,7 +52,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FrameViewModel @Inject constructor(
     settingsRepository: SettingsRepository,
-    photoRepository: PhotoRepository,
+    private val photoRepository: PhotoRepository,
     private val wallpaperRepository: WallpaperRepository,
     timeProvider: TimeProvider,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
@@ -91,27 +94,59 @@ class FrameViewModel @Inject constructor(
                 else photoRepository.observeSlideshowInAlbums(ids)
             }
 
+    // Gesture commands sent from the UI into the ticker loop.
+    private sealed interface FrameCommand {
+        data object Next : FrameCommand
+        data object Previous : FrameCommand
+        data object TogglePause : FrameCommand
+    }
+    private val commands = Channel<FrameCommand>(Channel.BUFFERED)
+
+    private data class CursorTick(
+        val playlist: FramePlaylist,
+        val paused: Boolean,
+        val forward: Boolean
+    )
+
+    fun next() { commands.trySend(FrameCommand.Next) }
+    fun previous() { commands.trySend(FrameCommand.Previous) }
+    fun togglePause() { commands.trySend(FrameCommand.TogglePause) }
+    fun toggleFavoriteCurrent() {
+        val s = uiState.value as? FrameUiState.Slideshow ?: return
+        val photo = s.currentPhoto
+        viewModelScope.launch { photoRepository.setFavorite(photo.id, !photo.favorite) }
+    }
+
     /**
      * The slideshow cursor. Rebuilt from scratch (index 0) whenever the photo id-set,
-     * shuffle flag, or interval changes; then advanced every `intervalSeconds`. The
-     * `while (true)` ticker is scoped to this flow's collection, so `WhileSubscribed`
-     * cancels it when nothing observes the frame.
+     * shuffle flag, or interval changes; then advanced every `intervalSeconds` unless
+     * paused. Gesture commands are processed via a select loop so they respond
+     * immediately without a separate free-running coroutine in viewModelScope.
      */
-    private val cursor: Flow<FramePlaylist> =
+    private val cursor: Flow<CursorTick> =
         combine(
             photos.map { list -> list.map(Photo::id) }.distinctUntilChanged(),
             config.map { it.shuffle }.distinctUntilChanged(),
             config.map { it.intervalSeconds }.distinctUntilChanged()
         ) { ids, shuffle, interval -> Triple(ids, shuffle, interval) }
             .flatMapLatest { (ids, shuffle, interval) ->
-                flow {
-                    var current = FramePlaylist.create(ids, shuffle, shuffleSeed)
-                    emit(current)
+                channelFlow {
+                    var pl = FramePlaylist.create(ids, shuffle, shuffleSeed)
+                    var paused = false
+                    var forward = true
                     val millis = interval.coerceAtLeast(1) * 1_000L
+                    send(CursorTick(pl, paused, forward))
                     while (true) {
-                        delay(millis)
-                        current = current.advanced()
-                        emit(current)
+                        val cmd: FrameCommand? = select {
+                            if (!paused) onTimeout(millis) { null }
+                            commands.onReceive { it }
+                        }
+                        when (cmd) {
+                            null, FrameCommand.Next -> { pl = pl.advanced(); forward = true }
+                            FrameCommand.Previous -> { pl = pl.rewound(); forward = false }
+                            FrameCommand.TogglePause -> paused = !paused
+                        }
+                        send(CursorTick(pl, paused, forward))
                     }
                 }
             }
@@ -123,8 +158,8 @@ class FrameViewModel @Inject constructor(
             config,
             clock.now,
             wallpaperId
-        ) { playlistCursor, livePhotos, playlistConfig, tick, wallpaper ->
-            buildState(playlistCursor, livePhotos, playlistConfig, tick, wallpaper)
+        ) { cursorTick, livePhotos, playlistConfig, tick, wallpaper ->
+            buildState(cursorTick, livePhotos, playlistConfig, tick, wallpaper)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -132,7 +167,7 @@ class FrameViewModel @Inject constructor(
         )
 
     private fun buildState(
-        cursor: FramePlaylist,
+        cursor: CursorTick,
         livePhotos: List<Photo>,
         config: PlaylistConfig,
         tick: FrameTick,
@@ -143,8 +178,8 @@ class FrameViewModel @Inject constructor(
         val hour = tick.time.hour
         val minute = tick.time.minute
         val byId = livePhotos.associateBy { it.id }
-        val current = cursor.currentId?.let(byId::get)
-        val next = cursor.nextId?.let(byId::get)
+        val current = cursor.playlist.currentId?.let(byId::get)
+        val next = cursor.playlist.nextId?.let(byId::get)
         return if (current == null || next == null) {
             FrameUiState.Idle(
                 time = time,
@@ -164,8 +199,8 @@ class FrameViewModel @Inject constructor(
             FrameUiState.Slideshow(
                 currentPhoto = current,
                 nextPhoto = next,
-                position = cursor.position,
-                total = cursor.size,
+                position = cursor.playlist.position,
+                total = cursor.playlist.size,
                 time = time,
                 date = date,
                 showClock = config.showClock,
@@ -173,6 +208,9 @@ class FrameViewModel @Inject constructor(
                 showCaption = config.showCaption,
                 clockStyle = config.clockStyle,
                 fitMode = config.fitMode,
+                transition = config.transition,
+                advanceForward = cursor.forward,
+                paused = cursor.paused,
                 hour = hour,
                 minute = minute,
                 clockOpacity = config.clockOpacity,

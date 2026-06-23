@@ -44,6 +44,35 @@ fun MemolioIconButton(
     size: IconButtonSize = IconButtonSize.Md,
     enabled: Boolean = true,
 ) {
+    val dim = size.dim
+    MemolioIconButton(
+        contentDescription = contentDescription,
+        onClick = onClick,
+        modifier = modifier,
+        variant = variant,
+        size = size,
+        enabled = enabled,
+    ) { tint ->
+        Symbol(icon, size = with(androidx.compose.ui.platform.LocalDensity.current) { (dim * 0.42f).toSp() }, tint = tint)
+    }
+}
+
+/**
+ * Content-slot variant: identical glass/solid/bare disc, but you supply the centered
+ * content via [content] (it receives the variant's [Color] tint). Use this for glyphs
+ * that are NOT in the bundled Material Symbols subset font — draw them with a Canvas
+ * instead of [Symbol] so they never render as tofu (e.g. the slideshow heart/pause).
+ */
+@Composable
+fun MemolioIconButton(
+    contentDescription: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    variant: IconButtonVariant = IconButtonVariant.Glass,
+    size: IconButtonSize = IconButtonSize.Md,
+    enabled: Boolean = true,
+    content: @Composable (tint: Color) -> Unit,
+) {
     val pill = RoundedCornerShape(percent = 50)
     val dim = size.dim
 
@@ -81,6 +110,6 @@ fun MemolioIconButton(
             .semantics { this.contentDescription = contentDescription; role = Role.Button },
         contentAlignment = Alignment.Center,
     ) {
-        Symbol(icon, size = with(androidx.compose.ui.platform.LocalDensity.current) { (dim * 0.42f).toSp() }, tint = tint)
+        content(tint)
     }
 }

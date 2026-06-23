@@ -28,6 +28,12 @@ data class FramePlaylist(
         return copy(index = (index + 1) % order.size)
     }
 
+    /** Returns a new cursor stepped back by one, wrapping at the start. */
+    fun rewound(): FramePlaylist {
+        if (order.isEmpty()) return this
+        return copy(index = (index - 1 + order.size) % order.size)
+    }
+
     companion object {
         fun create(ids: List<String>, shuffle: Boolean, seed: Long): FramePlaylist {
             val order = if (shuffle) ids.shuffled(Random(seed)) else ids
