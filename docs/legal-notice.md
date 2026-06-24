@@ -13,7 +13,7 @@ Memolio is an open-source Android app developed by Bruno Miglar (IT-BAER). Sourc
 ### Diensteanbieter
 
 Bruno Miglar
-Sankt Veiter Straße 16
+Geschäftsadresse: Sankt Veiter Straße 16
 9020 Klagenfurt
 Österreich
 
@@ -34,7 +34,7 @@ Sankt Veiter Straße 16
 ### Service Provider
 
 Bruno Miglar
-Sankt Veiter Straße 16
+Office address: Sankt Veiter Straße 16
 9020 Klagenfurt
 Austria
 
