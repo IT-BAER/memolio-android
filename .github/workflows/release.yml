@@ -35,7 +35,7 @@ jobs:
           -PREVENUECAT_API_KEY=${{ secrets.REVENUECAT_API_KEY }}
 
       - name: Attach AAB to release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           files: app/build/outputs/bundle/release/app-release.aab
 
