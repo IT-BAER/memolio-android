@@ -83,6 +83,9 @@ fun ManageScaffold(
     // Back from an open section returns to the grid; back from the grid falls through to the
     // host (exit Manage → frame).
     BackHandler(enabled = openSection != null) { openSection = null }
+    // From the menu grid, back returns to the frame instead of exiting the app (on phones
+    // back would otherwise leave the app; on HOME/kiosk devices exiting is meaningless anyway).
+    BackHandler(enabled = openSection == null) { onClose() }
 
     val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
     Box(modifier.fillMaxSize().background(MemolioColors.BgApp)) {

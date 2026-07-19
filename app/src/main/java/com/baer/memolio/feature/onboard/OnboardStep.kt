@@ -1,12 +1,10 @@
 package com.baer.memolio.feature.onboard
 
-/** Wizard steps in order (spec section 7). [Finish] is the terminal step. */
+/** Wizard steps in order (spec 2026-07-19 rework). [Finish] is the terminal step. */
 enum class OnboardStep {
     Welcome,
-    Permissions,
     ShowQr,
-    HomeKiosk,
-    SleepSchedule,
+    Appliance,
     GoPro,
     Finish;
 

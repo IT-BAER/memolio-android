@@ -20,18 +20,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Добро пожаловать в Memolio</string>
-    <string name="onboard_welcome_body">Превратим этот планшет в тихую фоторамку с людьми и местами, которые вам дороги. Займёт около минуты.</string>
-    <string name="onboard_permissions_title">Разрешения</string>
-    <string name="onboard_permissions_body">Memolio нужны разрешения на уведомления и автозапуск, чтобы рамка работала сама по себе. Приложение касается только своей папки и никогда не трогает вашу галерею.</string>
+    <string name="onboard_welcome_body">Превратим этот планшет в тихую фоторамку с людьми и местами, которые вам дороги. Займёт около минуты. Memolio касается только своей папки и никогда не трогает вашу галерею.</string>
     <string name="onboard_qr_title">Добавьте первые фото</string>
     <string name="onboard_qr_sub">Отсканируйте с любого телефона в той же сети Wi-Fi</string>
     <string name="onboard_qr_preparing">Подготовка ссылки для загрузки… (убедитесь, что Wi-Fi включён)</string>
-    <string name="onboard_homekiosk_title">Главный экран &amp; киоск</string>
-    <string name="onboard_homekiosk_body">Необязательно: сделайте Memolio приложением «Дом» и заблокируйте экран (киоск-режим).</string>
     <string name="onboard_homekiosk_enable">Включить «Дом» + киоск</string>
-    <string name="onboard_sleep_title">Расписание сна</string>
-    <string name="onboard_sleep_body">Необязательно: выключать экран на ночь (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Включить расписание сна</string>
+    <string name="onboard_appliance_title">Сделать устройством</string>
+    <string name="onboard_appliance_body">Необязательно: установите Memolio в качестве домашнего приложения с блокировкой киоска и позвольте экрану засыпать ночью (22:00–07:00). Оба параметра можно изменить позже в настройках.</string>
+    <string name="onboard_step_progress_cd">Шаг %1$d из %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Необязательно: откройте доступ к альбомам, режиму устройства и пользовательским обоям разовой покупкой. Это можно сделать в любой момент позже.</string>
     <string name="onboard_finish_title">Всё готово</string>
@@ -147,6 +144,10 @@
     <string name="appliance_sleep_start_title">Экран выключается</string>
     <string name="appliance_sleep_end_title">Экран включается</string>
     <string name="appliance_ambient">Приглушение яркости</string>
+    <string name="appliance_overlay_title">Ещё одно разрешение</string>
+    <string name="appliance_overlay_body">Чтобы показать рамку на экране после перезагрузки, Android должен разрешить Memolio «отображаться поверх других приложений». Без этого слайд-шоу запускается незаметно в фоне.</string>
+    <string name="appliance_overlay_open_settings">Открыть настройки</string>
+    <string name="appliance_overlay_later">Не сейчас</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Хранилище</string>

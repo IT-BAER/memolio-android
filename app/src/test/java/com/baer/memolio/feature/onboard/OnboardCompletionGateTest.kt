@@ -1,6 +1,7 @@
 package com.baer.memolio.feature.onboard
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -69,8 +70,8 @@ class OnboardCompletionGateTest {
             OnboardScreen(viewModel = vm, onFinished = { finished = true })
         }
 
-        // Welcome -> Permissions -> ShowQr -> HomeKiosk -> SleepSchedule -> GoPro -> Finish (6 Next taps)
-        repeat(6) {
+        // Welcome -> ShowQr -> Appliance -> GoPro -> Finish (4 Next taps)
+        repeat(4) {
             composeRule.onNodeWithText("Next").performClick()
             composeRule.waitForIdle()
         }
@@ -80,5 +81,21 @@ class OnboardCompletionGateTest {
 
         assertThat(settings.app.value.onboardingComplete).isTrue()
         assertThat(finished).isTrue()
+    }
+
+    @Test
+    fun firstStepHasNoBackButtonAndScrollableBody() {
+        val vm = OnboardViewModel(FakeSettings(), FakeUploadUrlProvider())
+
+        composeRule.setContent {
+            OnboardScreen(viewModel = vm, onFinished = {})
+        }
+
+        composeRule.onNodeWithText("Back").assertDoesNotExist()
+        assertThat(composeRule.onAllNodes(hasScrollAction()).fetchSemanticsNodes()).isNotEmpty()
+
+        composeRule.onNodeWithText("Next").performClick()
+        composeRule.waitForIdle()
+        composeRule.onNodeWithText("Back").assertIsDisplayed()
     }
 }

@@ -27,6 +27,10 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -269,5 +273,30 @@ class FrameServerTest {
         live = "tok-2"
         assertThat(client.get("/?t=tok-1").status).isEqualTo(HttpStatusCode.Forbidden)
         assertThat(client.get("/?t=tok-2").status).isEqualTo(HttpStatusCode.OK)
+    }
+
+    /**
+     * Regression: at boot BootReceiver and MainActivity both start FrameService, whose
+     * onStartCommand launches FrameServer.start on a background scope — two racing starts
+     * double-bound the port (BindException killed the process on-device). Concurrent
+     * starts must bind exactly once, and stop() must release the port (no leaked engine).
+     */
+    @Test
+    fun concurrentStartsBindOnceAndStopReleasesPort() = runBlocking {
+        val deps = FrameServerDeps(
+            tokenProvider = TokenProvider { token },
+            importer = importer,
+            albums = albums,
+            assetLoader = { "x".byteInputStream() },
+            uploadEvents = UploadEventBus()
+        )
+        repeat(15) {
+            val port = java.net.ServerSocket(0).use { it.localPort }
+            val server = FrameServer(deps) { "127.0.0.1" }
+            (1..8).map { launch(Dispatchers.Default) { server.start(port) } }.joinAll()
+            server.stop()
+            // Port free again = single engine was bound and stopped, none leaked.
+            java.net.ServerSocket(port).close()
+        }
     }
 }

@@ -20,18 +20,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Willkommen bei Memolio</string>
-    <string name="onboard_welcome_body">Lass uns dieses Tablet in einen stillen Bilderrahmen verwandeln – für die Menschen und Orte, die dir wichtig sind. Das dauert etwa eine Minute.</string>
-    <string name="onboard_permissions_title">Berechtigungen</string>
-    <string name="onboard_permissions_body">Memolio benötigt Benachrichtigungs- und Startberechtigungen, damit der Rahmen selbstständig weiterläuft. Die App greift ausschließlich auf ihren eigenen Ordner zu, nie auf deine Galerie.</string>
+    <string name="onboard_welcome_body">Lass uns dieses Tablet in einen stillen Bilderrahmen verwandeln – für die Menschen und Orte, die dir wichtig sind. Das dauert etwa eine Minute. Memolio greift ausschließlich auf seinen eigenen Ordner zu, nie auf deine Galerie.</string>
     <string name="onboard_qr_title">Erste Fotos hinzufügen</string>
     <string name="onboard_qr_sub">Mit einem Handy im selben Wi-Fi scannen</string>
     <string name="onboard_qr_preparing">Upload-Link wird vorbereitet … (Wi-Fi eingeschaltet?)</string>
-    <string name="onboard_homekiosk_title">Startseite &amp; Kiosk</string>
-    <string name="onboard_homekiosk_body">Optional: Memolio als Home-App festlegen und sperren (Kiosk-Modus).</string>
     <string name="onboard_homekiosk_enable">Startseite + Kiosk aktivieren</string>
-    <string name="onboard_sleep_title">Schlafplan</string>
-    <string name="onboard_sleep_body">Optional: den Bildschirm nachts ausschalten (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Schlafplan aktivieren</string>
+    <string name="onboard_appliance_title">Als Gerät einrichten</string>
+    <string name="onboard_appliance_body">Optional: Memolio als Home-App mit Kiosk-Sperre einrichten und den Bildschirm nachts schlafen lassen (22:00–07:00). Beides lässt sich später in den Einstellungen ändern.</string>
+    <string name="onboard_step_progress_cd">Schritt %1$d von %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Optional: Alben, die Geräte-Suite und eigene Hintergrundbilder mit einem einmaligen Kauf freischalten. Das lässt sich jederzeit nachholen.</string>
     <string name="onboard_finish_title">Alles bereit</string>
@@ -147,6 +144,10 @@
     <string name="appliance_sleep_start_title">Ruhemodus ab</string>
     <string name="appliance_sleep_end_title">Aufwachen</string>
     <string name="appliance_ambient">Umgebungshelligkeit dimmen</string>
+    <string name="appliance_overlay_title">Noch eine Berechtigung</string>
+    <string name="appliance_overlay_body">Damit der Rahmen nach einem Neustart auf dem Bildschirm erscheint, muss Memolio erlaubt sein, „über anderen Apps angezeigt" zu werden. Ohne diese Berechtigung startet die Diashow stumm im Hintergrund.</string>
+    <string name="appliance_overlay_open_settings">Einstellungen öffnen</string>
+    <string name="appliance_overlay_later">Nicht jetzt</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Speicher</string>

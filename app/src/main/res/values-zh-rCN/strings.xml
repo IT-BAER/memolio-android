@@ -24,18 +24,15 @@
 
     <!-- ===== 引导流程 ===== -->
     <string name="onboard_welcome_title">欢迎使用 Memolio</string>
-    <string name="onboard_welcome_body">只需一分钟，把这台平板变成一个安静的相框，让你最在意的人和地方始终陪伴在侧。</string>
-    <string name="onboard_permissions_title">权限</string>
-    <string name="onboard_permissions_body">Memolio 需要通知和开机权限，以便相框自行持续运行。它只访问自己的专属文件夹，不会触碰你的相册。</string>
+    <string name="onboard_welcome_body">只需一分钟，把这台平板变成一个安静的相框，让你最在意的人和地方始终陪伴在侧。Memolio 只访问自己的专属文件夹，不会触碰你的相册。</string>
     <string name="onboard_qr_title">添加第一批照片</string>
     <string name="onboard_qr_sub">用同一 Wi-Fi 下的手机扫描即可</string>
     <string name="onboard_qr_preparing">正在准备上传链接…（请确保 Wi-Fi 已开启）</string>
-    <string name="onboard_homekiosk_title">主屏幕 &amp; 信息亭模式</string>
-    <string name="onboard_homekiosk_body">可选：将 Memolio 设为主屏幕应用并锁定（信息亭模式）。</string>
     <string name="onboard_homekiosk_enable">启用主屏幕 + 信息亭模式</string>
-    <string name="onboard_sleep_title">定时休眠</string>
-    <string name="onboard_sleep_body">可选：夜间自动关闭屏幕（22:00–07:00）。</string>
     <string name="onboard_sleep_enable">启用定时休眠</string>
+    <string name="onboard_appliance_title">设为专用设备</string>
+    <string name="onboard_appliance_body">可选：将 Memolio 设为主屏幕应用并开启信息亭锁定，同时让屏幕夜间休眠（22:00–07:00）。两项设置均可在「设置」中更改。</string>
+    <string name="onboard_step_progress_cd">第 %1$d 步，共 %2$d 步</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">可选：一次性购买，解锁相册、设备套件和自定义壁纸。随时可以稍后再做。</string>
     <string name="onboard_finish_title">一切就绪</string>
@@ -152,6 +149,10 @@
     <string name="appliance_sleep_start_title">休眠开始</string>
     <string name="appliance_sleep_end_title">唤醒时间</string>
     <string name="appliance_ambient">环境亮度自动调节</string>
+    <string name="appliance_overlay_title">还需要一个权限</string>
+    <string name="appliance_overlay_body">为了在重启后将相框显示在屏幕上，Android 需要允许 Memolio「在其他应用上层显示」。没有此权限，幻灯片将在后台静默启动。</string>
+    <string name="appliance_overlay_open_settings">打开设置</string>
+    <string name="appliance_overlay_later">稍后再说</string>
 
     <!-- ===== 存储 ===== -->
     <string name="storage_title">存储</string>

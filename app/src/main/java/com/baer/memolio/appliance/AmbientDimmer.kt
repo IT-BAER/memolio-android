@@ -53,7 +53,12 @@ class AmbientDimmer(context: Context) : SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
         if (event.sensor.type == Sensor.TYPE_LIGHT) {
             lastLux = event.values.firstOrNull()
-            recompute()
+            // Sensor readings jitter; ease toward the target instead of jumping so the
+            // screen never visibly flickers. Settings changes (configure) still jump.
+            _targetBrightness.value = smoothed(
+                previous = _targetBrightness.value,
+                target = resolveBrightness(dimmingEnabled, hasSensor, lastLux, manualBrightness)
+            )
         }
     }
 
@@ -81,5 +86,19 @@ class AmbientDimmer(context: Context) : SensorEventListener {
             } else {
                 manualBrightness.coerceIn(0f, 1f)
             }
+
+        /**
+         * PURE: one smoothing step. Changes inside [deadband] are ignored (kills sensor
+         * jitter/flicker); larger changes ease toward the target by [alpha] per sensor
+         * event (~200ms at SENSOR_DELAY_NORMAL, so a full swing settles in ~1-2s).
+         */
+        fun smoothed(
+            previous: Float,
+            target: Float,
+            alpha: Float = 0.2f,
+            deadband: Float = 0.05f
+        ): Float =
+            if (kotlin.math.abs(target - previous) < deadband) previous
+            else previous + alpha * (target - previous)
     }
 }

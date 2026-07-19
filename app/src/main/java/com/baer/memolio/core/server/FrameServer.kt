@@ -189,6 +189,10 @@ class FrameServer(
     private val _address = MutableStateFlow<String?>(null)
     val address: StateFlow<String?> = _address.asStateFlow()
 
+    // Synchronized: at boot BootReceiver and MainActivity both start FrameService, whose
+    // onStartCommand launches this on a background scope — an unguarded check-then-bind
+    // raced and double-bound the port (BindException killed the process).
+    @Synchronized
     fun start(port: Int) {
         if (engine != null) return
         engine = embeddedServer(CIO, port = port, host = "0.0.0.0") {
@@ -197,6 +201,7 @@ class FrameServer(
         _address.value = ipResolver()?.let { "$it:$port" }
     }
 
+    @Synchronized
     fun stop() {
         engine?.stop(gracePeriodMillis = 200, timeoutMillis = 1000)
         engine = null

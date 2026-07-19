@@ -25,18 +25,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Bem-vindo ao Memolio</string>
-    <string name="onboard_welcome_body">Vamos transformar este tablet numa moldura digital discreta para as pessoas e lugares que tens mais perto. Demora cerca de um minuto.</string>
-    <string name="onboard_permissions_title">Permissões</string>
-    <string name="onboard_permissions_body">O Memolio precisa de permissões de notificação e arranque para manter a moldura a funcionar sozinha. Acede apenas à sua própria pasta, nunca à tua galeria.</string>
+    <string name="onboard_welcome_body">Vamos transformar este tablet numa moldura digital discreta para as pessoas e lugares que tens mais perto. Demora cerca de um minuto. O Memolio acede apenas à sua própria pasta, nunca à tua galeria.</string>
     <string name="onboard_qr_title">Adiciona as primeiras fotos</string>
     <string name="onboard_qr_sub">Lê com qualquer telemóvel na mesma Wi-Fi</string>
     <string name="onboard_qr_preparing">A preparar o link de envio… (certifica-te de que a Wi-Fi está ligada)</string>
-    <string name="onboard_homekiosk_title">Início &amp; quiosque</string>
-    <string name="onboard_homekiosk_body">Opcional: define o Memolio como aplicação de início e bloqueia-o (modo quiosque).</string>
     <string name="onboard_homekiosk_enable">Ativar início + quiosque</string>
-    <string name="onboard_sleep_title">Horário de repouso</string>
-    <string name="onboard_sleep_body">Opcional: desliga o ecrã durante a noite (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Ativar horário de repouso</string>
+    <string name="onboard_appliance_title">Torná-lo um aparelho</string>
+    <string name="onboard_appliance_body">Opcional: define o Memolio como aplicação de início com bloqueio quiosque e deixa o ecrã dormir durante a noite (22:00–07:00). Ambos podem ser alterados mais tarde nas Definições.</string>
+    <string name="onboard_step_progress_cd">Passo %1$d de %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Opcional: desbloqueia álbuns, o modo aparelho e fundos personalizados com uma compra única. Podes fazê-lo a qualquer altura.</string>
     <string name="onboard_finish_title">Tudo pronto</string>
@@ -152,6 +149,10 @@
     <string name="appliance_sleep_start_title">Início do repouso</string>
     <string name="appliance_sleep_end_title">Despertar</string>
     <string name="appliance_ambient">Redução de brilho ambiente</string>
+    <string name="appliance_overlay_title">Mais uma permissão</string>
+    <string name="appliance_overlay_body">Para mostrar a moldura no ecrã após um reinício, o Android precisa de permitir que o Memolio "apareça sobre outras aplicações". Sem isso, a apresentação de diapositivos começa silenciosamente em segundo plano.</string>
+    <string name="appliance_overlay_open_settings">Abrir definições</string>
+    <string name="appliance_overlay_later">Agora não</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Armazenamento</string>

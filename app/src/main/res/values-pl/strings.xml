@@ -20,18 +20,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Witaj w Memolio</string>
-    <string name="onboard_welcome_body">Zamieńmy ten tablet w spokojną ramkę na zdjęcia bliskich miejsc i osób. Zajmie to około minuty.</string>
-    <string name="onboard_permissions_title">Uprawnienia</string>
-    <string name="onboard_permissions_body">Memolio potrzebuje uprawnień do powiadomień i uruchamiania przy starcie, żeby ramka działała samodzielnie. Dotyka tylko własnego folderu, nigdy Twojej galerii.</string>
+    <string name="onboard_welcome_body">Zamieńmy ten tablet w spokojną ramkę na zdjęcia bliskich miejsc i osób. Zajmie to około minuty. Memolio dotyka tylko własnego folderu, nigdy Twojej galerii.</string>
     <string name="onboard_qr_title">Dodaj pierwsze zdjęcia</string>
     <string name="onboard_qr_sub">Zeskanuj z dowolnego telefonu w tej samej sieci Wi-Fi</string>
     <string name="onboard_qr_preparing">Przygotowuję link do przesyłania… (upewnij się, że Wi-Fi jest włączone)</string>
-    <string name="onboard_homekiosk_title">Ekran główny &amp; kiosk</string>
-    <string name="onboard_homekiosk_body">Opcjonalnie: ustaw Memolio jako aplikację domową i zablokuj w trybie kiosku.</string>
     <string name="onboard_homekiosk_enable">Włącz ekran główny + kiosk</string>
-    <string name="onboard_sleep_title">Harmonogram uśpienia</string>
-    <string name="onboard_sleep_body">Opcjonalnie: uśpij ekran na noc (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Włącz harmonogram uśpienia</string>
+    <string name="onboard_appliance_title">Ustaw jako urządzenie</string>
+    <string name="onboard_appliance_body">Opcjonalnie: ustaw Memolio jako aplikację domową z blokadą kiosku i pozwól ekranowi spać w nocy (22:00–07:00). Oba ustawienia można zmienić później w Ustawieniach.</string>
+    <string name="onboard_step_progress_cd">Krok %1$d z %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Opcjonalnie: odblokuj albumy, pakiet urządzenia i niestandardowe tapety jednorazowym zakupem. Możesz to zrobić w dowolnym momencie.</string>
     <string name="onboard_finish_title">Wszystko gotowe</string>
@@ -147,6 +144,10 @@
     <string name="appliance_sleep_start_title">Uśpienie ekranu</string>
     <string name="appliance_sleep_end_title">Wybudzenie</string>
     <string name="appliance_ambient">Przyciemnianie jasności otoczenia</string>
+    <string name="appliance_overlay_title">Jeszcze jedno uprawnienie</string>
+    <string name="appliance_overlay_body">Aby wyświetlić ramkę na ekranie po ponownym uruchomieniu, Android musi zezwolić Memolio na „wyświetlanie nad innymi aplikacjami". Bez tego pokaz slajdów uruchamia się cicho w tle.</string>
+    <string name="appliance_overlay_open_settings">Otwórz ustawienia</string>
+    <string name="appliance_overlay_later">Nie teraz</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Pamięć</string>

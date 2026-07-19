@@ -86,6 +86,13 @@ class ApplianceViewModelTest {
     }
 
     @Test
+    fun `overlay prompt shown only when enabling autostart without overlay permission`() {
+        assertThat(ApplianceViewModel.overlayPromptNeeded(enable = true, canDrawOverlays = false)).isTrue()
+        assertThat(ApplianceViewModel.overlayPromptNeeded(enable = true, canDrawOverlays = true)).isFalse()
+        assertThat(ApplianceViewModel.overlayPromptNeeded(enable = false, canDrawOverlays = false)).isFalse()
+    }
+
+    @Test
     fun `setSleepTimes is a no-op when not Pro`() = runTest {
         val settings = FakeSettings(AppSettings(sleepEnabled = false, sleepStartMinutes = 22 * 60, sleepEndMinutes = 7 * 60))
         val vm = ApplianceViewModel(settings, FakeEntitlement(pro = false))

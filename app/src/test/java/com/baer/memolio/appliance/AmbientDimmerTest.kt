@@ -36,4 +36,28 @@ class AmbientDimmerTest {
         )
         assertThat(b).isWithin(0.001f).of(BrightnessMapper.luxToBrightness(5_000f))
     }
+
+    // Smoothing: sensor jitter must not flicker the screen.
+
+    @Test
+    fun smallJitterInsideDeadbandLeavesBrightnessUnchanged() {
+        assertThat(AmbientDimmer.smoothed(previous = 0.50f, target = 0.52f)).isWithin(0.0001f).of(0.50f)
+        assertThat(AmbientDimmer.smoothed(previous = 0.50f, target = 0.48f)).isWithin(0.0001f).of(0.50f)
+    }
+
+    @Test
+    fun largeChangeMovesGraduallyNotInstantly() {
+        val next = AmbientDimmer.smoothed(previous = 0.10f, target = 0.90f)
+        assertThat(next).isGreaterThan(0.10f)
+        assertThat(next).isLessThan(0.50f) // eased, not jumped
+    }
+
+    @Test
+    fun repeatedStepsConvergeNearTarget() {
+        var b = 0.10f
+        repeat(50) { b = AmbientDimmer.smoothed(previous = b, target = 0.90f) }
+        assertThat(b).isWithin(0.06f).of(0.90f) // within deadband of target, then stable
+        val settled = AmbientDimmer.smoothed(previous = b, target = 0.90f)
+        assertThat(settled).isWithin(0.0001f).of(b)
+    }
 }

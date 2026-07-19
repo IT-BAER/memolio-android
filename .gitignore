@@ -25,6 +25,7 @@ secrets.properties
 .idea/
 *.iml
 .vscode/
+.claude/
 *.log
 
 # OS

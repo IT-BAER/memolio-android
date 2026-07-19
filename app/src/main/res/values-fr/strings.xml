@@ -20,18 +20,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Bienvenue dans Memolio</string>
-    <string name="onboard_welcome_body">Transformons cette tablette en un cadre photo discret pour les personnes et les lieux qui vous tiennent à cœur. Ça prend environ une minute.</string>
-    <string name="onboard_permissions_title">Autorisations</string>
-    <string name="onboard_permissions_body">Memolio a besoin des autorisations de notification et de démarrage pour que le cadre continue de fonctionner tout seul. Il n\'accède qu\'à son propre dossier, jamais à votre galerie.</string>
+    <string name="onboard_welcome_body">Transformons cette tablette en un cadre photo discret pour les personnes et les lieux qui vous tiennent à cœur. Ça prend environ une minute. Memolio n\'accède qu\'à son propre dossier, jamais à votre galerie.</string>
     <string name="onboard_qr_title">Ajoutez vos premières photos</string>
     <string name="onboard_qr_sub">Scannez depuis n\'importe quel téléphone sur le même Wi-Fi</string>
     <string name="onboard_qr_preparing">Préparation du lien d\'envoi… (assurez-vous que le Wi-Fi est activé)</string>
-    <string name="onboard_homekiosk_title">Accueil &amp; kiosque</string>
-    <string name="onboard_homekiosk_body">Facultatif : définir Memolio comme application d\'accueil et le verrouiller (kiosque).</string>
     <string name="onboard_homekiosk_enable">Activer Accueil + kiosque</string>
-    <string name="onboard_sleep_title">Programmation du sommeil</string>
-    <string name="onboard_sleep_body">Facultatif : éteindre l\'écran la nuit (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Activer la programmation du sommeil</string>
+    <string name="onboard_appliance_title">En faire un appareil</string>
+    <string name="onboard_appliance_body">Facultatif : définissez Memolio comme application d\'accueil avec verrouillage kiosque et laissez l\'écran dormir la nuit (22:00–07:00). Les deux peuvent être modifiés plus tard dans les Paramètres.</string>
+    <string name="onboard_step_progress_cd">Étape %1$d sur %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Facultatif : débloquez les albums, la suite appareillage et les fonds d\'écran personnalisés avec un achat unique. Vous pouvez le faire à tout moment.</string>
     <string name="onboard_finish_title">Tout est prêt</string>
@@ -147,6 +144,10 @@
     <string name="appliance_sleep_start_title">Mise en veille</string>
     <string name="appliance_sleep_end_title">Réveil</string>
     <string name="appliance_ambient">Atténuation de la luminosité ambiante</string>
+    <string name="appliance_overlay_title">Encore une autorisation</string>
+    <string name="appliance_overlay_body">Pour afficher le cadre à l\'écran après un redémarrage, Android doit autoriser Memolio à « apparaître au-dessus des autres applications ». Sans cela, le diaporama démarre silencieusement en arrière-plan.</string>
+    <string name="appliance_overlay_open_settings">Ouvrir les paramètres</string>
+    <string name="appliance_overlay_later">Pas maintenant</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Stockage</string>

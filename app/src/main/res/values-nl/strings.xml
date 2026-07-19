@@ -25,18 +25,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Welkom bij Memolio</string>
-    <string name="onboard_welcome_body">Laten we van dit tablet een rustig fotolijstje maken voor de mensen en plekken die je dichtbij wilt houden. Het duurt maar een minuutje.</string>
-    <string name="onboard_permissions_title">Machtigingen</string>
-    <string name="onboard_permissions_body">Memolio heeft meldings- en opstartmachtigingen nodig zodat het fotolijst vanzelf blijft draaien. De app raakt alleen zijn eigen map aan, nooit je galerij.</string>
+    <string name="onboard_welcome_body">Laten we van dit tablet een rustig fotolijstje maken voor de mensen en plekken die je dichtbij wilt houden. Het duurt maar een minuutje. Memolio raakt alleen zijn eigen map aan, nooit je galerij.</string>
     <string name="onboard_qr_title">Voeg je eerste foto\'s toe</string>
     <string name="onboard_qr_sub">Scan vanaf elke telefoon op hetzelfde Wi-Fi</string>
     <string name="onboard_qr_preparing">Uploadlink voorbereiden… (controleer of Wi-Fi aan is)</string>
-    <string name="onboard_homekiosk_title">Startscherm &amp; kiosk</string>
-    <string name="onboard_homekiosk_body">Optioneel: stel Memolio in als startscherm-app en vergrendel het (kiosk).</string>
     <string name="onboard_homekiosk_enable">Startscherm + kiosk inschakelen</string>
-    <string name="onboard_sleep_title">Slaapschema</string>
-    <string name="onboard_sleep_body">Optioneel: laat het scherm \'s nachts slapen (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Slaapschema inschakelen</string>
+    <string name="onboard_appliance_title">Maak er een apparaat van</string>
+    <string name="onboard_appliance_body">Optioneel: stel Memolio in als startscherm-app met kioskvergrendeling en laat het scherm \'s nachts slapen (22:00–07:00). Beide kunnen later worden gewijzigd in Instellingen.</string>
+    <string name="onboard_step_progress_cd">Stap %1$d van %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Optioneel: ontgrendel albums, de apparaatmodus en aangepaste achtergronden met een eenmalige aankoop. Je kunt dit ook later doen.</string>
     <string name="onboard_finish_title">Alles klaar</string>
@@ -152,6 +149,10 @@
     <string name="appliance_sleep_start_title">Scherm uit</string>
     <string name="appliance_sleep_end_title">Scherm aan</string>
     <string name="appliance_ambient">Omgevingshelderheid dimmen</string>
+    <string name="appliance_overlay_title">Nog een toestemming</string>
+    <string name="appliance_overlay_body">Om het frame na een herstart op het scherm te tonen, moet Android Memolio toestaan "boven andere apps weer te geven". Zonder deze toestemming start de diavoorstelling stil op de achtergrond.</string>
+    <string name="appliance_overlay_open_settings">Instellingen openen</string>
+    <string name="appliance_overlay_later">Niet nu</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Opslag</string>

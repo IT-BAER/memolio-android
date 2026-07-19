@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -76,6 +78,8 @@ fun LanguageScreen(modifier: Modifier = Modifier, scrollable: Boolean = true) {
             leadingIcon = "language",
             modifier = Modifier.widthIn(max = 480.dp).fillMaxWidth(),
         )
+        // Standalone (scrollable) use: clearance above the floating play FAB.
+        if (scrollable) Spacer(Modifier.height(96.dp))
     }
 }
 

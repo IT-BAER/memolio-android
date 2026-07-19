@@ -13,16 +13,16 @@ class ApplianceGatingTest {
 
     @Test
     fun kioskLockTaskIsNoOpWhenNotPro() {
-        val plan = KioskController.plan(kioskEnabled = true, isPro = false)
+        val plan = KioskController.plan(kioskEnabled = true, isPro = false, onFrame = true)
         assertThat(plan.lockTask).isFalse()
-        // Fullscreen is unconditional (it's a photo frame); only the lock-task PIN is gated.
+        // The frame display itself is fullscreen; only the lock-task PIN is gated.
         assertThat(plan.immersive).isTrue()
         assertThat(plan.keepScreenOn).isTrue()
     }
 
     @Test
     fun kioskPlanLocksWhenProAndEnabled() {
-        val plan = KioskController.plan(kioskEnabled = true, isPro = true)
+        val plan = KioskController.plan(kioskEnabled = true, isPro = true, onFrame = true)
         assertThat(plan.lockTask).isTrue()
         assertThat(plan.immersive).isTrue()
     }

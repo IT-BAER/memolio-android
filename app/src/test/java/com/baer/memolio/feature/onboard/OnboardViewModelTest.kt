@@ -90,11 +90,11 @@ class OnboardViewModelTest {
     @Test
     fun backFromMiddleGoesToPreviousStep() = runTest {
         val (model, _) = vm()
-        model.next() // Permissions
         model.next() // ShowQr
-        model.back() // Permissions
+        model.next() // Appliance
+        model.back() // ShowQr
         model.state.test {
-            assertThat(awaitItem().step).isEqualTo(OnboardStep.Permissions)
+            assertThat(awaitItem().step).isEqualTo(OnboardStep.ShowQr)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -140,17 +140,17 @@ class OnboardViewModelTest {
     }
 
     @Test
-    fun goProStepExistsBetweenSleepAndFinish() {
+    fun goProStepExistsBetweenApplianceAndFinish() {
         val steps = OnboardStep.entries.map { it.name }
         assertThat(steps).containsExactly(
-            "Welcome", "Permissions", "ShowQr", "HomeKiosk", "SleepSchedule", "GoPro", "Finish"
+            "Welcome", "ShowQr", "Appliance", "GoPro", "Finish"
         ).inOrder()
     }
 
     @Test
     fun goProIsSkippableViaNext() = runTest {
         val (model, _) = vm()
-        repeat(5) { model.next() }   // Welcome -> ... -> GoPro
+        repeat(3) { model.next() }   // Welcome -> ShowQr -> Appliance -> GoPro
         model.state.test {
             assertThat(awaitItem().step).isEqualTo(OnboardStep.GoPro)
             cancelAndIgnoreRemainingEvents()

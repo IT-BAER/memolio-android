@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
+import android.view.WindowManager
 import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -24,6 +25,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.baer.memolio.navigation.FrameRoute as NavFrameRoute
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -62,6 +67,10 @@ class MainActivity : AppCompatActivity() {
 
     private var frameService: FrameService? = null
     private val sleeping = MutableStateFlow(false)
+    // True while the Frame destination is showing; drives the immersive decision so
+    // Manage/Onboard/Paywall get their system bars (and working gesture nav) back.
+    private val onFrame = MutableStateFlow(true)
+    @Volatile private var immersiveWanted = true
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
@@ -83,12 +92,28 @@ class MainActivity : AppCompatActivity() {
         // Fullscreen from the first frame: it's a photo frame, system bars are never wanted.
         enterImmersive()
 
-        // Apply the kiosk plan (lock-task / immersive / keep-screen-on) whenever it changes.
+        // Apply the kiosk plan (lock-task / immersive / keep-screen-on) whenever the
+        // settings, entitlement, or current destination change.
         lifecycleScope.launch {
-            combine(settingsRepository.appSettings, entitlementRepository.isPro) { s, pro -> s.kioskEnabled to pro }
-                .collect { (kioskEnabled, pro) ->
-                    KioskController.apply(this@MainActivity, KioskController.plan(kioskEnabled, pro))
+            combine(settingsRepository.appSettings, entitlementRepository.isPro, onFrame) { s, pro, frame ->
+                KioskController.plan(s.kioskEnabled, pro, onFrame = frame)
+            }.collect { plan ->
+                immersiveWanted = plan.immersive
+                KioskController.apply(this@MainActivity, plan)
+            }
+        }
+
+        // Autostart: after a boot the device sits on the keyguard, so the relaunched frame
+        // would be invisible behind it. Show over the lock screen while autostart is on.
+        lifecycleScope.launch {
+            settingsRepository.appSettings.collect { s ->
+                if (Build.VERSION.SDK_INT >= 27) {
+                    setShowWhenLocked(s.autostartEnabled)
+                } else {
+                    if (s.autostartEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
+                    else window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
                 }
+            }
         }
 
         setContent {
@@ -102,10 +127,17 @@ class MainActivity : AppCompatActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val start = startDestination(settings?.onboardingComplete)
                     if (start != null) {
+                        val navController = rememberNavController()
+                        val backStack by navController.currentBackStackEntryAsState()
+                        LaunchedEffect(backStack) {
+                            onFrame.value =
+                                backStack?.destination?.hasRoute<NavFrameRoute>() ?: true
+                        }
                         ApplianceHost(sleeping = sleeping, onWake = ::wake) {
                             UploadFeedbackOverlay(events = uploadEventBus.events) {
                                 MemolioNavHost(
                                     start = start,
+                                    navController = navController,
                                     frameContent = { onOpenManage -> FrameRoute(onOpenManage = onOpenManage) },
                                     manageContent = { onOpenPaywall, onClose ->
                                         ManageScaffold(
@@ -141,12 +173,20 @@ class MainActivity : AppCompatActivity() {
     /** Re-assert fullscreen when the window regains focus (OEMs re-show bars on return). */
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) enterImmersive()
+        if (hasFocus && immersiveWanted) enterImmersive()
     }
 
     /** Edge-to-edge + hide the status/nav bars (swipe reveals them transiently). */
     private fun enterImmersive() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        // Draw into the display cutout too — without this the immersive window letterboxes
+        // at the cutout edge (grey strip beside the slideshow on notched phones).
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes = window.attributes.apply {
+                layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior =

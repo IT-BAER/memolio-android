@@ -20,18 +20,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Benvenuto in Memolio</string>
-    <string name="onboard_welcome_body">Trasformiamo questo tablet in una cornice fotografica silenziosa, per le persone e i luoghi che vuoi sempre vicino. Ci vorrà circa un minuto.</string>
-    <string name="onboard_permissions_title">Permessi</string>
-    <string name="onboard_permissions_body">Memolio ha bisogno dei permessi per le notifiche e per l\'avvio automatico, così la cornice rimane sempre attiva da sola. Tocca solo la propria cartella, mai la tua galleria.</string>
+    <string name="onboard_welcome_body">Trasformiamo questo tablet in una cornice fotografica silenziosa, per le persone e i luoghi che vuoi sempre vicino. Ci vorrà circa un minuto. Memolio tocca solo la propria cartella, mai la tua galleria.</string>
     <string name="onboard_qr_title">Aggiungi le tue prime foto</string>
     <string name="onboard_qr_sub">Scansiona da qualsiasi telefono sulla stessa Wi-Fi</string>
     <string name="onboard_qr_preparing">Preparazione del link di caricamento… (assicurati che la Wi-Fi sia attiva)</string>
-    <string name="onboard_homekiosk_title">Home &amp; kiosk</string>
-    <string name="onboard_homekiosk_body">Opzionale: imposta Memolio come app Home e bloccala (kiosk).</string>
     <string name="onboard_homekiosk_enable">Attiva Home + kiosk</string>
-    <string name="onboard_sleep_title">Programma sonno</string>
-    <string name="onboard_sleep_body">Opzionale: spegni lo schermo durante la notte (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Attiva il programma sonno</string>
+    <string name="onboard_appliance_title">Rendilo un dispositivo dedicato</string>
+    <string name="onboard_appliance_body">Opzionale: imposta Memolio come app Home con blocco kiosk e lascia dormire lo schermo di notte (22:00–07:00). Entrambe le opzioni si possono modificare in seguito nelle Impostazioni.</string>
+    <string name="onboard_step_progress_cd">Passo %1$d di %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Opzionale: sblocca album, la suite appliance e sfondi personalizzati con un acquisto una tantum. Puoi farlo in qualsiasi momento.</string>
     <string name="onboard_finish_title">Tutto pronto</string>
@@ -147,6 +144,10 @@
     <string name="appliance_sleep_start_title">Inizio stand-by</string>
     <string name="appliance_sleep_end_title">Riattivazione</string>
     <string name="appliance_ambient">Riduzione luminosità ambientale</string>
+    <string name="appliance_overlay_title">Un\'altra autorizzazione</string>
+    <string name="appliance_overlay_body">Per mostrare la cornice sullo schermo dopo un riavvio, Android deve consentire a Memolio di "visualizzare sopra le altre app". Senza di essa la presentazione si avvia silenziosamente in background.</string>
+    <string name="appliance_overlay_open_settings">Apri impostazioni</string>
+    <string name="appliance_overlay_later">Non ora</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Archiviazione</string>

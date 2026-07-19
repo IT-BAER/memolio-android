@@ -1,5 +1,8 @@
 package com.baer.memolio.feature.manage.appliance
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
@@ -19,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +43,31 @@ fun ApplianceScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+    var showOverlayPrompt by remember { mutableStateOf(false) }
+    if (showOverlayPrompt) {
+        AlertDialog(
+            onDismissRequest = { showOverlayPrompt = false },
+            title = { Text(stringResource(R.string.appliance_overlay_title)) },
+            text = { Text(stringResource(R.string.appliance_overlay_body)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showOverlayPrompt = false
+                    context.startActivity(
+                        Intent(
+                            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:${context.packageName}")
+                        )
+                    )
+                }) { Text(stringResource(R.string.appliance_overlay_open_settings)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showOverlayPrompt = false }) {
+                    Text(stringResource(R.string.appliance_overlay_later))
+                }
+            }
+        )
+    }
     Column(modifier) {
         SectionHead(title = stringResource(R.string.appliance_title), sub = stringResource(R.string.appliance_subtitle))
         ProGate(feature = ProFeature.APPLIANCE, isPro = isPro, onUpsell = onOpenPaywall) {
@@ -46,7 +75,16 @@ fun ApplianceScreen(
                 first = { paneModifier ->
                     MemolioCard(modifier = paneModifier, variant = CardVariant.Surface) {
                         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                            MemolioSwitch(state.autostart, viewModel::setAutostart, label = stringResource(R.string.appliance_autostart))
+                            MemolioSwitch(
+                                state.autostart,
+                                onCheckedChange = { enabled ->
+                                    viewModel.setAutostart(enabled)
+                                    if (ApplianceViewModel.overlayPromptNeeded(enabled, Settings.canDrawOverlays(context))) {
+                                        showOverlayPrompt = true
+                                    }
+                                },
+                                label = stringResource(R.string.appliance_autostart)
+                            )
                             MemolioSwitch(state.kiosk, viewModel::setKiosk, label = stringResource(R.string.appliance_kiosk))
                         }
                     }

@@ -35,9 +35,7 @@ fun SettingsScreen(
         WallpaperScreen(onOpenPaywall = onOpenPaywall, scrollable = false)
         LanguageScreen(scrollable = false)
         AboutScreen()
-        // Small breathing room only — the last card is left-aligned and the play FAB is
-        // bottom-right, so no large clearance is needed here. A big spacer would force the
-        // page to overflow and clip the card.
-        Spacer(Modifier.height(16.dp))
+        // Clearance so the last card can scroll fully above the floating play FAB.
+        Spacer(Modifier.height(96.dp))
     }
 }

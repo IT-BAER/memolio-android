@@ -32,18 +32,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Welcome to Memolio</string>
-    <string name="onboard_welcome_body">Let\'s turn this tablet into a quiet photo frame for the people and places you want close. It takes about a minute.</string>
-    <string name="onboard_permissions_title">Permissions</string>
-    <string name="onboard_permissions_body">Memolio needs notification and boot permissions so the frame keeps running on its own. It only ever touches its own folder, never your gallery.</string>
+    <string name="onboard_welcome_body">Let\'s turn this tablet into a quiet photo frame for the people and places you want close. It takes about a minute — Memolio only ever touches its own folder, never your gallery.</string>
     <string name="onboard_qr_title">Add your first photos</string>
     <string name="onboard_qr_sub">Scan from any phone on the same Wi-Fi</string>
     <string name="onboard_qr_preparing">Preparing the upload link… (make sure Wi-Fi is on)</string>
-    <string name="onboard_homekiosk_title">Home &amp; kiosk</string>
-    <string name="onboard_homekiosk_body">Optional: set Memolio as the Home app and lock it (kiosk).</string>
     <string name="onboard_homekiosk_enable">Enable Home + kiosk</string>
-    <string name="onboard_sleep_title">Sleep schedule</string>
-    <string name="onboard_sleep_body">Optional: sleep the screen overnight (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Enable sleep schedule</string>
+    <string name="onboard_appliance_title">Make it an appliance</string>
+    <string name="onboard_appliance_body">Optional: set Memolio as the Home app with kiosk lock, and let the screen sleep overnight (22:00–07:00). Both can be changed later in Settings.</string>
+    <string name="onboard_step_progress_cd">Step %1$d of %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Optional: unlock albums, the appliance suite, and custom wallpapers with a one-time purchase. You can do this any time later.</string>
     <string name="onboard_finish_title">All set</string>
@@ -162,6 +159,10 @@
     <string name="appliance_sleep_start_title">Sleep starts</string>
     <string name="appliance_sleep_end_title">Wake up</string>
     <string name="appliance_ambient">Ambient brightness dimming</string>
+    <string name="appliance_overlay_title">One more permission</string>
+    <string name="appliance_overlay_body">To bring the frame to the screen after a reboot, Android needs Memolio allowed to "appear on top". Without it the slideshow starts silently in the background.</string>
+    <string name="appliance_overlay_open_settings">Open settings</string>
+    <string name="appliance_overlay_later">Not now</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Storage</string>

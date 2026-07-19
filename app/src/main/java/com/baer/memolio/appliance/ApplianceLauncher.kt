@@ -17,11 +17,18 @@ fun interface ApplianceLauncher {
     companion object {
         fun real(context: Context): ApplianceLauncher = ApplianceLauncher {
             val app = context.applicationContext
-            ContextCompat.startForegroundService(app, Intent(app, FrameService::class.java))
-            app.startActivity(
-                Intent(app, MainActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+            // Both starts are best-effort: outside the BOOT_COMPLETED exemption the OS may
+            // deny an FGS start, and without "appear on top" it blocks the activity launch.
+            // A denied start must never crash the receiver.
+            runCatching {
+                ContextCompat.startForegroundService(app, Intent(app, FrameService::class.java))
+            }
+            runCatching {
+                app.startActivity(
+                    Intent(app, MainActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            }
         }
     }
 }

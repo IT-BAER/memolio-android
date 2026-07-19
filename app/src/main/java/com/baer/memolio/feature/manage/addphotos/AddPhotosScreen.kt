@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -94,7 +96,11 @@ fun AddPhotosScreen(
             }
             BoxWithConstraints(Modifier.fillMaxWidth()) {
                 if (maxWidth < 560.dp) {
-                    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(28.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         qrCard()
                         instructions(Modifier.fillMaxWidth())
                     }
@@ -109,5 +115,7 @@ fun AddPhotosScreen(
                 }
             }
         }
+        // Clearance so the content can scroll fully above the floating play FAB.
+        Spacer(Modifier.height(96.dp))
     }
 }

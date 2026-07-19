@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [0.3.0] - 2026-07-19
+
+### Added
+
+- Face-aware smart crop: in "Fill & crop" photo-fit mode the crop now centers on
+  detected faces automatically (on-device, at import; existing photos are
+  backfilled in the background).
+- Custom wallpapers (Pro): pick any photo as the frame's background.
+- Redesigned onboarding: five full-bleed steps on the ambient wallpaper with
+  animated transitions and progress dots.
+
+### Fixed
+
+- Autostart on boot now works on Android 14+: the frame relaunches after a
+  reboot (grant the "display over other apps" permission when prompted) and
+  shows over the lock screen while autostart is on.
+- Ambient dimming no longer flickers — brightness eases smoothly as the room
+  light changes.
+- Gesture navigation works in the Manage screens: system bars are shown there
+  and hidden only on the frame itself (kiosk mode stays fully immersive).
+- True edge-to-edge on phones with a camera cutout — no more grey strip beside
+  the slideshow in landscape.
+- Back from the Manage menu returns to the frame instead of leaving the app.
+- Manage sections scroll fully clear of the floating play button; the About
+  card is no longer covered or cut off.
+- QR code is centered on the Add Photos screen in portrait.
+
 ## [0.2.0] - 2026-06-23
 
 ### Added

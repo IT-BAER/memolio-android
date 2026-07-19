@@ -25,18 +25,15 @@
 
     <!-- ===== Onboarding ===== -->
     <string name="onboard_welcome_title">Bienvenido a Memolio</string>
-    <string name="onboard_welcome_body">Convirtamos este tablet en un marco de fotos tranquilo para las personas y los lugares que quieres tener cerca. Tardará solo un minuto.</string>
-    <string name="onboard_permissions_title">Permisos</string>
-    <string name="onboard_permissions_body">Memolio necesita permisos de notificaciones y de arranque para que el marco siga funcionando solo. Solo accede a su propia carpeta, nunca a tu galería.</string>
+    <string name="onboard_welcome_body">Convirtamos este tablet en un marco de fotos tranquilo para las personas y los lugares que quieres tener cerca. Tardará solo un minuto. Memolio solo accede a su propia carpeta, nunca a tu galería.</string>
     <string name="onboard_qr_title">Añade tus primeras fotos</string>
     <string name="onboard_qr_sub">Escanea desde cualquier móvil conectado al mismo Wi-Fi</string>
     <string name="onboard_qr_preparing">Preparando el enlace de subida… (asegúrate de que el Wi-Fi está activado)</string>
-    <string name="onboard_homekiosk_title">Inicio &amp; modo quiosco</string>
-    <string name="onboard_homekiosk_body">Opcional: establece Memolio como la app de inicio y bloquéala (modo quiosco).</string>
     <string name="onboard_homekiosk_enable">Activar inicio + modo quiosco</string>
-    <string name="onboard_sleep_title">Programación de reposo</string>
-    <string name="onboard_sleep_body">Opcional: apaga la pantalla durante la noche (22:00–07:00).</string>
     <string name="onboard_sleep_enable">Activar programación de reposo</string>
+    <string name="onboard_appliance_title">Conviértelo en un electrodoméstico</string>
+    <string name="onboard_appliance_body">Opcional: establece Memolio como la app de inicio con bloqueo de quiosco y deja que la pantalla duerma durante la noche (22:00–07:00). Ambas opciones se pueden cambiar más tarde en Ajustes.</string>
+    <string name="onboard_step_progress_cd">Paso %1$d de %2$d</string>
     <string name="onboard_pro_title">Memolio Pro</string>
     <string name="onboard_pro_body">Opcional: desbloquea álbumes, el conjunto de electrodoméstico y fondos de pantalla personalizados con una compra única. Puedes hacerlo en cualquier momento.</string>
     <string name="onboard_finish_title">Todo listo</string>
@@ -152,6 +149,10 @@
     <string name="appliance_sleep_start_title">Inicio del reposo</string>
     <string name="appliance_sleep_end_title">Despertar</string>
     <string name="appliance_ambient">Atenuación de brillo ambiental</string>
+    <string name="appliance_overlay_title">Un permiso más</string>
+    <string name="appliance_overlay_body">Para mostrar el marco en la pantalla tras un reinicio, Android necesita que se permita a Memolio "aparecer encima de otras apps". Sin ello, el pase de diapositivas se inicia en silencio en segundo plano.</string>
+    <string name="appliance_overlay_open_settings">Abrir ajustes</string>
+    <string name="appliance_overlay_later">Ahora no</string>
 
     <!-- ===== Storage ===== -->
     <string name="storage_title">Almacenamiento</string>

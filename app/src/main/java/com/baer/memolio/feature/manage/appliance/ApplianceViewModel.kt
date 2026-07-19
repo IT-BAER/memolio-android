@@ -55,6 +55,16 @@ class ApplianceViewModel @Inject constructor(
         settings.setSleep(s.sleepEnabled, startMinutes, endMinutes)
     }
 
+    companion object {
+        /**
+         * Android 14+ blocks activity launches from BootReceiver unless the app may
+         * "appear on top" (SYSTEM_ALERT_WINDOW). Prompt exactly when the user enables
+         * autostart without that permission — otherwise boot starts the frame invisibly.
+         */
+        fun overlayPromptNeeded(enable: Boolean, canDrawOverlays: Boolean): Boolean =
+            enable && !canDrawOverlays
+    }
+
     /** Appliance behaviors are Pro-gated: no-op until purchased (spec section 13). */
     private fun guard(block: suspend () -> Unit) = viewModelScope.launch {
         if (entitlement.isPro.first()) block()

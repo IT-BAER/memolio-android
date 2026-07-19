@@ -25,13 +25,13 @@ object KioskController {
     )
 
     /**
-     * Pure decision. The frame is fullscreen ALWAYS (it's a photo frame — system bars
-     * are never wanted), so [immersive] and [keepScreenOn] are unconditional. Only the
-     * lock-task PIN (which traps the user in the app) is Pro-gated via APPLIANCE.
+     * Pure decision. The frame display is fullscreen; off-frame screens (Manage/Onboard/
+     * Paywall) show the system bars so gesture navigation works — unless kiosk mode locks
+     * the whole app down. The lock-task PIN is Pro-gated via APPLIANCE.
      */
-    fun plan(kioskEnabled: Boolean, isPro: Boolean): Plan = Plan(
+    fun plan(kioskEnabled: Boolean, isPro: Boolean, onFrame: Boolean): Plan = Plan(
         lockTask = kioskEnabled && isPro,
-        immersive = true,
+        immersive = onFrame || (kioskEnabled && isPro),
         keepScreenOn = true
     )
 
@@ -45,6 +45,13 @@ object KioskController {
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, !plan.immersive)
+        if (plan.immersive && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            // Draw into the display cutout so the frame is truly edge-to-edge on notched devices.
+            window.attributes = window.attributes.apply {
+                layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         if (plan.immersive) {
             controller.hide(WindowInsetsCompat.Type.systemBars())

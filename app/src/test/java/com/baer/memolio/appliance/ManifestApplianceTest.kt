@@ -25,7 +25,10 @@ class ManifestApplianceTest {
             "android.permission.FOREGROUND_SERVICE",
             "android.permission.FOREGROUND_SERVICE_SPECIAL_USE",
             "android.permission.WAKE_LOCK",
-            "android.permission.POST_NOTIFICATIONS"
+            "android.permission.POST_NOTIFICATIONS",
+            // Autostart: Android 14+ blocks the boot-time activity launch unless the
+            // user grants "appear on top"; undeclared = not even offered in settings.
+            "android.permission.SYSTEM_ALERT_WINDOW"
         )
     }
 

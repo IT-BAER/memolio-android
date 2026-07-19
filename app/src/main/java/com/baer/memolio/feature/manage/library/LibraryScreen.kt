@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -198,7 +199,8 @@ private fun AlbumsView(
             columns = GridCells.Adaptive(200.dp),
             modifier = Modifier.fillMaxWidth().weight(1f),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(bottom = 96.dp) // scroll clear of the play FAB
         ) {
             // The "All photos" album (the default upload bucket) always leads the grid and
             // shows the whole live pool. It is filtered out of the list below so it is never
@@ -337,7 +339,8 @@ private fun AlbumDetailView(
             columns = GridCells.Adaptive(150.dp),
             modifier = Modifier.fillMaxWidth().weight(1f),
             horizontalArrangement = Arrangement.spacedBy(14.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            contentPadding = PaddingValues(bottom = 96.dp) // scroll clear of the play FAB
         ) {
             items(state.openAlbumPhotos, key = { it.id }) { photo ->
                 PhotoThumb(

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.ui.MemolioColors
@@ -78,6 +79,8 @@ fun StorageScreen(
                 modifier = Modifier.padding(top = 16.dp)
             )
         }
+        // Clearance so the last row can scroll fully above the floating play FAB.
+        Spacer(Modifier.height(96.dp))
     }
 }
 
