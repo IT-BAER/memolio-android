@@ -25,7 +25,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 4
-        versionName = "0.3.1"
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // RevenueCat key injected from a gradle property / CI secret at build time; empty by

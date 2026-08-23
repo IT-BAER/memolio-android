@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [1.0.0] - 2026-08-23
+
+First stable release.
+
+### Changed
+
+- In-app purchases now use Google Play Billing Library 8.3.0, through
+  RevenueCat 10.18.1. Play requires Billing Library 8 for new releases from
+  31 August 2026.
+
 ## [0.3.0] - 2026-07-19
 
 ### Added
