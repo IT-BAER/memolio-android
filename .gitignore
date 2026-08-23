@@ -46,5 +46,6 @@ CLAUDE.md
 # Local-only working artifacts / generated assets (not for public repo)
 /tools/
 /todo.md
+/memolio-production-access.md
 /fastlane/
 /assets/mockup-photos/

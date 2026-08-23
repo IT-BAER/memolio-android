@@ -24,8 +24,8 @@ android {
         applicationId = "com.baer.memolio"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.3.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // RevenueCat key injected from a gradle property / CI secret at build time; empty by
@@ -33,7 +33,7 @@ android {
         buildConfigField(
             "String",
             "REVENUECAT_API_KEY",
-            "\"${project.findProperty("REVENUECAT_API_KEY") ?: ""}\""
+            "\"${project.findProperty("MEMOLIO_REVENUECAT_API_KEY") ?: project.findProperty("REVENUECAT_API_KEY") ?: ""}\""
         )
     }
 
