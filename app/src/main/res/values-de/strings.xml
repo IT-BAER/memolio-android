@@ -95,8 +95,11 @@
     <string name="library_hide">Ausblenden</string>
     <string name="library_show">Einblenden</string>
     <string name="library_delete_album">Album löschen</string>
+    <string name="library_add_to_album">Zum Album</string>
+    <string name="library_add_to_album_title">Zum Album hinzufügen</string>
+    <string name="library_album_empty_hint">Dieses Album ist leer. Öffne „Alle Fotos“, halte ein Foto gedrückt und wähle dann „Zum Album hinzufügen“.</string>
     <string name="library_delete_album_title">Album löschen?</string>
-    <string name="library_delete_album_body">„%1$s" wird entfernt. Die Fotos bleiben in deiner Mediathek unter „Alle Fotos".</string>
+    <string name="library_delete_album_body">„%1$s“ wird entfernt. Die Fotos bleiben in deiner Mediathek unter „Alle Fotos“.</string>
     <string name="library_all_photos">Alle Fotos</string>
     <string name="library_pool_hint">Tippe auf ein Foto, um es aus der Diashow auszublenden. Ausgeblendete Fotos bleiben in deiner Bibliothek.</string>
     <string name="photo_hidden">Ausgeblendet</string>
@@ -145,7 +148,7 @@
     <string name="appliance_sleep_end_title">Aufwachen</string>
     <string name="appliance_ambient">Umgebungshelligkeit dimmen</string>
     <string name="appliance_overlay_title">Noch eine Berechtigung</string>
-    <string name="appliance_overlay_body">Damit der Rahmen nach einem Neustart auf dem Bildschirm erscheint, muss Memolio erlaubt sein, „über anderen Apps angezeigt" zu werden. Ohne diese Berechtigung startet die Diashow stumm im Hintergrund.</string>
+    <string name="appliance_overlay_body">Damit der Rahmen nach einem Neustart auf dem Bildschirm erscheint, muss Memolio erlaubt sein, „über anderen Apps angezeigt“ zu werden. Ohne diese Berechtigung startet die Diashow stumm im Hintergrund.</string>
     <string name="appliance_overlay_open_settings">Einstellungen öffnen</string>
     <string name="appliance_overlay_later">Nicht jetzt</string>
 
@@ -157,6 +160,9 @@
     <string name="storage_recently_deleted">Zuletzt gelöscht · %1$d</string>
     <string name="storage_restore">Wiederherstellen</string>
     <string name="storage_empty_trash">Papierkorb leeren</string>
+    <string name="storage_empty_trash_title">Papierkorb leeren?</string>
+    <string name="photo_a11y">Foto</string>
+    <string name="storage_empty_trash_body">%1$d Foto(s) werden endgültig gelöscht, samt der Dateien auf diesem Tablet. Das lässt sich nicht rückgängig machen.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Hintergrundbild</string>
@@ -172,6 +178,8 @@
     <string name="about_open_source">Open Source</string>
     <string name="about_view_source">Quellcode auf GitHub ansehen</string>
     <string name="about_privacy_policy">Datenschutz</string>
+    <string name="about_link_blocked_by_kiosk">Schalte die Kiosk-Sperre in den Geräteeinstellungen aus, um diesen Link zu öffnen.</string>
+    <string name="about_link_no_browser">Auf diesem Tablet ist kein Browser installiert, daher kann dieser Link nicht geöffnet werden.</string>
     <string name="about_legal_notice">Impressum</string>
 
     <!-- ===== Upload feedback banner ===== -->

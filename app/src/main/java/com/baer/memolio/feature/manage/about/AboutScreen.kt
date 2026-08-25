@@ -1,7 +1,10 @@
 package com.baer.memolio.feature.manage.about
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,6 +42,23 @@ private const val REPO_URL = "https://github.com/IT-BAER/memolio-android"
 private const val PRIVACY_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md"
 private const val LEGAL_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/legal-notice.md"
 
+/**
+ * Opens [url] in a browser. Lock-task mode blocks every activity outside Memolio, and a
+ * repurposed tablet can have no browser at all; both cases end in a message instead of a
+ * dead tap or an ActivityNotFoundException.
+ */
+private fun openUrl(context: Context, url: String) {
+    val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+    if (activityManager?.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE) {
+        Toast.makeText(context, R.string.about_link_blocked_by_kiosk, Toast.LENGTH_LONG).show()
+        return
+    }
+    runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
+        .onFailure {
+            Toast.makeText(context, R.string.about_link_no_browser, Toast.LENGTH_LONG).show()
+        }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AboutScreen(modifier: Modifier = Modifier) {
@@ -67,9 +87,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     Modifier
                         .padding(top = 16.dp)
                         .clickable {
-                            context.startActivity(
-                                Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL))
-                            )
+                            openUrl(context, REPO_URL)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -91,7 +109,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     color = MemolioColors.TextSecondary,
                     style = MemolioType.body,
                     modifier = Modifier.padding(top = 12.dp).clickable {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL)))
+                        openUrl(context, PRIVACY_URL)
                     }
                 )
                 Text(
@@ -99,7 +117,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     color = MemolioColors.TextSecondary,
                     style = MemolioType.body,
                     modifier = Modifier.padding(top = 12.dp).clickable {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(LEGAL_URL)))
+                        openUrl(context, LEGAL_URL)
                     }
                 )
             }

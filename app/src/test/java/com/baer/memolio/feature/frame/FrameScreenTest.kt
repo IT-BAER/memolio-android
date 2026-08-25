@@ -93,6 +93,22 @@ class FrameScreenTest {
         composeRule.onNodeWithText("MEMOLIO").assertDoesNotExist()
     }
 
+    /**
+     * The frame auto-starts on boot and the first photo query takes seconds on a low-end
+     * tablet. Loading must already paint the wallpaper, never a black rectangle.
+     */
+    @Test
+    fun loadingState_paintsTheWallpaper() {
+        composeRule.setContent {
+            MemolioTheme {
+                FrameScreen(state = FrameUiState.Loading, onOpenManage = {})
+            }
+        }
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag("frame_loading_wallpaper", useUnmergedTree = true)
+            .assertExists()
+    }
+
     // ---- Idle state -------------------------------------------------------------
 
     @Test

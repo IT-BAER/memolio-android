@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -68,8 +69,21 @@ class StorageViewModel @Inject constructor(
 
     fun restore(id: String) = viewModelScope.launch { photoRepository.restore(id) }
 
-    /** Empties the whole trash regardless of age (spec section 7 "empty"). */
-    fun emptyTrash() = viewModelScope.launch { photoRepository.purgeTrashOlderThan(Long.MAX_VALUE) }
+    /**
+     * Empties the whole trash regardless of age (spec section 7 "empty"). The rows go first,
+     * then the originals, display caches and thumbnails, so a crash between the two leaves
+     * orphan files rather than rows pointing at deleted files.
+     */
+    fun emptyTrash() = viewModelScope.launch {
+        val trashed = photoRepository.observeTrash().first()
+        photoRepository.purgeTrashOlderThan(Long.MAX_VALUE)
+        withContext(ioDispatcher) {
+            trashed.forEach { photo ->
+                fileStorage.deleteAll(photo.id, photo.originalPath.substringAfterLast('.', "jpg"))
+            }
+            usedBytes.value = fileStorage.usedBytes()
+        }
+    }
 
     fun setAutoCleanup(value: Boolean) = viewModelScope.launch { settings.setAutoCleanup(value) }
 

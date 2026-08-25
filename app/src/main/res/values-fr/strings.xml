@@ -95,6 +95,9 @@
     <string name="library_hide">Masquer</string>
     <string name="library_show">Afficher</string>
     <string name="library_delete_album">Supprimer l\'album</string>
+    <string name="library_add_to_album">Ajouter à l’album</string>
+    <string name="library_add_to_album_title">Ajouter à l’album</string>
+    <string name="library_album_empty_hint">Cet album est vide. Ouvre « Toutes les photos », maintiens une photo appuyée, puis choisis « Ajouter à l’album ».</string>
     <string name="library_delete_album_title">Supprimer l\'album ?</string>
     <string name="library_delete_album_body">«&#160;%1$s&#160;» sera supprimé. Ses photos restent dans votre bibliothèque sous «&#160;Toutes les photos&#160;».</string>
     <string name="library_all_photos">Toutes les photos</string>
@@ -157,6 +160,9 @@
     <string name="storage_recently_deleted">Supprimés récemment · %1$d</string>
     <string name="storage_restore">Restaurer</string>
     <string name="storage_empty_trash">Vider la corbeille</string>
+    <string name="storage_empty_trash_title">Vider la corbeille ?</string>
+    <string name="photo_a11y">Photo</string>
+    <string name="storage_empty_trash_body">%1$d photo(s) seront supprimées définitivement, ainsi que les fichiers sur cette tablette. Cette action est irréversible.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Fond d\'écran</string>
@@ -172,6 +178,8 @@
     <string name="about_open_source">Open source</string>
     <string name="about_view_source">Voir le code source sur GitHub</string>
     <string name="about_privacy_policy">Confidentialité</string>
+    <string name="about_link_blocked_by_kiosk">Désactivez le verrouillage kiosque dans les paramètres de l\'appareil pour ouvrir ce lien.</string>
+    <string name="about_link_no_browser">Aucun navigateur n\'est installé sur cette tablette, ce lien ne peut donc pas être ouvert.</string>
     <string name="about_legal_notice">Mentions légales</string>
 
     <!-- ===== Upload feedback banner ===== -->

@@ -100,6 +100,9 @@
     <string name="library_hide">Ocultar</string>
     <string name="library_show">Mostrar</string>
     <string name="library_delete_album">Eliminar álbum</string>
+    <string name="library_add_to_album">Adicionar ao álbum</string>
+    <string name="library_add_to_album_title">Adicionar ao álbum</string>
+    <string name="library_album_empty_hint">Este álbum está vazio. Abre “Todas as fotos”, mantém uma foto premida e escolhe “Adicionar ao álbum”.</string>
     <string name="library_delete_album_title">Eliminar álbum?</string>
     <string name="library_delete_album_body">«%1$s» será removido. As fotografias permanecem na sua biblioteca em «Todas as fotos».</string>
     <string name="library_all_photos">Todas as fotos</string>
@@ -150,7 +153,7 @@
     <string name="appliance_sleep_end_title">Despertar</string>
     <string name="appliance_ambient">Redução de brilho ambiente</string>
     <string name="appliance_overlay_title">Mais uma permissão</string>
-    <string name="appliance_overlay_body">Para mostrar a moldura no ecrã após um reinício, o Android precisa de permitir que o Memolio "apareça sobre outras aplicações". Sem isso, a apresentação de diapositivos começa silenciosamente em segundo plano.</string>
+    <string name="appliance_overlay_body">Para mostrar a moldura no ecrã após um reinício, o Android precisa de permitir que o Memolio “apareça sobre outras aplicações”. Sem isso, a apresentação de diapositivos começa silenciosamente em segundo plano.</string>
     <string name="appliance_overlay_open_settings">Abrir definições</string>
     <string name="appliance_overlay_later">Agora não</string>
 
@@ -162,6 +165,9 @@
     <string name="storage_recently_deleted">Eliminados recentemente · %1$d</string>
     <string name="storage_restore">Restaurar</string>
     <string name="storage_empty_trash">Esvaziar lixo</string>
+    <string name="storage_empty_trash_title">Esvaziar o lixo?</string>
+    <string name="photo_a11y">Fotografia</string>
+    <string name="storage_empty_trash_body">%1$d fotografia(s) serão eliminadas definitivamente, juntamente com os ficheiros neste tablet. Esta ação é irreversível.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Fundo</string>
@@ -177,6 +183,8 @@
     <string name="about_open_source">Código aberto</string>
     <string name="about_view_source">Ver código-fonte no GitHub</string>
     <string name="about_privacy_policy">Privacidade</string>
+    <string name="about_link_blocked_by_kiosk">Desative o modo quiosque nas definições do dispositivo para abrir esta ligação.</string>
+    <string name="about_link_no_browser">Não existe nenhum navegador instalado neste tablet, pelo que esta ligação não pode ser aberta.</string>
     <string name="about_legal_notice">Aviso legal</string>
 
     <!-- ===== Upload feedback banner ===== -->

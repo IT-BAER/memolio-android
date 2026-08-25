@@ -99,8 +99,11 @@
     <string name="library_hide">隐藏</string>
     <string name="library_show">显示</string>
     <string name="library_delete_album">删除相册</string>
+    <string name="library_add_to_album">加入相册</string>
+    <string name="library_add_to_album_title">加入相册</string>
+    <string name="library_album_empty_hint">此相册为空。打开“所有照片”，长按照片选中，然后选择“加入相册”。</string>
     <string name="library_delete_album_title">删除相册？</string>
-    <string name="library_delete_album_body">"%1$s"将被移除。其中的照片会保留在媒体库的"全部照片"中。</string>
+    <string name="library_delete_album_body">“%1$s”将被移除。其中的照片会保留在媒体库的“全部照片”中。</string>
     <string name="library_all_photos">全部照片</string>
     <string name="library_pool_hint">轻触照片可将其从幻灯片中隐藏。隐藏的照片仍保留在你的相册库中。</string>
     <string name="photo_hidden">已隐藏</string>
@@ -162,6 +165,9 @@
     <string name="storage_recently_deleted">最近删除 · %1$d</string>
     <string name="storage_restore">恢复</string>
     <string name="storage_empty_trash">清空回收站</string>
+    <string name="storage_empty_trash_title">清空回收站？</string>
+    <string name="photo_a11y">照片</string>
+    <string name="storage_empty_trash_body">%1$d 张照片将被永久删除，包括本平板上的文件。此操作无法撤销。</string>
 
     <!-- ===== 壁纸 ===== -->
     <string name="wallpaper_title">壁纸</string>
@@ -177,6 +183,8 @@
     <string name="about_open_source">开源</string>
     <string name="about_view_source">在 GitHub 上查看源代码</string>
     <string name="about_privacy_policy">隐私政策</string>
+    <string name="about_link_blocked_by_kiosk">请在设备设置中关闭信息亭锁定，以打开此链接。</string>
+    <string name="about_link_no_browser">此平板电脑上未安装浏览器，因此无法打开此链接。</string>
     <string name="about_legal_notice">法律声明</string>
 
     <!-- ===== 上传反馈横幅 ===== -->

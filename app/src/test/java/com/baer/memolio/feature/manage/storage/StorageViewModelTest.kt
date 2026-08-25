@@ -134,6 +134,24 @@ class StorageViewModelTest {
     }
 
     @Test
+    fun emptyTrashAlsoDeletesTheFilesOfEveryTrashedPhoto() = runTest {
+        val storage = FileStorage(tmp.root)
+        storage.writeOriginal("p1", "jpg") { it.write(byteArrayOf(1, 2, 3)) }
+        storage.displayCacheFile("p1").also { it.parentFile?.mkdirs() }.writeBytes(byteArrayOf(4, 5))
+        storage.thumbFile("p1").also { it.parentFile?.mkdirs() }.writeBytes(byteArrayOf(6))
+        val repo = FakePhotoRepo().apply {
+            trash.value = listOf(photo("p1").copy(originalPath = storage.originalFile("p1", "jpg").path))
+        }
+        val vm = StorageViewModel(repo, FakeSettings(), storage, dispatcher) { 1000L }
+
+        vm.emptyTrash()
+
+        assertThat(storage.originalFile("p1", "jpg").exists()).isFalse()
+        assertThat(storage.displayCacheFile("p1").exists()).isFalse()
+        assertThat(storage.thumbFile("p1").exists()).isFalse()
+    }
+
+    @Test
     fun toggleAutoCleanupPersists() = runTest {
         val settings = FakeSettings()
         val vm = newVm(FakePhotoRepo(), settings)

@@ -4,6 +4,11 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -64,10 +69,22 @@ class FrameService : Service() {
         }
     }
 
+    /** Re-resolves the LAN address so the pairing QR follows a DHCP or Wi-Fi change. */
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) = frameServer.refreshAddress()
+        override fun onLost(network: Network) = frameServer.refreshAddress()
+        override fun onLinkPropertiesChanged(network: Network, props: LinkProperties) =
+            frameServer.refreshAddress()
+    }
+
     override fun onCreate() {
         super.onCreate()
         FrameNotification.ensureChannel(this)
         startForegroundCompat()
+        getSystemService(ConnectivityManager::class.java)?.registerNetworkCallback(
+            NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build(),
+            networkCallback
+        )
 
         ambientDimmer = AmbientDimmer(applicationContext)
 
@@ -131,6 +148,9 @@ class FrameService : Service() {
     }
 
     override fun onDestroy() {
+        runCatching {
+            getSystemService(ConnectivityManager::class.java)?.unregisterNetworkCallback(networkCallback)
+        }
         ambientDimmer.stop()
         frameServer.stop()
         scope.cancel()

@@ -1,12 +1,14 @@
 # Privacy Policy for Memolio
 
-_Last updated: 20 June 2026_
+_Last updated: 25 August 2026_
 
 **Memolio** is an Android digital picture-frame app that turns a tablet into an always-on photo frame. It is designed to be **fully offline**. This policy explains what data the app does and does not handle. The short version: Memolio does not collect, transmit, sell, or share your personal data or your photos.
 
 ## 1. Information we collect
 
 **None.** Memolio does not collect personal information. There are no user accounts, no sign-in, no analytics, no advertising, no crash-reporting SDKs, and no usage tracking of any kind.
+
+Memolio does bundle one Google library, **ML Kit face detection**, which runs entirely on the device. It is what lets the app keep a face in shot when a photo has to be cropped to fit the screen. No image, no face data, and no crop decision ever leaves the tablet. That library normally ships with Google's own usage-logging backend attached; Memolio removes that backend at build time, so the logging code is present but has nowhere to send anything and never records or queues an event. You can check this yourself: the app declares no `com.google.android.datatransport.cct.CctBackendFactory` backend in its merged manifest, and the source is public.
 
 ## 2. Your photos
 

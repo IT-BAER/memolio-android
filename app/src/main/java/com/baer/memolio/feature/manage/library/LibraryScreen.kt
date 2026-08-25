@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -49,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.baer.memolio.R
 import coil3.compose.AsyncImage
 import com.baer.memolio.core.billing.ProFeature
+import com.baer.memolio.core.model.Album
 import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
@@ -95,6 +97,7 @@ fun LibraryScreen(
         onFavoriteSelected = { viewModel.favoriteSelected(true) },
         onToggleHiddenSelected = viewModel::toggleHiddenSelected,
         onDeleteSelected = viewModel::deleteSelected,
+        onMoveSelectedToAlbum = viewModel::moveSelectedToAlbum,
         onOpenPaywall = onOpenPaywall,
         modifier = modifier
     )
@@ -120,6 +123,7 @@ fun LibraryContent(
     onFavoriteSelected: () -> Unit = {},
     onToggleHiddenSelected: () -> Unit = {},
     onDeleteSelected: () -> Unit = {},
+    onMoveSelectedToAlbum: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val albumOpen = !state.openAlbumId.isNullOrBlank()
@@ -151,6 +155,7 @@ fun LibraryContent(
             onFavoriteSelected = onFavoriteSelected,
             onToggleHiddenSelected = onToggleHiddenSelected,
             onDeleteSelected = onDeleteSelected,
+            onMoveSelectedToAlbum = onMoveSelectedToAlbum,
             modifier = modifier
         )
         else -> AlbumsView(state, onCreateAlbum, onOpenAlbum, onOpenAllPhotos, onOpenPaywall, modifier)
@@ -167,6 +172,7 @@ private fun AlbumsView(
     modifier: Modifier
 ) {
     var newAlbumName by remember { mutableStateOf("") }
+    val keyboard = androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
     Column(modifier.fillMaxSize()) {
         SectionHead(title = stringResource(R.string.library_title), sub = stringResource(R.string.library_subtitle))
         ProGate(feature = ProFeature.ALBUMS, isPro = state.isPro, onUpsell = onOpenPaywall) {
@@ -184,13 +190,13 @@ private fun AlbumsView(
                 MemolioButton(
                     text = stringResource(R.string.library_create_album),
                     onClick = {
-                        if (newAlbumName.isNotBlank()) {
-                            onCreateAlbum(newAlbumName.trim())
-                            newAlbumName = ""
-                        }
+                        onCreateAlbum(newAlbumName.trim())
+                        newAlbumName = ""
+                        keyboard?.hide()
                     },
                     variant = ButtonVariant.Primary,
-                    icon = "add"
+                    icon = "add",
+                    enabled = newAlbumName.isNotBlank()
                 )
             }
         }
@@ -217,7 +223,7 @@ private fun AlbumsView(
                 AlbumCard(
                     name = album.name,
                     cover = state.albumCovers[album.id],
-                    count = null,
+                    count = state.allPhotos.count { it.albumId == album.id },
                     onClick = { onOpenAlbum(album.id) }
                 )
             }
@@ -278,6 +284,7 @@ private fun AlbumDetailView(
     onFavoriteSelected: () -> Unit,
     onToggleHiddenSelected: () -> Unit,
     onDeleteSelected: () -> Unit,
+    onMoveSelectedToAlbum: (String) -> Unit,
     modifier: Modifier
 ) {
     val title = when {
@@ -287,6 +294,15 @@ private fun AlbumDetailView(
     }
     val selecting = state.selectionMode
     var confirmDelete by remember { mutableStateOf(false) }
+    var pickAlbum by remember { mutableStateOf(false) }
+    val targetAlbums = state.albums.filter { it.id != ALL_PHOTOS_ID && it.id != state.openAlbumId }
+    if (pickAlbum) {
+        PickAlbumDialog(
+            albums = targetAlbums,
+            onPick = { pickAlbum = false; onMoveSelectedToAlbum(it) },
+            onDismiss = { pickAlbum = false }
+        )
+    }
     if (confirmDelete) {
         DeleteAlbumDialog(
             albumName = title,
@@ -342,6 +358,15 @@ private fun AlbumDetailView(
             verticalArrangement = Arrangement.spacedBy(14.dp),
             contentPadding = PaddingValues(bottom = 96.dp) // scroll clear of the play FAB
         ) {
+            if (state.openAlbumPhotos.isEmpty() && !state.isAllPhotosOpen) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Text(
+                        stringResource(R.string.library_album_empty_hint),
+                        color = MemolioColors.TextSecondary,
+                        style = MemolioType.body
+                    )
+                }
+            }
             items(state.openAlbumPhotos, key = { it.id }) { photo ->
                 PhotoThumb(
                     photo = photo,
@@ -360,8 +385,10 @@ private fun AlbumDetailView(
                 .let { sel -> sel.isNotEmpty() && sel.all { !it.inPlaylist } }
             SelectionActionBar(
                 allHidden = allSelectedHidden,
+                canMove = targetAlbums.isNotEmpty(),
                 onFavorite = onFavoriteSelected,
                 onToggleHidden = onToggleHiddenSelected,
+                onAddToAlbum = { pickAlbum = true },
                 onDelete = onDeleteSelected
             )
         }
@@ -370,7 +397,14 @@ private fun AlbumDetailView(
 
 /** Bulk actions for the long-press selection: favorite, hide/show, delete the checked photos. */
 @Composable
-private fun SelectionActionBar(allHidden: Boolean, onFavorite: () -> Unit, onToggleHidden: () -> Unit, onDelete: () -> Unit) {
+private fun SelectionActionBar(
+    allHidden: Boolean,
+    canMove: Boolean,
+    onFavorite: () -> Unit,
+    onToggleHidden: () -> Unit,
+    onAddToAlbum: () -> Unit,
+    onDelete: () -> Unit
+) {
     Row(
         Modifier.fillMaxWidth().padding(top = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -378,8 +412,42 @@ private fun SelectionActionBar(allHidden: Boolean, onFavorite: () -> Unit, onTog
     ) {
         MemolioButton(stringResource(R.string.library_favorite), onFavorite, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "favorite")
         MemolioButton(stringResource(if (allHidden) R.string.library_show else R.string.library_hide), onToggleHidden, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "playlist_play")
+        if (canMove) {
+            MemolioButton(stringResource(R.string.library_add_to_album), onAddToAlbum, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "add")
+        }
         MemolioButton(stringResource(R.string.library_delete), onDelete, variant = ButtonVariant.Ghost, size = ButtonSize.Sm, icon = "delete")
     }
+}
+
+/** Lists the user albums so the selected photos can be moved into one of them. */
+@Composable
+private fun PickAlbumDialog(albums: List<Album>, onPick: (String) -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = MemolioColors.SurfaceCard,
+        title = { Text(stringResource(R.string.library_add_to_album_title), color = MemolioColors.TextPrimary, style = MemolioType.h3) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                albums.forEach { album ->
+                    MemolioButton(
+                        text = album.name,
+                        onClick = { onPick(album.id) },
+                        variant = ButtonVariant.Ghost,
+                        size = ButtonSize.Sm,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            MemolioButton(
+                text = stringResource(R.string.action_cancel),
+                onClick = onDismiss,
+                variant = ButtonVariant.Ghost,
+                size = ButtonSize.Sm
+            )
+        }
+    )
 }
 
 /** Confirms deleting a user album; its photos are kept and moved to the All-photos bucket. */
@@ -444,7 +512,7 @@ private fun PhotoThumb(
     ) {
         AsyncImage(
             model = photo.thumbPath,
-            contentDescription = photo.caption ?: photo.id,
+            contentDescription = photo.caption?.takeIf { it.isNotBlank() } ?: stringResource(R.string.photo_a11y),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize().alpha(if (photo.inPlaylist) 1f else 0.32f)
         )
@@ -518,7 +586,7 @@ private fun PhotoPreview(
         ) { page ->
             BlurredFillPhoto(
                 model = photos[page].displayCachePath,
-                contentDescription = photos[page].caption ?: photos[page].id,
+                contentDescription = photos[page].caption?.takeIf { it.isNotBlank() } ?: stringResource(R.string.photo_a11y),
                 kenBurns = false
             )
         }

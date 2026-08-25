@@ -100,6 +100,9 @@
     <string name="library_hide">Verbergen</string>
     <string name="library_show">Tonen</string>
     <string name="library_delete_album">Album verwijderen</string>
+    <string name="library_add_to_album">Aan album toevoegen</string>
+    <string name="library_add_to_album_title">Aan album toevoegen</string>
+    <string name="library_album_empty_hint">Dit album is leeg. Open “Alle foto’s”, houd een foto ingedrukt en kies “Aan album toevoegen”.</string>
     <string name="library_delete_album_title">Album verwijderen?</string>
     <string name="library_delete_album_body">‘%1$s’ wordt verwijderd. De foto\'s blijven in je bibliotheek onder ‘Alle foto\'s’.</string>
     <string name="library_all_photos">Alle foto\'s</string>
@@ -150,7 +153,7 @@
     <string name="appliance_sleep_end_title">Scherm aan</string>
     <string name="appliance_ambient">Omgevingshelderheid dimmen</string>
     <string name="appliance_overlay_title">Nog een toestemming</string>
-    <string name="appliance_overlay_body">Om het frame na een herstart op het scherm te tonen, moet Android Memolio toestaan "boven andere apps weer te geven". Zonder deze toestemming start de diavoorstelling stil op de achtergrond.</string>
+    <string name="appliance_overlay_body">Om het frame na een herstart op het scherm te tonen, moet Android Memolio toestaan “boven andere apps weer te geven”. Zonder deze toestemming start de diavoorstelling stil op de achtergrond.</string>
     <string name="appliance_overlay_open_settings">Instellingen openen</string>
     <string name="appliance_overlay_later">Niet nu</string>
 
@@ -162,6 +165,9 @@
     <string name="storage_recently_deleted">Onlangs verwijderd · %1$d</string>
     <string name="storage_restore">Herstellen</string>
     <string name="storage_empty_trash">Prullenbak leegmaken</string>
+    <string name="storage_empty_trash_title">Prullenbak legen?</string>
+    <string name="photo_a11y">Foto</string>
+    <string name="storage_empty_trash_body">%1$d foto’s worden definitief verwijderd, samen met de bestanden op deze tablet. Dit kan niet ongedaan worden gemaakt.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Achtergrond</string>
@@ -177,6 +183,8 @@
     <string name="about_open_source">Open Source</string>
     <string name="about_view_source">Broncode bekijken op GitHub</string>
     <string name="about_privacy_policy">Privacybeleid</string>
+    <string name="about_link_blocked_by_kiosk">Schakel de kioskvergrendeling uit in de apparaatinstellingen om deze link te openen.</string>
+    <string name="about_link_no_browser">Er is geen browser geïnstalleerd op deze tablet, dus deze link kan niet worden geopend.</string>
     <string name="about_legal_notice">Juridische kennisgeving</string>
 
     <!-- ===== Upload feedback banner ===== -->

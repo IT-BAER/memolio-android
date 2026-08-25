@@ -100,6 +100,9 @@
     <string name="library_hide">Ocultar</string>
     <string name="library_show">Mostrar</string>
     <string name="library_delete_album">Eliminar álbum</string>
+    <string name="library_add_to_album">Añadir al álbum</string>
+    <string name="library_add_to_album_title">Añadir al álbum</string>
+    <string name="library_album_empty_hint">Este álbum está vacío. Abre «Todas las fotos», mantén pulsada una foto y elige «Añadir al álbum».</string>
     <string name="library_delete_album_title">¿Eliminar álbum?</string>
     <string name="library_delete_album_body">«%1$s» se eliminará. Sus fotos permanecen en tu biblioteca en «Todas las fotos».</string>
     <string name="library_all_photos">Todas las fotos</string>
@@ -150,7 +153,7 @@
     <string name="appliance_sleep_end_title">Despertar</string>
     <string name="appliance_ambient">Atenuación de brillo ambiental</string>
     <string name="appliance_overlay_title">Un permiso más</string>
-    <string name="appliance_overlay_body">Para mostrar el marco en la pantalla tras un reinicio, Android necesita que se permita a Memolio "aparecer encima de otras apps". Sin ello, el pase de diapositivas se inicia en silencio en segundo plano.</string>
+    <string name="appliance_overlay_body">Para mostrar el marco en la pantalla tras un reinicio, Android necesita que se permita a Memolio “aparecer encima de otras apps”. Sin ello, el pase de diapositivas se inicia en silencio en segundo plano.</string>
     <string name="appliance_overlay_open_settings">Abrir ajustes</string>
     <string name="appliance_overlay_later">Ahora no</string>
 
@@ -162,6 +165,9 @@
     <string name="storage_recently_deleted">Eliminados recientemente · %1$d</string>
     <string name="storage_restore">Restaurar</string>
     <string name="storage_empty_trash">Vaciar papelera</string>
+    <string name="storage_empty_trash_title">¿Vaciar la papelera?</string>
+    <string name="photo_a11y">Foto</string>
+    <string name="storage_empty_trash_body">Se eliminarán %1$d foto(s) de forma definitiva, junto con los archivos de esta tableta. Esta acción no se puede deshacer.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Fondo de pantalla</string>
@@ -177,6 +183,8 @@
     <string name="about_open_source">Código abierto</string>
     <string name="about_view_source">Ver el código fuente en GitHub</string>
     <string name="about_privacy_policy">Privacidad</string>
+    <string name="about_link_blocked_by_kiosk">Desactiva el modo quiosco en los ajustes del dispositivo para abrir este enlace.</string>
+    <string name="about_link_no_browser">No hay ningún navegador instalado en esta tableta, por lo que no se puede abrir este enlace.</string>
     <string name="about_legal_notice">Aviso legal</string>
 
     <!-- ===== Upload feedback banner ===== -->

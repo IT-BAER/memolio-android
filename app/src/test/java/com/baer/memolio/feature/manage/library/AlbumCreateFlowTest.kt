@@ -1,6 +1,8 @@
 package com.baer.memolio.feature.manage.library
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -63,6 +65,20 @@ class AlbumCreateFlowTest {
         override suspend fun setCaption(id: String, caption: String?) {}
         override suspend fun reorder(orderedIds: List<String>) {}
         override suspend fun setFocalPoint(id: String, x: Float, y: Float) {}
+    }
+
+    /** A blank name creates nothing, so the button must say so instead of ignoring the tap. */
+    @Test
+    fun createButtonIsDisabledUntilTheNameIsNotBlank() {
+        val vm = LibraryViewModel(FakeAlbumRepo(), FakePhotoRepo(), FakeEntitlement(true), dispatcher) { 42L }
+
+        composeRule.setContent { LibraryScreen(viewModel = vm) }
+
+        composeRule.onNodeWithText("Create album").assertIsNotEnabled()
+        composeRule.onNodeWithText("New album name").performTextInput("   ")
+        composeRule.onNodeWithText("Create album").assertIsNotEnabled()
+        composeRule.onNodeWithText("New album name").performTextInput("Holiday")
+        composeRule.onNodeWithText("Create album").assertIsEnabled()
     }
 
     @Test

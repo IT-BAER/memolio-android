@@ -185,6 +185,7 @@ class FrameServer(
     private val ipResolver: () -> String? = NetworkAddress::currentIpv4
 ) {
     private var engine: EmbeddedServer<*, *>? = null
+    private var boundPort: Int? = null
 
     private val _address = MutableStateFlow<String?>(null)
     val address: StateFlow<String?> = _address.asStateFlow()
@@ -198,13 +199,26 @@ class FrameServer(
         engine = embeddedServer(CIO, port = port, host = "0.0.0.0") {
             frameRoutes(deps)
         }.also { it.start(wait = false) }
+        boundPort = port
         _address.value = ipResolver()?.let { "$it:$port" }
+    }
+
+    /**
+     * Re-resolves the LAN address while the engine stays bound. The appliance runs for
+     * months: a DHCP lease change or a Wi-Fi drop changes the address under the running
+     * server, and the QR/pairing URL must follow it. Null when no address is available.
+     */
+    @Synchronized
+    fun refreshAddress() {
+        val port = boundPort
+        _address.value = if (engine == null || port == null) null else ipResolver()?.let { "$it:$port" }
     }
 
     @Synchronized
     fun stop() {
         engine?.stop(gracePeriodMillis = 200, timeoutMillis = 1000)
         engine = null
+        boundPort = null
         _address.value = null
     }
 }

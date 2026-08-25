@@ -50,6 +50,7 @@ class LibraryViewModelTest {
     private class FakePhotoRepository : PhotoRepository {
         val photosByAlbum = MutableStateFlow<Map<String, List<Photo>>>(emptyMap())
         var lastMoved: Pair<String, String>? = null
+        val moveCalls = mutableListOf<Pair<String, String>>()
         var lastFavorite: Pair<String, Boolean>? = null
         var lastDeleted: String? = null
         var lastReorder: List<String>? = null
@@ -77,7 +78,7 @@ class LibraryViewModelTest {
         override suspend fun softDelete(id: String, now: Long) { lastDeleted = id }
         override suspend fun restore(id: String) {}
         override suspend fun purgeTrashOlderThan(threshold: Long): Int = 0
-        override suspend fun moveToAlbum(id: String, albumId: String) { lastMoved = id to albumId }
+        override suspend fun moveToAlbum(id: String, albumId: String) { lastMoved = id to albumId; moveCalls += id to albumId }
         override suspend fun setFavorite(id: String, favorite: Boolean) { lastFavorite = id to favorite }
         override suspend fun setCaption(id: String, caption: String?) {}
         override suspend fun reorder(orderedIds: List<String>) { lastReorder = orderedIds }
@@ -376,6 +377,39 @@ class LibraryViewModelTest {
             assertThat(s.selectionMode).isFalse()
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun moveSelectedToAlbumMovesEverySelectedPhotoAndClearsTheSelection() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf(ALL_PHOTOS_ID to listOf(photo("p1", ALL_PHOTOS_ID), photo("p2", ALL_PHOTOS_ID)))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(true), dispatcher) { 100L }
+        vm.openAlbum(ALL_PHOTOS_ID)
+        vm.toggleSelection("p1")
+        vm.toggleSelection("p2")
+
+        vm.moveSelectedToAlbum("a2")
+
+        assertThat(photoRepo.moveCalls).containsExactly("p1" to "a2", "p2" to "a2")
+        vm.state.test {
+            var s = awaitItem()
+            while (s.selectedIds.isNotEmpty()) s = awaitItem()
+            assertThat(s.selectionMode).isFalse()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun moveSelectedToAlbumIsProGated() = runTest {
+        val photoRepo = FakePhotoRepository()
+        photoRepo.photosByAlbum.value = mapOf(ALL_PHOTOS_ID to listOf(photo("p1", ALL_PHOTOS_ID)))
+        val vm = LibraryViewModel(FakeAlbumRepository(), photoRepo, FakeEntitlement(false), dispatcher) { 100L }
+        vm.openAlbum(ALL_PHOTOS_ID)
+        vm.toggleSelection("p1")
+
+        vm.moveSelectedToAlbum("a2")
+
+        assertThat(photoRepo.moveCalls).isEmpty()
     }
 
     @Test

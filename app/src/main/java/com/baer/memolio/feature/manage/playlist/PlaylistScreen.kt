@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.baer.memolio.R
 import com.baer.memolio.core.billing.ProFeature
+import com.baer.memolio.feature.manage.library.ALL_PHOTOS_ID
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
 import com.baer.memolio.core.ui.ProGate
@@ -55,7 +56,10 @@ fun PlaylistScreen(
                                     MemolioSwitch(
                                         checked = album.id in state.activeAlbumIds,
                                         onCheckedChange = { viewModel.toggleAlbum(album.id) },
-                                        label = album.name
+                                        // The seeded "all" album carries an English name in
+                                        // the database; show the localized label instead.
+                                        label = if (album.id == ALL_PHOTOS_ID)
+                                            stringResource(R.string.library_all_photos) else album.name
                                     )
                                 }
                             }

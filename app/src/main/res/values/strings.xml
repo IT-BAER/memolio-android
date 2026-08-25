@@ -109,6 +109,9 @@
     <string name="library_hide">Hide</string>
     <string name="library_show">Show</string>
     <string name="library_delete_album">Delete album</string>
+    <string name="library_add_to_album">Add to album</string>
+    <string name="library_add_to_album_title">Add to album</string>
+    <string name="library_album_empty_hint">This album is empty. Open All photos, hold a photo to select it, then use “Add to album”.</string>
     <string name="library_delete_album_title">Delete album?</string>
     <string name="library_delete_album_body">“%1$s” will be removed. Its photos stay in your library under All photos.</string>
     <string name="library_all_photos">All photos</string>
@@ -160,7 +163,7 @@
     <string name="appliance_sleep_end_title">Wake up</string>
     <string name="appliance_ambient">Ambient brightness dimming</string>
     <string name="appliance_overlay_title">One more permission</string>
-    <string name="appliance_overlay_body">To bring the frame to the screen after a reboot, Android needs Memolio allowed to "appear on top". Without it the slideshow starts silently in the background.</string>
+    <string name="appliance_overlay_body">To bring the frame to the screen after a reboot, Android needs Memolio allowed to “appear on top”. Without it the slideshow starts silently in the background.</string>
     <string name="appliance_overlay_open_settings">Open settings</string>
     <string name="appliance_overlay_later">Not now</string>
 
@@ -172,6 +175,9 @@
     <string name="storage_recently_deleted">Recently deleted · %1$d</string>
     <string name="storage_restore">Restore</string>
     <string name="storage_empty_trash">Empty trash</string>
+    <string name="storage_empty_trash_title">Empty trash?</string>
+    <string name="photo_a11y">Photo</string>
+    <string name="storage_empty_trash_body">%1$d photo(s) will be deleted for good, including the files on this tablet. This cannot be undone.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Wallpaper</string>
@@ -191,6 +197,8 @@
     <string name="about_open_source">Open source</string>
     <string name="about_view_source">View source on GitHub</string>
     <string name="about_privacy_policy">Privacy Policy</string>
+    <string name="about_link_blocked_by_kiosk">Turn off the kiosk lock in Device settings to open this link.</string>
+    <string name="about_link_no_browser">No browser is installed on this tablet, so this link cannot be opened.</string>
     <string name="about_legal_notice">Legal Notice</string>
 
     <!-- ===== Upload feedback banner ===== -->

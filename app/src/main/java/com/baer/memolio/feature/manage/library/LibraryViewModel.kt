@@ -243,6 +243,13 @@ class LibraryViewModel @Inject constructor(
         photoRepository.moveToAlbum(photoId, albumId)
     }
 
+    /** Bulk "Add to album" for the current selection. Pro-gated like [moveToAlbum]. */
+    fun moveSelectedToAlbum(albumId: String) = viewModelScope.launch {
+        if (!entitlement.isPro.first()) return@launch
+        selectedIds.value.forEach { photoRepository.moveToAlbum(it, albumId) }
+        selectedIds.value = emptySet()
+    }
+
     fun reorder(orderedIds: List<String>) = viewModelScope.launch {
         photoRepository.reorder(orderedIds)
     }

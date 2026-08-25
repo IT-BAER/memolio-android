@@ -170,10 +170,20 @@ fun FrameScreen(
         val metrics = frameMetrics(maxWidth, maxHeight)
         when (state) {
             is FrameUiState.Loading -> {
+                // The frame auto-starts on boot and the first Room query takes seconds on
+                // low-end tablets. Draw the wallpaper here so the appliance never shows a
+                // black rectangle while the photo set resolves.
+                WallpaperBackground(
+                    wallpaperId = "default",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .semantics { testTag = "frame_loading_wallpaper" },
+                    isPortrait = metrics.isPortrait
+                )
+                OverlayScrim(isPortrait = metrics.isPortrait)
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .background(MemolioBackground)
                         .semantics { testTag = "frame_loading" }
                 )
             }

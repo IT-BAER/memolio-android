@@ -299,4 +299,40 @@ class FrameServerTest {
             java.net.ServerSocket(port).close()
         }
     }
+
+    /**
+     * The frame runs for months. A DHCP lease change or a Wi-Fi drop changes the LAN
+     * address, so the QR/pairing URL must follow it: refreshAddress() re-resolves while
+     * the engine stays bound, and reports null when no address is available.
+     */
+    @Test
+    fun refreshAddressFollowsNetworkChanges() = runBlocking {
+        val deps = FrameServerDeps(
+            tokenProvider = TokenProvider { token },
+            importer = importer,
+            albums = albums,
+            assetLoader = { "x".byteInputStream() },
+            uploadEvents = UploadEventBus()
+        )
+        var ip: String? = "10.0.0.1"
+        val port = java.net.ServerSocket(0).use { it.localPort }
+        val server = FrameServer(deps) { ip }
+        try {
+            server.start(port)
+            assertThat(server.address.value).isEqualTo("10.0.0.1:$port")
+
+            ip = null
+            server.refreshAddress()
+            assertThat(server.address.value).isNull()
+
+            ip = "10.0.0.2"
+            server.refreshAddress()
+            assertThat(server.address.value).isEqualTo("10.0.0.2:$port")
+        } finally {
+            server.stop()
+        }
+        // A stopped server has no address, and refresh must not resurrect one.
+        server.refreshAddress()
+        assertThat(server.address.value).isNull()
+    }
 }

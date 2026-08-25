@@ -95,8 +95,11 @@
     <string name="library_hide">Ukryj</string>
     <string name="library_show">Pokaż</string>
     <string name="library_delete_album">Usuń album</string>
+    <string name="library_add_to_album">Dodaj do albumu</string>
+    <string name="library_add_to_album_title">Dodaj do albumu</string>
+    <string name="library_album_empty_hint">Ten album jest pusty. Otwórz „Wszystkie zdjęcia”, przytrzymaj zdjęcie i wybierz „Dodaj do albumu”.</string>
     <string name="library_delete_album_title">Usunąć album?</string>
-    <string name="library_delete_album_body">„%1$s" zostanie usunięty. Zdjęcia pozostaną w bibliotece w sekcji „Wszystkie zdjęcia".</string>
+    <string name="library_delete_album_body">„%1$s” zostanie usunięty. Zdjęcia pozostaną w bibliotece w sekcji „Wszystkie zdjęcia”.</string>
     <string name="library_all_photos">Wszystkie zdjęcia</string>
     <string name="library_pool_hint">Dotknij zdjęcia, aby ukryć je w pokazie slajdów. Ukryte zdjęcia pozostają w Twojej bibliotece.</string>
     <string name="photo_hidden">Ukryte</string>
@@ -145,7 +148,7 @@
     <string name="appliance_sleep_end_title">Wybudzenie</string>
     <string name="appliance_ambient">Przyciemnianie jasności otoczenia</string>
     <string name="appliance_overlay_title">Jeszcze jedno uprawnienie</string>
-    <string name="appliance_overlay_body">Aby wyświetlić ramkę na ekranie po ponownym uruchomieniu, Android musi zezwolić Memolio na „wyświetlanie nad innymi aplikacjami". Bez tego pokaz slajdów uruchamia się cicho w tle.</string>
+    <string name="appliance_overlay_body">Aby wyświetlić ramkę na ekranie po ponownym uruchomieniu, Android musi zezwolić Memolio na „wyświetlanie nad innymi aplikacjami”. Bez tego pokaz slajdów uruchamia się cicho w tle.</string>
     <string name="appliance_overlay_open_settings">Otwórz ustawienia</string>
     <string name="appliance_overlay_later">Nie teraz</string>
 
@@ -157,6 +160,9 @@
     <string name="storage_recently_deleted">Ostatnio usunięte · %1$d</string>
     <string name="storage_restore">Przywróć</string>
     <string name="storage_empty_trash">Opróżnij kosz</string>
+    <string name="storage_empty_trash_title">Opróżnić kosz?</string>
+    <string name="photo_a11y">Zdjęcie</string>
+    <string name="storage_empty_trash_body">%1$d zdjęć zostanie trwale usuniętych wraz z plikami na tym tablecie. Tej operacji nie można cofnąć.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Tapeta</string>
@@ -172,6 +178,8 @@
     <string name="about_open_source">Otwarte źródło</string>
     <string name="about_view_source">Zobacz kod źródłowy na GitHub</string>
     <string name="about_privacy_policy">Prywatność</string>
+    <string name="about_link_blocked_by_kiosk">Wyłącz blokadę kiosku w ustawieniach urządzenia, aby otworzyć ten link.</string>
+    <string name="about_link_no_browser">Na tym tablecie nie jest zainstalowana żadna przeglądarka, więc nie można otworzyć tego linku.</string>
     <string name="about_legal_notice">Nota prawna</string>
 
     <!-- ===== Upload feedback banner ===== -->

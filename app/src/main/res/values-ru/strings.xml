@@ -95,6 +95,9 @@
     <string name="library_hide">Скрыть</string>
     <string name="library_show">Показать</string>
     <string name="library_delete_album">Удалить альбом</string>
+    <string name="library_add_to_album">В альбом</string>
+    <string name="library_add_to_album_title">Добавить в альбом</string>
+    <string name="library_album_empty_hint">Этот альбом пуст. Откройте «Все фото», нажмите и удерживайте фото, затем выберите «Добавить в альбом».</string>
     <string name="library_delete_album_title">Удалить альбом?</string>
     <string name="library_delete_album_body">«%1$s» будет удалён. Его фото останутся в библиотеке в разделе «Все фото».</string>
     <string name="library_all_photos">Все фото</string>
@@ -157,6 +160,9 @@
     <string name="storage_recently_deleted">Недавно удалённые · %1$d</string>
     <string name="storage_restore">Восстановить</string>
     <string name="storage_empty_trash">Очистить корзину</string>
+    <string name="storage_empty_trash_title">Очистить корзину?</string>
+    <string name="photo_a11y">Фото</string>
+    <string name="storage_empty_trash_body">%1$d фото будет удалено безвозвратно вместе с файлами на этом планшете. Отменить это действие нельзя.</string>
 
     <!-- ===== Wallpaper ===== -->
     <string name="wallpaper_title">Обои</string>
@@ -172,6 +178,8 @@
     <string name="about_open_source">Открытый код</string>
     <string name="about_view_source">Исходный код на GitHub</string>
     <string name="about_privacy_policy">Конфиденциальность</string>
+    <string name="about_link_blocked_by_kiosk">Отключите киоск-режим в настройках устройства, чтобы открыть эту ссылку.</string>
+    <string name="about_link_no_browser">На этом планшете не установлен браузер, поэтому эту ссылку нельзя открыть.</string>
     <string name="about_legal_notice">Правовая информация</string>
 
     <!-- ===== Upload feedback banner ===== -->

@@ -93,5 +93,19 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
+        <!-- ML Kit face detection bundles Google's datatransport runtime, which logs usage
+             analytics to Google and has no SDK-level opt-out. Removing the CCT backend
+             registration makes DefaultScheduler drop every event before it is persisted or
+             scheduled for upload, so the app stays fully offline. Face detection is
+             unaffected: the transport classes stay on the classpath. -->
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                tools:node="remove" />
+        </service>
     </application>
 </manifest>
