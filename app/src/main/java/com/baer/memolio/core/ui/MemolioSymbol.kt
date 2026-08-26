@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -53,7 +54,9 @@ fun Symbol(
     val ch = MemolioSymbolCodepoints[name] ?: ' '
     Text(
         text = ch.toString(),
-        modifier = modifier,
+        // The glyph is a private-use codepoint. A screen reader would read the raw
+        // codepoint, so the symbol stays decorative; its label sits on the parent.
+        modifier = modifier.clearAndSetSemantics {},
         color = tint,
         fontSize = size,
         lineHeight = size,

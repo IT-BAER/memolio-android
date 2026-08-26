@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -160,7 +161,7 @@ private fun ManageMenuGrid(onSelect: (ManageSection) -> Unit) {
 
 /** A single section card: icon centered, label below. The accent shows in the icon only. */
 @Composable
-private fun MenuCard(section: ManageSection, onClick: () -> Unit) {
+internal fun MenuCard(section: ManageSection, onClick: () -> Unit) {
     val shape = RoundedCornerShape(20.dp)
     Column(
         Modifier
@@ -170,7 +171,9 @@ private fun MenuCard(section: ManageSection, onClick: () -> Unit) {
             .clip(shape)
             .background(MemolioColors.SurfaceCard)
             .border(1.dp, MemolioColors.BorderDefault, shape)
-            .clickable(onClick = onClick)
+            // Role.Button makes a screen reader announce "Library, button"; clickable
+            // already merges the label into this node.
+            .clickable(onClick = onClick, role = Role.Button)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
