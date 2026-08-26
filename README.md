@@ -5,7 +5,7 @@
 Memolio is an Android app that turns a spare tablet into a local digital photo frame.
 Photos are added from a phone or computer on the same Wi-Fi network by scanning a QR code shown on the frame.
 
-The app is pre-release. The current Android package is `com.baer.memolio`, with version name `0.1.0` and version code `1`.
+The current release is `1.0.1` (version code 5). The Android package is `com.baer.memolio`. Google Play distribution is still in closed testing.
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.baer.memolio">
