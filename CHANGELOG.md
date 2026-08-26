@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [1.0.1] - 2026-08-26
+
+Four rounds of end-to-end testing on a Samsung Galaxy Tab A7 Lite (Android 14).
+
+### Added
+
+- Move selected photos into an album (Pro), with an album picker, an
+  empty-album hint, and photo counts on each album.
+
+### Fixed
+
+- Screen readers no longer read a raw icon codepoint on every icon. Photo tiles
+  now announce their favorite and selected state, and wallpaper swatches
+  announce their selection and Pro state.
+- The pairing QR code follows a new DHCP lease or a Wi-Fi reconnect. It used to
+  keep pointing at a dead address until the app restarted.
+- "Add photos" now tells a lost Wi-Fi connection apart from a server that is
+  still starting.
+- Storage and About screen corrections found on the device.
+- German copy no longer carries an English possessive apostrophe.
+
+### Changed
+
+- The bundled ML Kit usage-logging backend is removed from the manifest, so it
+  cannot queue or send an event. Face detection is unaffected. The privacy
+  policy documents the library and how the logging is disarmed.
+
 ## [1.0.0] - 2026-08-23
 
 First stable release.

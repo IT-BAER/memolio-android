@@ -24,8 +24,8 @@ android {
         applicationId = "com.baer.memolio"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.0.0"
+        versionCode = 5
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // RevenueCat key injected from a gradle property / CI secret at build time; empty by
