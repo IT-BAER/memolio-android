@@ -335,4 +335,31 @@ class FrameServerTest {
         server.refreshAddress()
         assertThat(server.address.value).isNull()
     }
+
+    /**
+     * The pairing UI must tell "the server is not up yet" apart from "the server is up
+     * but the tablet has no LAN address". [FrameServer.running] carries the first half.
+     */
+    @Test
+    fun runningReflectsEngineLifecycle() = runBlocking {
+        val deps = FrameServerDeps(
+            tokenProvider = TokenProvider { token },
+            importer = importer,
+            albums = albums,
+            assetLoader = { "x".byteInputStream() },
+            uploadEvents = UploadEventBus()
+        )
+        val port = java.net.ServerSocket(0).use { it.localPort }
+        val server = FrameServer(deps) { null }
+        assertThat(server.running.value).isFalse()
+        try {
+            server.start(port)
+            // Bound but with no LAN address: running true, address null.
+            assertThat(server.running.value).isTrue()
+            assertThat(server.address.value).isNull()
+        } finally {
+            server.stop()
+        }
+        assertThat(server.running.value).isFalse()
+    }
 }

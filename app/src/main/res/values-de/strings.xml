@@ -131,9 +131,10 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Fotos hinzufügen</string>
     <string name="addphotos_subtitle">Mit einem Handy im selben Wi-Fi scannen</string>
-    <string name="addphotos_server_starting">Server startet. Tablet mit Wi-Fi verbinden.</string>
+    <string name="addphotos_server_starting">Server startet…</string>
+    <string name="addphotos_no_network">Kein Wi-Fi. Tablet mit Wi-Fi verbinden, um Fotos hinzuzufügen.</string>
     <string name="addphotos_point_camera">Kamera hier draufhalten</string>
-    <string name="addphotos_instructions">Ein Foto ablegen – und es erscheint innerhalb von Sekunden auf dem Rahmen. Es liegt in Memolio\'s eigenem Ordner auf diesem Gerät, nie in deiner Galerie, und verlässt diesen Raum nicht.</string>
+    <string name="addphotos_instructions">Ein Foto ablegen – und es erscheint innerhalb von Sekunden auf dem Rahmen. Es liegt in Memolios eigenem Ordner auf diesem Gerät, nie in deiner Galerie, und verlässt diesen Raum nicht.</string>
     <string name="addphotos_rotate_token">Token erneuern (alten QR ungültig machen)</string>
     <string name="addphotos_qr_cd">Upload-QR-Code</string>
 

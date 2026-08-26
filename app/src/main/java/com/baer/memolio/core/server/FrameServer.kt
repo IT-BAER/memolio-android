@@ -190,6 +190,11 @@ class FrameServer(
     private val _address = MutableStateFlow<String?>(null)
     val address: StateFlow<String?> = _address.asStateFlow()
 
+    // True while the engine is bound. Distinct from [address]: a bound server with no LAN
+    // address means the tablet lost Wi-Fi, which the pairing UI must word differently.
+    private val _running = MutableStateFlow(false)
+    val running: StateFlow<Boolean> = _running.asStateFlow()
+
     // Synchronized: at boot BootReceiver and MainActivity both start FrameService, whose
     // onStartCommand launches this on a background scope — an unguarded check-then-bind
     // raced and double-bound the port (BindException killed the process).
@@ -200,6 +205,7 @@ class FrameServer(
             frameRoutes(deps)
         }.also { it.start(wait = false) }
         boundPort = port
+        _running.value = true
         _address.value = ipResolver()?.let { "$it:$port" }
     }
 
@@ -219,6 +225,7 @@ class FrameServer(
         engine?.stop(gracePeriodMillis = 200, timeoutMillis = 1000)
         engine = null
         boundPort = null
+        _running.value = false
         _address.value = null
     }
 }

@@ -49,8 +49,13 @@ fun AddPhotosScreen(
     Column(modifier.verticalScroll(rememberScrollState())) {
         SectionHead(title = stringResource(R.string.addphotos_title), sub = stringResource(R.string.addphotos_subtitle))
         if (url == null) {
+            // A bound server with no URL means the tablet has no LAN address; an unbound
+            // server is still coming up. The two need different wording and different fixes.
             Text(
-                stringResource(R.string.addphotos_server_starting),
+                stringResource(
+                    if (state.serverRunning) R.string.addphotos_no_network
+                    else R.string.addphotos_server_starting
+                ),
                 color = MemolioColors.TextSecondary,
                 style = MemolioType.body
             )

@@ -131,7 +131,8 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Добавить фото</string>
     <string name="addphotos_subtitle">Отсканируйте с любого телефона в той же сети Wi-Fi</string>
-    <string name="addphotos_server_starting">Сервер запускается. Подключите планшет к Wi-Fi.</string>
+    <string name="addphotos_server_starting">Сервер запускается…</string>
+    <string name="addphotos_no_network">Нет Wi-Fi. Подключите планшет к Wi-Fi, чтобы добавлять фото.</string>
     <string name="addphotos_point_camera">Наведите камеру сюда</string>
     <string name="addphotos_instructions">Отправьте фото — и оно появится на рамке за секунды. Оно хранится в папке Memolio на этом устройстве, недоступно из галереи и никуда не уходит за пределы вашей сети.</string>
     <string name="addphotos_rotate_token">Сменить токен (сбросить старый QR)</string>

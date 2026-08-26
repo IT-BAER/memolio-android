@@ -136,7 +136,8 @@
     <!-- ===== 添加照片 ===== -->
     <string name="addphotos_title">添加照片</string>
     <string name="addphotos_subtitle">用同一 Wi-Fi 下的手机扫描即可</string>
-    <string name="addphotos_server_starting">服务器启动中，请将平板连接到 Wi-Fi。</string>
+    <string name="addphotos_server_starting">服务器启动中…</string>
+    <string name="addphotos_no_network">无 Wi-Fi。请将平板连接到 Wi-Fi 以添加照片。</string>
     <string name="addphotos_point_camera">用相机对准这里</string>
     <string name="addphotos_instructions">扔下一张照片，几秒内就会出现在相框上。照片存放在 Memolio 自己的文件夹里，不会进入平板相册，也不会离开这个房间。</string>
     <string name="addphotos_rotate_token">轮换令牌（使旧 QR 码失效）</string>

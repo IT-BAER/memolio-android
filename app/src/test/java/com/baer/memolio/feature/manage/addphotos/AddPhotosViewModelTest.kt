@@ -26,9 +26,11 @@ class AddPhotosViewModelTest {
     @Before fun setMain() = Dispatchers.setMain(dispatcher)
     @After fun reset() = Dispatchers.resetMain()
 
-    private class FakeUploadUrlProvider(initial: String?) : UploadUrlProvider {
+    private class FakeUploadUrlProvider(initial: String?, running: Boolean = true) : UploadUrlProvider {
         val flow = MutableStateFlow(initial)
+        val runningFlow = MutableStateFlow(running)
         override val uploadUrl: Flow<String?> = flow
+        override val serverRunning: Flow<Boolean> = runningFlow
     }
 
     private class FakeSettings : SettingsRepository {
@@ -90,5 +92,21 @@ class AddPhotosViewModelTest {
         vm.rotateToken()
 
         assertThat(settings.rotated).isEqualTo(1)
+    }
+
+    /**
+     * With no URL the hint must name the real cause: an unbound server is "starting",
+     * a bound server with no LAN address is "no Wi-Fi".
+     */
+    @Test
+    fun serverRunningSeparatesNoWifiFromStarting() = runTest {
+        val provider = FakeUploadUrlProvider(null, running = false)
+        val vm = AddPhotosViewModel(provider, FakeSettings())
+        vm.state.test {
+            assertThat(awaitItem().serverRunning).isFalse()
+            provider.runningFlow.value = true
+            assertThat(awaitItem().serverRunning).isTrue()
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }

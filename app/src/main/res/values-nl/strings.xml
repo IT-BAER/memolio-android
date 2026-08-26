@@ -136,7 +136,8 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Foto\'s toevoegen</string>
     <string name="addphotos_subtitle">Scan vanaf elke telefoon op hetzelfde Wi-Fi</string>
-    <string name="addphotos_server_starting">Server wordt gestart. Verbind het tablet met Wi-Fi.</string>
+    <string name="addphotos_server_starting">Server wordt gestart…</string>
+    <string name="addphotos_no_network">Geen Wi-Fi. Verbind het tablet met Wi-Fi om foto\'s toe te voegen.</string>
     <string name="addphotos_point_camera">Richt een camera hier naartoe</string>
     <string name="addphotos_instructions">Gooi een foto en hij staat binnen enkele seconden op het fotolijst. Hij staat in Memolio\'s eigen map, nooit in de galerij van je tablet, en gaat niet verder dan deze kamer.</string>
     <string name="addphotos_rotate_token">Token vernieuwen (oude QR ongeldig maken)</string>

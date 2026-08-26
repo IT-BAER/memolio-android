@@ -7,12 +7,12 @@ import com.baer.memolio.core.server.UploadUrlProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class AddPhotosUiState(val uploadUrl: String? = null)
+data class AddPhotosUiState(val uploadUrl: String? = null, val serverRunning: Boolean = false)
 
 @HiltViewModel
 class AddPhotosViewModel @Inject constructor(
@@ -21,9 +21,9 @@ class AddPhotosViewModel @Inject constructor(
 ) : ViewModel() {
 
     val state: StateFlow<AddPhotosUiState> =
-        uploadUrlProvider.uploadUrl
-            .map { AddPhotosUiState(uploadUrl = it) }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AddPhotosUiState())
+        combine(uploadUrlProvider.uploadUrl, uploadUrlProvider.serverRunning) { url, running ->
+            AddPhotosUiState(uploadUrl = url, serverRunning = running)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AddPhotosUiState())
 
     fun rotateToken() = viewModelScope.launch { settings.rotateToken() }
 }

@@ -146,7 +146,8 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Add photos</string>
     <string name="addphotos_subtitle">Scan from any phone on the same Wi-Fi</string>
-    <string name="addphotos_server_starting">Server starting. Connect the tablet to Wi-Fi.</string>
+    <string name="addphotos_server_starting">Server starting…</string>
+    <string name="addphotos_no_network">No Wi-Fi. Connect the tablet to Wi-Fi to add photos.</string>
     <string name="addphotos_point_camera">Point a camera here</string>
     <string name="addphotos_instructions">Drop a photo and it lands on the frame within seconds. It lives in Memolio\'s own folder, never your tablet\'s gallery, and goes no further than this room.</string>
     <string name="addphotos_rotate_token">Rotate token (invalidate old QR)</string>

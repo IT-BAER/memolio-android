@@ -136,7 +136,8 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Adicionar fotos</string>
     <string name="addphotos_subtitle">Lê com qualquer telemóvel na mesma Wi-Fi</string>
-    <string name="addphotos_server_starting">Servidor a iniciar. Liga o tablet à Wi-Fi.</string>
+    <string name="addphotos_server_starting">Servidor a iniciar…</string>
+    <string name="addphotos_no_network">Sem Wi-Fi. Liga o tablet à Wi-Fi para adicionar fotos.</string>
     <string name="addphotos_point_camera">Aponta a câmara aqui</string>
     <string name="addphotos_instructions">Envia uma foto e ela aparece na moldura em segundos. Fica guardada na pasta própria do Memolio, nunca na galeria do tablet, e não sai desta divisão.</string>
     <string name="addphotos_rotate_token">Rodar token (invalidar QR antigo)</string>

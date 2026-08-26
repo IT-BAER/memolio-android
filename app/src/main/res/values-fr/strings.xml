@@ -131,7 +131,8 @@
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Ajouter des photos</string>
     <string name="addphotos_subtitle">Scannez depuis n\'importe quel téléphone sur le même Wi-Fi</string>
-    <string name="addphotos_server_starting">Serveur en cours de démarrage. Connectez la tablette au Wi-Fi.</string>
+    <string name="addphotos_server_starting">Démarrage du serveur…</string>
+    <string name="addphotos_no_network">Pas de Wi-Fi. Connectez la tablette au Wi-Fi pour ajouter des photos.</string>
     <string name="addphotos_point_camera">Pointez un appareil photo ici</string>
     <string name="addphotos_instructions">Déposez une photo et elle apparaît sur le cadre en quelques secondes. Elle reste dans le dossier de Memolio, jamais dans la galerie de votre tablette, et ne va pas plus loin que cette pièce.</string>
     <string name="addphotos_rotate_token">Changer le jeton (invalider l\'ancien QR)</string>

@@ -27,6 +27,7 @@ class OnboardCompletionGateTest {
 
     private class FakeUploadUrlProvider : UploadUrlProvider {
         override val uploadUrl: Flow<String?> = MutableStateFlow(null)
+        override val serverRunning: Flow<Boolean> = MutableStateFlow(true)
     }
 
     private class FakeSettings : SettingsRepository {

@@ -28,6 +28,7 @@ class OnboardViewModelTest {
 
     private class FakeUploadUrlProvider : UploadUrlProvider {
         override val uploadUrl: Flow<String?> = MutableStateFlow("http://192.168.0.2:8080/?t=tok")
+        override val serverRunning: Flow<Boolean> = MutableStateFlow(true)
     }
 
     private class FakeSettings : SettingsRepository {
