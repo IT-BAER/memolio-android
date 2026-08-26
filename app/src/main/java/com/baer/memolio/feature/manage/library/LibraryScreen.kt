@@ -43,6 +43,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -508,11 +510,14 @@ private fun PhotoThumb(
                 shape
             )
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
+            // The heart and the check mark are decorative icon glyphs, so both states
+            // reach a screen reader through semantics instead.
+            .semantics { this.selected = selected }
             .testTag("photo_${photo.id}")
     ) {
         AsyncImage(
             model = photo.thumbPath,
-            contentDescription = photo.caption?.takeIf { it.isNotBlank() } ?: stringResource(R.string.photo_a11y),
+            contentDescription = photoLabel(photo),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize().alpha(if (photo.inPlaylist) 1f else 0.32f)
         )
@@ -641,4 +646,11 @@ private fun PhotoPreview(
             )
         }
     }
+}
+
+/** Caption or a generic word, plus the favorite state the decorative heart cannot carry. */
+@Composable
+private fun photoLabel(photo: Photo): String {
+    val base = photo.caption?.takeIf { it.isNotBlank() } ?: stringResource(R.string.photo_a11y)
+    return if (photo.favorite) "$base, " + stringResource(R.string.library_favorite) else base
 }

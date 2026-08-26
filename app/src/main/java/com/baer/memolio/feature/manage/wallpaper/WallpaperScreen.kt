@@ -36,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import com.baer.memolio.R
 import com.baer.memolio.core.ui.MemolioColors
 import com.baer.memolio.core.ui.MemolioType
@@ -137,7 +140,7 @@ private fun CustomSwatch(
     val hasImage = customPath != null
 
     Column(
-        Modifier.clickable(onClick = if (hasImage) onSelect else onPick)
+        Modifier.selectable(selected = selected, onClick = if (hasImage) onSelect else onPick)
     ) {
         Box(
             Modifier
@@ -193,9 +196,16 @@ private fun CustomSwatch(
 }
 
 @Composable
-private fun Swatch(spec: WallpaperOption, selected: Boolean, locked: Boolean, width: Dp, height: Dp, onClick: () -> Unit) {
+internal fun Swatch(spec: WallpaperOption, selected: Boolean, locked: Boolean, width: Dp, height: Dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(14.dp)
-    Column(Modifier.clickable(onClick = onClick)) {
+    // selectable carries the chosen state; the teal border and the lock glyph are
+    // decorative and reach a screen reader through semantics only.
+    val proLabel = stringResource(R.string.badge_pro)
+    Column(
+        Modifier
+            .selectable(selected = selected, onClick = onClick)
+            .semantics { if (locked) stateDescription = proLabel }
+    ) {
         Box(
             Modifier
                 .size(width = width, height = height)

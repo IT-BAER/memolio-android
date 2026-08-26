@@ -1,6 +1,9 @@
 package com.baer.memolio.feature.manage.library
 
+import androidx.compose.ui.test.assertContentDescriptionContains
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -30,10 +33,10 @@ class LibraryContentTest {
 
     @get:Rule val composeRule = createComposeRule()
 
-    private fun photo(id: String, inPlaylist: Boolean = true) = Photo(
+    private fun photo(id: String, inPlaylist: Boolean = true, favorite: Boolean = false) = Photo(
         id = id, originalPath = "/o/$id.jpg", displayCachePath = "/d/$id.jpg",
         thumbPath = "/t/$id.jpg", contentHash = id, width = 100, height = 100,
-        orientation = 0, caption = null, albumId = "a1", favorite = false,
+        orientation = 0, caption = null, albumId = "a1", favorite = favorite,
         sortOrder = 0, addedAt = 0L, sourceDevice = null, deletedAt = null, inPlaylist = inPlaylist
     )
 
@@ -159,5 +162,31 @@ class LibraryContentTest {
         }
         composeRule.onNodeWithTag("photo_p1").performTouchInput { longClick() }
         assertThat(toggled).isEqualTo("p1")
+    }
+
+    /**
+     * The heart and the check mark are icon-font glyphs and therefore decorative. Favorite
+     * and selected must reach a screen reader through semantics instead.
+     */
+    @Test
+    fun favoriteTileAnnouncesFavorite() {
+        content(
+            LibraryUiState(openAlbumId = "a1", openAlbumPhotos = listOf(photo("p1", favorite = true)))
+        )
+        composeRule.onNodeWithTag("photo_p1")
+            .assertContentDescriptionContains("Favorite", substring = true)
+    }
+
+    @Test
+    fun selectedTileReportsSelectedState() {
+        content(
+            LibraryUiState(
+                openAlbumId = "a1",
+                openAlbumPhotos = listOf(photo("p1"), photo("p2")),
+                selectedIds = setOf("p1")
+            )
+        )
+        composeRule.onNodeWithTag("photo_p1").assertIsSelected()
+        composeRule.onNodeWithTag("photo_p2").assertIsNotSelected()
     }
 }
