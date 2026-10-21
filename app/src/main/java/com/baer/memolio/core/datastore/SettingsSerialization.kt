@@ -1,6 +1,8 @@
 package com.baer.memolio.core.datastore
 
 enum class TransitionStyle { KEN_BURNS_CROSSFADE, CROSSFADE, SLIDE, CUT }
+/** Scales every photo-transition duration; CUT has none to scale. */
+enum class TransitionSpeed(val durationScale: Float) { FAST(0.5f), NORMAL(1f), SLOW(2f) }
 enum class FitMode { BLURRED_FILL, CROP, FIT_BARS }
 enum class ClockStyle { DIGITAL, ANALOG }
 
@@ -9,6 +11,7 @@ data class PlaylistConfig(
     val shuffle: Boolean = true,
     val intervalSeconds: Int = 30,
     val transition: TransitionStyle = TransitionStyle.KEN_BURNS_CROSSFADE,
+    val transitionSpeed: TransitionSpeed = TransitionSpeed.NORMAL,
     val fitMode: FitMode = FitMode.BLURRED_FILL,
     val showClock: Boolean = true,
     val showDate: Boolean = true,

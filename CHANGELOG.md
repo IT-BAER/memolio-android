@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [1.0.2] - 2026-10-21
+
+Changes from closed-test feedback.
+
+### Added
+
+- About: "Rate on Google Play", "Share Memolio" and "Send feedback". Rating opens
+  the Play listing, sharing opens the share sheet with the Play link, and feedback
+  opens a mail to the developer. Nothing is tracked.
+- Back on the frame asks "Close Memolio?" before it closes the app, so one stray
+  press no longer stops the slideshow.
+- Transition speed (fast, normal, slow) in Playlist > Display, for every
+  transition except Cut.
+
+### Changed
+
+- Longer Play Store description with the main features, translated into all ten
+  languages. Each language had the English text before.
+
 ## [1.0.1] - 2026-08-26
 
 Four rounds of end-to-end testing on a Samsung Galaxy Tab A7 Lite (Android 14).

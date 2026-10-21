@@ -132,6 +132,10 @@
     <string name="playlist_transition_crossfade">淡入淡出</string>
     <string name="playlist_transition_slide">滑动</string>
     <string name="playlist_transition_cut">直接切换</string>
+    <string name="playlist_transition_speed">切换速度</string>
+    <string name="playlist_speed_fast">快</string>
+    <string name="playlist_speed_normal">正常</string>
+    <string name="playlist_speed_slow">慢</string>
 
     <!-- ===== 添加照片 ===== -->
     <string name="addphotos_title">添加照片</string>
@@ -187,6 +191,15 @@
     <string name="about_link_blocked_by_kiosk">请在设备设置中关闭信息亭锁定，以打开此链接。</string>
     <string name="about_link_no_browser">此平板电脑上未安装浏览器，因此无法打开此链接。</string>
     <string name="about_legal_notice">法律声明</string>
+    <string name="about_rate">在 Google Play 上评分</string>
+    <string name="about_share">分享 Memolio</string>
+    <string name="about_share_message">Memolio 可将闲置平板电脑变成数码相框。用任意手机通过 Wi-Fi 添加照片：%1$s</string>
+    <string name="about_feedback">发送反馈</string>
+    <string name="about_feedback_subject">Memolio %1$s 反馈</string>
+    <string name="about_no_app">此平板电脑上没有可执行此操作的应用。</string>
+    <string name="frame_exit_title">关闭 Memolio？</string>
+    <string name="frame_exit_body">相框将停止显示照片，直到再次打开 Memolio。</string>
+    <string name="frame_exit_confirm">关闭</string>
 
     <!-- ===== 上传反馈横幅 ===== -->
     <string name="upload_duplicate">已在相框上</string>

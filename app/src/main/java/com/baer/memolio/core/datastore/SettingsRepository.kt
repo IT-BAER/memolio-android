@@ -20,6 +20,7 @@ interface SettingsRepository {
     suspend fun setShuffle(value: Boolean)
     suspend fun setIntervalSeconds(value: Int)
     suspend fun setTransition(value: TransitionStyle)
+    suspend fun setTransitionSpeed(value: TransitionSpeed)
     suspend fun setFitMode(value: FitMode)
     suspend fun setShowClock(value: Boolean)
     suspend fun setShowDate(value: Boolean)
@@ -56,6 +57,7 @@ class SettingsRepositoryImpl @Inject constructor(
         val SHUFFLE = booleanPreferencesKey("shuffle")
         val INTERVAL = intPreferencesKey("interval_seconds")
         val TRANSITION = stringPreferencesKey("transition")
+        val TRANSITION_SPEED = stringPreferencesKey("transition_speed")
         val FIT_MODE = stringPreferencesKey("fit_mode")
         val SHOW_CLOCK = booleanPreferencesKey("show_clock")
         val SHOW_DATE = booleanPreferencesKey("show_date")
@@ -88,6 +90,7 @@ class SettingsRepositoryImpl @Inject constructor(
             shuffle = p[Keys.SHUFFLE] ?: defaults.shuffle,
             intervalSeconds = p[Keys.INTERVAL] ?: defaults.intervalSeconds,
             transition = p[Keys.TRANSITION]?.let { TransitionStyle.valueOf(it) } ?: defaults.transition,
+            transitionSpeed = p[Keys.TRANSITION_SPEED]?.let { TransitionSpeed.valueOf(it) } ?: defaults.transitionSpeed,
             fitMode = p[Keys.FIT_MODE]?.let { FitMode.valueOf(it) } ?: defaults.fitMode,
             showClock = p[Keys.SHOW_CLOCK] ?: defaults.showClock,
             showDate = p[Keys.SHOW_DATE] ?: defaults.showDate,
@@ -102,6 +105,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setShuffle(value: Boolean) { store.edit { it[Keys.SHUFFLE] = value } }
     override suspend fun setIntervalSeconds(value: Int) { store.edit { it[Keys.INTERVAL] = value } }
     override suspend fun setTransition(value: TransitionStyle) { store.edit { it[Keys.TRANSITION] = value.name } }
+    override suspend fun setTransitionSpeed(value: TransitionSpeed) { store.edit { it[Keys.TRANSITION_SPEED] = value.name } }
     override suspend fun setFitMode(value: FitMode) { store.edit { it[Keys.FIT_MODE] = value.name } }
     override suspend fun setShowClock(value: Boolean) { store.edit { it[Keys.SHOW_CLOCK] = value } }
     override suspend fun setShowDate(value: Boolean) { store.edit { it[Keys.SHOW_DATE] = value } }

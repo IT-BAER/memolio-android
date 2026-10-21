@@ -8,6 +8,7 @@ import androidx.compose.ui.test.performClick
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionSpeed
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.datastore.TransitionStyle
@@ -40,6 +41,7 @@ class OnboardCompletionGateTest {
         override suspend fun setIntervalSeconds(value: Int) {}
         override suspend fun setTransition(value: TransitionStyle) {}
         override suspend fun setFitMode(value: FitMode) {}
+        override suspend fun setTransitionSpeed(value: TransitionSpeed) {}
         override suspend fun setShowClock(value: Boolean) {}
         override suspend fun setShowDate(value: Boolean) {}
         override suspend fun setShowCaption(value: Boolean) {}

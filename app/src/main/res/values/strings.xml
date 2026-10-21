@@ -142,6 +142,10 @@
     <string name="playlist_transition_crossfade">Crossfade</string>
     <string name="playlist_transition_slide">Slide</string>
     <string name="playlist_transition_cut">Cut</string>
+    <string name="playlist_transition_speed">Transition speed</string>
+    <string name="playlist_speed_fast">Fast</string>
+    <string name="playlist_speed_normal">Normal</string>
+    <string name="playlist_speed_slow">Slow</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Add photos</string>
@@ -201,6 +205,15 @@
     <string name="about_link_blocked_by_kiosk">Turn off the kiosk lock in Device settings to open this link.</string>
     <string name="about_link_no_browser">No browser is installed on this tablet, so this link cannot be opened.</string>
     <string name="about_legal_notice">Legal Notice</string>
+    <string name="about_rate">Rate on Google Play</string>
+    <string name="about_share">Share Memolio</string>
+    <string name="about_share_message">Memolio turns a spare tablet into a photo frame. Add photos from any phone over your Wi-Fi: %1$s</string>
+    <string name="about_feedback">Send feedback</string>
+    <string name="about_feedback_subject">Memolio %1$s feedback</string>
+    <string name="about_no_app">No app on this tablet can do this.</string>
+    <string name="frame_exit_title">Close Memolio?</string>
+    <string name="frame_exit_body">The frame stops showing photos until you open Memolio again.</string>
+    <string name="frame_exit_confirm">Close</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Already on the frame</string>

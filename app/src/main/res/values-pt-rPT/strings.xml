@@ -132,6 +132,10 @@
     <string name="playlist_transition_crossfade">Fusão cruzada</string>
     <string name="playlist_transition_slide">Deslizamento</string>
     <string name="playlist_transition_cut">Corte</string>
+    <string name="playlist_transition_speed">Velocidade da transição</string>
+    <string name="playlist_speed_fast">Rápida</string>
+    <string name="playlist_speed_normal">Normal</string>
+    <string name="playlist_speed_slow">Lenta</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Adicionar fotos</string>
@@ -187,6 +191,15 @@
     <string name="about_link_blocked_by_kiosk">Desative o modo quiosque nas definições do dispositivo para abrir esta ligação.</string>
     <string name="about_link_no_browser">Não existe nenhum navegador instalado neste tablet, pelo que esta ligação não pode ser aberta.</string>
     <string name="about_legal_notice">Aviso legal</string>
+    <string name="about_rate">Avaliar no Google Play</string>
+    <string name="about_share">Partilhar o Memolio</string>
+    <string name="about_share_message">O Memolio transforma um tablet antigo numa moldura digital. Adicione fotos a partir de qualquer telemóvel por Wi-Fi: %1$s</string>
+    <string name="about_feedback">Enviar comentários</string>
+    <string name="about_feedback_subject">Memolio %1$s: comentários</string>
+    <string name="about_no_app">Nenhuma app neste tablet consegue fazer isto.</string>
+    <string name="frame_exit_title">Fechar o Memolio?</string>
+    <string name="frame_exit_body">A moldura deixa de mostrar fotos até voltar a abrir o Memolio.</string>
+    <string name="frame_exit_confirm">Fechar</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Já está na moldura</string>

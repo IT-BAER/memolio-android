@@ -1,5 +1,6 @@
 package com.baer.memolio.feature.frame
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.fadeIn
@@ -87,7 +88,9 @@ fun FrameRoute(
     viewModel: FrameViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val activity = LocalActivity.current
     MemolioTheme {
+        FrameExitGuard(onExit = { activity?.finish() })
         FrameScreen(
             state = state,
             onOpenManage = onOpenManage,
@@ -224,13 +227,15 @@ fun FrameScreen(
                 // CUT swaps instantly. The slow Ken Burns pan/zoom only runs in KEN_BURNS_CROSSFADE —
                 // the calmer styles hold each photo still (kenBurns = false).
                 val fitMode = state.fitMode
+                val fadeMs = (1200 * state.transitionSpeed.durationScale).toInt()
+                val slideMs = (600 * state.transitionSpeed.durationScale).toInt()
                 when (state.transition) {
                     TransitionStyle.KEN_BURNS_CROSSFADE ->
-                        Crossfade(state.currentPhoto, animationSpec = tween(1200), label = "photo-crossfade") { p ->
+                        Crossfade(state.currentPhoto, animationSpec = tween(fadeMs), label = "photo-crossfade") { p ->
                             SlideshowPhoto(p, fitMode, kenBurns = true)
                         }
                     TransitionStyle.CROSSFADE ->
-                        Crossfade(state.currentPhoto, animationSpec = tween(1200), label = "photo-crossfade") { p ->
+                        Crossfade(state.currentPhoto, animationSpec = tween(fadeMs), label = "photo-crossfade") { p ->
                             SlideshowPhoto(p, fitMode, kenBurns = false)
                         }
                     TransitionStyle.SLIDE -> {
@@ -240,8 +245,8 @@ fun FrameScreen(
                         AnimatedContent(
                             targetState = state.currentPhoto,
                             transitionSpec = {
-                                (slideInHorizontally(tween(600)) { dir * it } + fadeIn(tween(600))) togetherWith
-                                    (slideOutHorizontally(tween(600)) { -dir * it } + fadeOut(tween(600)))
+                                (slideInHorizontally(tween(slideMs)) { dir * it } + fadeIn(tween(slideMs))) togetherWith
+                                    (slideOutHorizontally(tween(slideMs)) { -dir * it } + fadeOut(tween(slideMs)))
                             },
                             label = "photo-slide"
                         ) { p ->

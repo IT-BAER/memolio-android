@@ -29,6 +29,7 @@ import com.baer.memolio.core.ui.component.CardVariant
 import com.baer.memolio.core.ui.component.MemolioCard
 import com.baer.memolio.core.ui.component.MemolioSlider
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionSpeed
 import com.baer.memolio.core.datastore.TransitionStyle
 import com.baer.memolio.core.ui.component.DropdownItem
 import com.baer.memolio.core.ui.component.MemolioDropdown
@@ -114,6 +115,25 @@ fun PlaylistScreen(
                                 onSelect = { viewModel.setTransition(TransitionStyle.valueOf(it)) },
                                 modifier = Modifier.fillMaxWidth(),
                             )
+                        }
+                        if (state.transition != TransitionStyle.CUT) {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text(
+                                    stringResource(R.string.playlist_transition_speed),
+                                    color = MemolioColors.TextPrimary,
+                                    style = MemolioType.body,
+                                )
+                                MemolioDropdown(
+                                    items = listOf(
+                                        DropdownItem(TransitionSpeed.FAST.name, stringResource(R.string.playlist_speed_fast)),
+                                        DropdownItem(TransitionSpeed.NORMAL.name, stringResource(R.string.playlist_speed_normal)),
+                                        DropdownItem(TransitionSpeed.SLOW.name, stringResource(R.string.playlist_speed_slow)),
+                                    ),
+                                    selectedKey = state.transitionSpeed.name,
+                                    onSelect = { viewModel.setTransitionSpeed(TransitionSpeed.valueOf(it)) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+                            }
                         }
                         Box(Modifier.fillMaxWidth().height(1.dp).background(MemolioColors.BorderSoft))
                         MemolioSwitch(state.showClock, viewModel::setShowClock, label = stringResource(R.string.playlist_show_clock))

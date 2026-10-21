@@ -132,6 +132,10 @@
     <string name="playlist_transition_crossfade">Fundido cruzado</string>
     <string name="playlist_transition_slide">Deslizamiento</string>
     <string name="playlist_transition_cut">Corte</string>
+    <string name="playlist_transition_speed">Velocidad de transición</string>
+    <string name="playlist_speed_fast">Rápida</string>
+    <string name="playlist_speed_normal">Normal</string>
+    <string name="playlist_speed_slow">Lenta</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Añadir fotos</string>
@@ -187,6 +191,15 @@
     <string name="about_link_blocked_by_kiosk">Desactiva el modo quiosco en los ajustes del dispositivo para abrir este enlace.</string>
     <string name="about_link_no_browser">No hay ningún navegador instalado en esta tableta, por lo que no se puede abrir este enlace.</string>
     <string name="about_legal_notice">Aviso legal</string>
+    <string name="about_rate">Valorar en Google Play</string>
+    <string name="about_share">Compartir Memolio</string>
+    <string name="about_share_message">Memolio convierte una tableta antigua en un marco de fotos. Añade fotos desde cualquier móvil por wifi: %1$s</string>
+    <string name="about_feedback">Enviar comentarios</string>
+    <string name="about_feedback_subject">Memolio %1$s: comentarios</string>
+    <string name="about_no_app">Ninguna app de esta tableta puede hacer esto.</string>
+    <string name="frame_exit_title">¿Cerrar Memolio?</string>
+    <string name="frame_exit_body">El marco deja de mostrar fotos hasta que se vuelva a abrir Memolio.</string>
+    <string name="frame_exit_confirm">Cerrar</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Ya está en el marco</string>

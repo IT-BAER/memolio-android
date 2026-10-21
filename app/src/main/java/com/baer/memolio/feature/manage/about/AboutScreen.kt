@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,21 +43,51 @@ private const val REPO_URL = "https://github.com/IT-BAER/memolio-android"
 private const val PRIVACY_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md"
 private const val LEGAL_URL = "https://github.com/IT-BAER/memolio-android/blob/main/docs/legal-notice.md"
 
+private const val PLAY_PACKAGE = "com.baer.memolio"
+private const val PLAY_URL = "https://play.google.com/store/apps/details?id=$PLAY_PACKAGE"
+private const val FEEDBACK_EMAIL = "admin@it-baer.net"
+
 /**
- * Opens [url] in a browser. Lock-task mode blocks every activity outside Memolio, and a
- * repurposed tablet can have no browser at all; both cases end in a message instead of a
- * dead tap or an ActivityNotFoundException.
+ * Starts [intent] outside Memolio. Lock-task mode blocks every activity outside Memolio, and a
+ * repurposed tablet can lack a browser, Play Store or mail app; both cases end in a message
+ * instead of a dead tap or an ActivityNotFoundException. [onMissing] runs when nothing handles it.
  */
-private fun openUrl(context: Context, url: String) {
+private fun startOutside(context: Context, intent: Intent, onMissing: () -> Unit) {
     val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
     if (activityManager?.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE) {
         Toast.makeText(context, R.string.about_link_blocked_by_kiosk, Toast.LENGTH_LONG).show()
         return
     }
-    runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
-        .onFailure {
-            Toast.makeText(context, R.string.about_link_no_browser, Toast.LENGTH_LONG).show()
-        }
+    runCatching { context.startActivity(intent) }.onFailure { onMissing() }
+}
+
+private fun toast(context: Context, @StringRes message: Int) =
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+private fun openUrl(context: Context, url: String) =
+    startOutside(context, Intent(Intent.ACTION_VIEW, Uri.parse(url))) {
+        toast(context, R.string.about_link_no_browser)
+    }
+
+/** Play Store app first; a tablet without it gets the listing in the browser. */
+private fun openPlayListing(context: Context) =
+    startOutside(context, Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$PLAY_PACKAGE"))) {
+        openUrl(context, PLAY_URL)
+    }
+
+private fun shareApp(context: Context) {
+    val send = Intent(Intent.ACTION_SEND)
+        .setType("text/plain")
+        .putExtra(Intent.EXTRA_TEXT, context.getString(R.string.about_share_message, PLAY_URL))
+    startOutside(context, Intent.createChooser(send, context.getString(R.string.about_share))) {
+        toast(context, R.string.about_no_app)
+    }
+}
+
+private fun sendFeedback(context: Context) {
+    val mail = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$FEEDBACK_EMAIL"))
+        .putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.about_feedback_subject, BuildConfig.VERSION_NAME))
+    startOutside(context, mail) { toast(context, R.string.about_no_app) }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -104,6 +135,24 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                         style = MemolioType.body,
                     )
                 }
+                Text(
+                    stringResource(R.string.about_rate),
+                    color = MemolioColors.TextSecondary,
+                    style = MemolioType.body,
+                    modifier = Modifier.padding(top = 12.dp).clickable { openPlayListing(context) }
+                )
+                Text(
+                    stringResource(R.string.about_share),
+                    color = MemolioColors.TextSecondary,
+                    style = MemolioType.body,
+                    modifier = Modifier.padding(top = 12.dp).clickable { shareApp(context) }
+                )
+                Text(
+                    stringResource(R.string.about_feedback),
+                    color = MemolioColors.TextSecondary,
+                    style = MemolioType.body,
+                    modifier = Modifier.padding(top = 12.dp).clickable { sendFeedback(context) }
+                )
                 Text(
                     stringResource(R.string.about_privacy_policy),
                     color = MemolioColors.TextSecondary,

@@ -127,6 +127,10 @@
     <string name="playlist_transition_crossfade">Przenikanie</string>
     <string name="playlist_transition_slide">Przesunięcie</string>
     <string name="playlist_transition_cut">Cięcie</string>
+    <string name="playlist_transition_speed">Szybkość przejścia</string>
+    <string name="playlist_speed_fast">Szybko</string>
+    <string name="playlist_speed_normal">Normalnie</string>
+    <string name="playlist_speed_slow">Wolno</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Dodaj zdjęcia</string>
@@ -182,6 +186,15 @@
     <string name="about_link_blocked_by_kiosk">Wyłącz blokadę kiosku w ustawieniach urządzenia, aby otworzyć ten link.</string>
     <string name="about_link_no_browser">Na tym tablecie nie jest zainstalowana żadna przeglądarka, więc nie można otworzyć tego linku.</string>
     <string name="about_legal_notice">Nota prawna</string>
+    <string name="about_rate">Oceń w Google Play</string>
+    <string name="about_share">Udostępnij Memolio</string>
+    <string name="about_share_message">Memolio zmienia stary tablet w ramkę na zdjęcia. Dodawaj zdjęcia z dowolnego telefonu przez Wi-Fi: %1$s</string>
+    <string name="about_feedback">Wyślij opinię</string>
+    <string name="about_feedback_subject">Memolio %1$s: opinia</string>
+    <string name="about_no_app">Żadna aplikacja na tym tablecie nie może tego zrobić.</string>
+    <string name="frame_exit_title">Zamknąć Memolio?</string>
+    <string name="frame_exit_body">Ramka przestanie wyświetlać zdjęcia do ponownego otwarcia Memolio.</string>
+    <string name="frame_exit_confirm">Zamknij</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Już na ramce</string>

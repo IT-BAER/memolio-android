@@ -127,6 +127,10 @@
     <string name="playlist_transition_crossfade">Dissolvenza incrociata</string>
     <string name="playlist_transition_slide">Scorrimento</string>
     <string name="playlist_transition_cut">Taglio</string>
+    <string name="playlist_transition_speed">Velocità di transizione</string>
+    <string name="playlist_speed_fast">Veloce</string>
+    <string name="playlist_speed_normal">Normale</string>
+    <string name="playlist_speed_slow">Lenta</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Aggiungi foto</string>
@@ -182,6 +186,15 @@
     <string name="about_link_blocked_by_kiosk">Disattiva il blocco kiosk nelle impostazioni del dispositivo per aprire questo link.</string>
     <string name="about_link_no_browser">Su questo tablet non è installato alcun browser, quindi non è possibile aprire questo link.</string>
     <string name="about_legal_notice">Note legali</string>
+    <string name="about_rate">Valuta su Google Play</string>
+    <string name="about_share">Condividi Memolio</string>
+    <string name="about_share_message">Memolio trasforma un vecchio tablet in una cornice digitale. Aggiungi foto da qualsiasi telefono tramite Wi-Fi: %1$s</string>
+    <string name="about_feedback">Invia feedback</string>
+    <string name="about_feedback_subject">Memolio %1$s: feedback</string>
+    <string name="about_no_app">Nessuna app su questo tablet può farlo.</string>
+    <string name="frame_exit_title">Chiudere Memolio?</string>
+    <string name="frame_exit_body">La cornice smette di mostrare foto finché Memolio non viene riaperto.</string>
+    <string name="frame_exit_confirm">Chiudi</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Già sulla cornice</string>

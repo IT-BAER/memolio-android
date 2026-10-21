@@ -8,6 +8,7 @@ import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionSpeed
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.datastore.TransitionStyle
@@ -45,6 +46,7 @@ class PlaylistViewModelTest {
         override suspend fun setIntervalSeconds(value: Int) { config.value = config.value.copy(intervalSeconds = value) }
         override suspend fun setTransition(value: TransitionStyle) { config.value = config.value.copy(transition = value) }
         override suspend fun setFitMode(value: FitMode) { config.value = config.value.copy(fitMode = value) }
+        override suspend fun setTransitionSpeed(value: TransitionSpeed) { config.value = config.value.copy(transitionSpeed = value) }
         override suspend fun setShowClock(value: Boolean) { config.value = config.value.copy(showClock = value) }
         override suspend fun setShowDate(value: Boolean) { config.value = config.value.copy(showDate = value) }
         override suspend fun setShowCaption(value: Boolean) { config.value = config.value.copy(showCaption = value) }
@@ -112,6 +114,7 @@ class PlaylistViewModelTest {
         model.setShuffle(false)
         model.setInterval(90)
         model.setTransition(TransitionStyle.CROSSFADE)
+        model.setTransitionSpeed(TransitionSpeed.SLOW)
         model.setFitMode(FitMode.CROP)
         model.setShowClock(false)
         model.setShowDate(false)
@@ -121,6 +124,7 @@ class PlaylistViewModelTest {
         assertThat(c.shuffle).isFalse()
         assertThat(c.intervalSeconds).isEqualTo(90)
         assertThat(c.transition).isEqualTo(TransitionStyle.CROSSFADE)
+        assertThat(c.transitionSpeed).isEqualTo(TransitionSpeed.SLOW)
         assertThat(c.fitMode).isEqualTo(FitMode.CROP)
         assertThat(c.showClock).isFalse()
         assertThat(c.showDate).isFalse()

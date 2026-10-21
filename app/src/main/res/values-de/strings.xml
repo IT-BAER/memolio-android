@@ -127,6 +127,10 @@
     <string name="playlist_transition_crossfade">Überblenden</string>
     <string name="playlist_transition_slide">Schieben</string>
     <string name="playlist_transition_cut">Schnitt</string>
+    <string name="playlist_transition_speed">Übergangsgeschwindigkeit</string>
+    <string name="playlist_speed_fast">Schnell</string>
+    <string name="playlist_speed_normal">Normal</string>
+    <string name="playlist_speed_slow">Langsam</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Fotos hinzufügen</string>
@@ -182,6 +186,15 @@
     <string name="about_link_blocked_by_kiosk">Schalte die Kiosk-Sperre in den Geräteeinstellungen aus, um diesen Link zu öffnen.</string>
     <string name="about_link_no_browser">Auf diesem Tablet ist kein Browser installiert, daher kann dieser Link nicht geöffnet werden.</string>
     <string name="about_legal_notice">Impressum</string>
+    <string name="about_rate">Auf Google Play bewerten</string>
+    <string name="about_share">Memolio teilen</string>
+    <string name="about_share_message">Memolio macht aus einem alten Tablet einen Bilderrahmen. Fotos kommen per WLAN von jedem Handy: %1$s</string>
+    <string name="about_feedback">Feedback senden</string>
+    <string name="about_feedback_subject">Memolio %1$s Feedback</string>
+    <string name="about_no_app">Auf diesem Tablet gibt es keine App dafür.</string>
+    <string name="frame_exit_title">Memolio schließen?</string>
+    <string name="frame_exit_body">Der Rahmen zeigt keine Fotos mehr, bis du Memolio wieder öffnest.</string>
+    <string name="frame_exit_confirm">Schließen</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Bereits auf dem Rahmen</string>

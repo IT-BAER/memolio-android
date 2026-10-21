@@ -7,6 +7,7 @@ import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.ClockStyle
 import com.baer.memolio.core.datastore.FitMode
 import com.baer.memolio.core.datastore.SettingsRepository
+import com.baer.memolio.core.datastore.TransitionSpeed
 import com.baer.memolio.core.datastore.TransitionStyle
 import com.baer.memolio.core.model.Album
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ data class PlaylistUiState(
     val shuffle: Boolean = true,
     val intervalSeconds: Int = 30,
     val transition: TransitionStyle = TransitionStyle.KEN_BURNS_CROSSFADE,
+    val transitionSpeed: TransitionSpeed = TransitionSpeed.NORMAL,
     val fitMode: FitMode = FitMode.BLURRED_FILL,
     val showClock: Boolean = true,
     val showDate: Boolean = true,
@@ -53,6 +55,7 @@ class PlaylistViewModel @Inject constructor(
                 shuffle = config.shuffle,
                 intervalSeconds = config.intervalSeconds,
                 transition = config.transition,
+                transitionSpeed = config.transitionSpeed,
                 fitMode = config.fitMode,
                 showClock = config.showClock,
                 showDate = config.showDate,
@@ -75,6 +78,7 @@ class PlaylistViewModel @Inject constructor(
     fun setShuffle(value: Boolean) = viewModelScope.launch { settings.setShuffle(value) }
     fun setInterval(seconds: Int) = viewModelScope.launch { settings.setIntervalSeconds(seconds) }
     fun setTransition(value: TransitionStyle) = viewModelScope.launch { settings.setTransition(value) }
+    fun setTransitionSpeed(value: TransitionSpeed) = viewModelScope.launch { settings.setTransitionSpeed(value) }
     fun setFitMode(value: FitMode) = viewModelScope.launch { settings.setFitMode(value) }
     fun setShowClock(value: Boolean) = viewModelScope.launch { settings.setShowClock(value) }
     fun setShowDate(value: Boolean) = viewModelScope.launch { settings.setShowDate(value) }

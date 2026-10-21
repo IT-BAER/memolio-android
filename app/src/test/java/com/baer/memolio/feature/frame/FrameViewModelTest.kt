@@ -3,6 +3,7 @@ package com.baer.memolio.feature.frame
 import app.cash.turbine.test
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.datastore.FitMode
+import com.baer.memolio.core.datastore.TransitionSpeed
 import com.baer.memolio.core.datastore.PlaylistConfig
 import com.baer.memolio.core.model.Photo
 import com.baer.memolio.core.time.TimeProvider
@@ -222,6 +223,23 @@ class FrameViewModelTest {
     }
 
     @Test
+    fun transitionSpeedPropagatesFromConfig() = runTest(dispatcher) {
+        configFlow.value = PlaylistConfig(
+            activeAlbumIds = setOf("a1"), shuffle = false,
+            transitionSpeed = TransitionSpeed.SLOW
+        )
+        photosFlow.value = listOf(photo("p1"))
+        val vm = newViewModel()
+        vm.uiState.test {
+            skipItems(1) // Loading
+            runCurrent()
+            val s = awaitItem() as FrameUiState.Slideshow
+            assertThat(s.transitionSpeed).isEqualTo(TransitionSpeed.SLOW)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun fitModePropagatesFromConfig() = runTest(dispatcher) {
         configFlow.value = PlaylistConfig(
             activeAlbumIds = setOf("a1"), shuffle = false, fitMode = FitMode.CROP
@@ -387,6 +405,7 @@ private class FakeSettings(
     override suspend fun setIntervalSeconds(value: Int) = Unit
     override suspend fun setTransition(value: com.baer.memolio.core.datastore.TransitionStyle) = Unit
     override suspend fun setFitMode(value: com.baer.memolio.core.datastore.FitMode) = Unit
+    override suspend fun setTransitionSpeed(value: com.baer.memolio.core.datastore.TransitionSpeed) = Unit
     override suspend fun setShowClock(value: Boolean) = Unit
     override suspend fun setShowDate(value: Boolean) = Unit
     override suspend fun setShowCaption(value: Boolean) = Unit

@@ -209,6 +209,7 @@ class FrameViewModel @Inject constructor(
                 clockStyle = config.clockStyle,
                 fitMode = config.fitMode,
                 transition = config.transition,
+                transitionSpeed = config.transitionSpeed,
                 advanceForward = cursor.forward,
                 paused = cursor.paused,
                 hour = hour,

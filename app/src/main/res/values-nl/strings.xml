@@ -132,6 +132,10 @@
     <string name="playlist_transition_crossfade">Overvloeien</string>
     <string name="playlist_transition_slide">Schuiven</string>
     <string name="playlist_transition_cut">Directe wissel</string>
+    <string name="playlist_transition_speed">Overgangssnelheid</string>
+    <string name="playlist_speed_fast">Snel</string>
+    <string name="playlist_speed_normal">Normaal</string>
+    <string name="playlist_speed_slow">Langzaam</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Foto\'s toevoegen</string>
@@ -187,6 +191,15 @@
     <string name="about_link_blocked_by_kiosk">Schakel de kioskvergrendeling uit in de apparaatinstellingen om deze link te openen.</string>
     <string name="about_link_no_browser">Er is geen browser geïnstalleerd op deze tablet, dus deze link kan niet worden geopend.</string>
     <string name="about_legal_notice">Juridische kennisgeving</string>
+    <string name="about_rate">Beoordelen op Google Play</string>
+    <string name="about_share">Memolio delen</string>
+    <string name="about_share_message">Memolio maakt van een oude tablet een fotolijst. Voeg foto\'s toe vanaf elke telefoon via wifi: %1$s</string>
+    <string name="about_feedback">Feedback sturen</string>
+    <string name="about_feedback_subject">Memolio %1$s feedback</string>
+    <string name="about_no_app">Geen app op deze tablet kan dit.</string>
+    <string name="frame_exit_title">Memolio sluiten?</string>
+    <string name="frame_exit_body">De fotolijst toont geen foto\'s meer tot je Memolio weer opent.</string>
+    <string name="frame_exit_confirm">Sluiten</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Al op het fotolijst</string>

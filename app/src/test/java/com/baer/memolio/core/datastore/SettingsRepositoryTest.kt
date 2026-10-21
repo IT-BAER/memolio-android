@@ -95,4 +95,18 @@ class SettingsRepositoryTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    @Test
+    fun transitionSpeedDefaultsToNormalAndPersists() = runTest(UnconfinedTestDispatcher()) {
+        val repo = newRepo(this, "settings_transitionspeed.preferences_pb")
+        repo.playlistConfig.test {
+            assertThat(awaitItem().transitionSpeed).isEqualTo(TransitionSpeed.NORMAL)
+            cancelAndIgnoreRemainingEvents()
+        }
+        repo.setTransitionSpeed(TransitionSpeed.FAST)
+        repo.playlistConfig.test {
+            assertThat(awaitItem().transitionSpeed).isEqualTo(TransitionSpeed.FAST)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

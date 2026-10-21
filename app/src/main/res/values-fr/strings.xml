@@ -127,6 +127,10 @@
     <string name="playlist_transition_crossfade">Fondu enchaîné</string>
     <string name="playlist_transition_slide">Glissement</string>
     <string name="playlist_transition_cut">Coupe</string>
+    <string name="playlist_transition_speed">Vitesse de transition</string>
+    <string name="playlist_speed_fast">Rapide</string>
+    <string name="playlist_speed_normal">Normale</string>
+    <string name="playlist_speed_slow">Lente</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Ajouter des photos</string>
@@ -182,6 +186,15 @@
     <string name="about_link_blocked_by_kiosk">Désactivez le verrouillage kiosque dans les paramètres de l\'appareil pour ouvrir ce lien.</string>
     <string name="about_link_no_browser">Aucun navigateur n\'est installé sur cette tablette, ce lien ne peut donc pas être ouvert.</string>
     <string name="about_legal_notice">Mentions légales</string>
+    <string name="about_rate">Noter sur Google Play</string>
+    <string name="about_share">Partager Memolio</string>
+    <string name="about_share_message">Memolio transforme une ancienne tablette en cadre photo. Ajoutez des photos depuis n\'importe quel téléphone via le Wi-Fi : %1$s</string>
+    <string name="about_feedback">Envoyer un avis</string>
+    <string name="about_feedback_subject">Memolio %1$s : avis</string>
+    <string name="about_no_app">Aucune application de cette tablette ne peut faire cela.</string>
+    <string name="frame_exit_title">Fermer Memolio ?</string>
+    <string name="frame_exit_body">Le cadre n\'affiche plus de photos tant que vous n\'avez pas rouvert Memolio.</string>
+    <string name="frame_exit_confirm">Fermer</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Déjà sur le cadre</string>

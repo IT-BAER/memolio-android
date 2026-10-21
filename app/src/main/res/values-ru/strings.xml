@@ -127,6 +127,10 @@
     <string name="playlist_transition_crossfade">Плавное растворение</string>
     <string name="playlist_transition_slide">Сдвиг</string>
     <string name="playlist_transition_cut">Склейка</string>
+    <string name="playlist_transition_speed">Скорость перехода</string>
+    <string name="playlist_speed_fast">Быстро</string>
+    <string name="playlist_speed_normal">Обычно</string>
+    <string name="playlist_speed_slow">Медленно</string>
 
     <!-- ===== Add photos ===== -->
     <string name="addphotos_title">Добавить фото</string>
@@ -182,6 +186,15 @@
     <string name="about_link_blocked_by_kiosk">Отключите киоск-режим в настройках устройства, чтобы открыть эту ссылку.</string>
     <string name="about_link_no_browser">На этом планшете не установлен браузер, поэтому эту ссылку нельзя открыть.</string>
     <string name="about_legal_notice">Правовая информация</string>
+    <string name="about_rate">Оценить в Google Play</string>
+    <string name="about_share">Поделиться Memolio</string>
+    <string name="about_share_message">Memolio превращает старый планшет в фоторамку. Добавляйте фото с любого телефона по Wi-Fi: %1$s</string>
+    <string name="about_feedback">Отправить отзыв</string>
+    <string name="about_feedback_subject">Memolio %1$s: отзыв</string>
+    <string name="about_no_app">На этом планшете нет приложения для этого действия.</string>
+    <string name="frame_exit_title">Закрыть Memolio?</string>
+    <string name="frame_exit_body">Рамка перестанет показывать фото, пока Memolio не будет открыт снова.</string>
+    <string name="frame_exit_confirm">Закрыть</string>
 
     <!-- ===== Upload feedback banner ===== -->
     <string name="upload_duplicate">Уже есть на рамке</string>
