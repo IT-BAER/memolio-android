@@ -35,6 +35,7 @@ class PlaylistEditPersistenceTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
+        override suspend fun setPro(active: Boolean) {}
     }
 
     private class FakeSettings : SettingsRepository {

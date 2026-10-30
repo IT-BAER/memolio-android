@@ -24,7 +24,7 @@ import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
  * Renders the RevenueCat dashboard-designed paywall (offering "default") as a modal dialog.
  * Copy, perks, price, and CTA all live in the RC dashboard. Purchase/restore are driven by
  * the SDK, which also shows its own error dialog; PaywallListener routes completions to the
- * ViewModel, which refreshes the cached proUnlocked flag.
+ * ViewModel, which stores the reported Pro state in the cached proUnlocked flag.
  *
  * Billing is configured here on first use. A build without a RevenueCat key (debug) closes at
  * once. When RevenueCat already reports Pro, PaywallDialog never opens, so the screen closes
@@ -69,7 +69,7 @@ fun PaywallScreen(
                     customerInfo: CustomerInfo,
                     storeTransaction: StoreTransaction
                 ) {
-                    viewModel.onCompleted()
+                    viewModel.onCompleted(active = customerInfo.hasPro())
                 }
 
                 // The SDK shows the error itself; a pending payment is remembered for the start check.
@@ -82,9 +82,7 @@ fun PaywallScreen(
                 override fun onRestoreStarted() {}
 
                 override fun onRestoreCompleted(customerInfo: CustomerInfo) {
-                    viewModel.onRestoreCompleted(
-                        active = customerInfo.entitlements[RevenueCatClientImpl.PRO_ENTITLEMENT_ID]?.isActive == true
-                    )
+                    viewModel.onRestoreCompleted(active = customerInfo.hasPro())
                 }
 
                 // The SDK shows the error itself.
@@ -93,3 +91,6 @@ fun PaywallScreen(
             .build()
     )
 }
+
+private fun CustomerInfo.hasPro() =
+    entitlements[RevenueCatClientImpl.PRO_ENTITLEMENT_ID]?.isActive == true

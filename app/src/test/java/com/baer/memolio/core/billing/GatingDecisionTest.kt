@@ -19,6 +19,7 @@ class GatingDecisionTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
+        override suspend fun setPro(active: Boolean) {}
     }
 
     /** Mirrors the ViewModel gate: "allowed" iff isPro (or the always-free default). */

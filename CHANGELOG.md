@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Pro now unlocks right after a purchase or restore. Before, the offer closed
+  and Pro stayed locked until the offer was opened again.
+
 ## [1.0.3] - 2026-10-30
 
 Pro purchase fixes before the production rollout.

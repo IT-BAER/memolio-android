@@ -66,6 +66,7 @@ class WallpaperGatingTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
+        override suspend fun setPro(active: Boolean) {}
     }
 
     private class FakeWallpaperRepo(var path: String? = null) : WallpaperRepository {

@@ -26,6 +26,8 @@ interface EntitlementRepository {
     suspend fun refreshOnAppStart()
     /** Remembers a pending Pro purchase so the next app starts can pick it up. */
     suspend fun markPurchasePending()
+    /** Stores the Pro state that RevenueCat reported with a completed purchase or restore. */
+    suspend fun setPro(active: Boolean)
 }
 
 class EntitlementRepositoryImpl @Inject constructor(
@@ -56,8 +58,7 @@ class EntitlementRepositoryImpl @Inject constructor(
             // Offline or billing unavailable: keep the last known state.
             return@withContext
         }
-        settings.setProUnlocked(entitled)
-        if (entitled) settings.setPurchasePendingSince(0L)
+        setPro(entitled)
     }
 
     override suspend fun refreshOnAppStart() {
@@ -69,6 +70,11 @@ class EntitlementRepositoryImpl @Inject constructor(
     }
 
     override suspend fun markPurchasePending() = settings.setPurchasePendingSince(today())
+
+    override suspend fun setPro(active: Boolean) {
+        settings.setProUnlocked(active)
+        if (active) settings.setPurchasePendingSince(0L)
+    }
 
     private fun today(): Long = time.now().toLocalDate().toEpochDay()
 
