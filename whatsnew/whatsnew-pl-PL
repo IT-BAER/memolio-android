@@ -1,0 +1,3 @@
+• Poprawki zakupu i przywracania Pro: płatność zakończona później odblokowuje teraz Pro.
+• Przywracanie informuje teraz, gdy nie znaleziono zakupu Pro.
+• Ramka bez Pro nie łączy się już z internetem przy starcie. Gdy Pro jest aktywne, Memolio sprawdza je przy starcie, a zwrot pieniędzy wyłącza Pro.

@@ -1,0 +1,3 @@
+• Correções na compra e no restauro do Pro: um pagamento concluído mais tarde desbloqueia agora o Pro.
+• O restauro indica agora quando não encontra nenhuma compra do Pro.
+• Uma moldura sem Pro já não se liga à internet ao iniciar. Com o Pro ativo, o Memolio verifica-o ao iniciar, e um reembolso desativa o Pro.

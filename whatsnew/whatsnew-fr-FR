@@ -1,0 +1,3 @@
+• Corrections de l'achat et de la restauration de Pro : un paiement finalisé plus tard débloque désormais Pro.
+• La restauration indique désormais quand aucun achat Pro n'est trouvé.
+• Un cadre sans Pro ne se connecte plus à Internet au démarrage. Quand Pro est actif, Memolio le vérifie au démarrage, et un remboursement désactive Pro.

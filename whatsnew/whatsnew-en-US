@@ -1,0 +1,3 @@
+• Fixes for buying and restoring Pro: a payment that completes later now unlocks Pro.
+• Restore now tells you when no Pro purchase is found.
+• A free frame no longer goes online when it starts. While Pro is active, Memolio checks it at start, so a refunded purchase turns Pro off.

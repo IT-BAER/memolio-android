@@ -1,0 +1,3 @@
+• Kauf und Wiederherstellen von Pro korrigiert: Eine später abgeschlossene Zahlung schaltet Pro jetzt frei.
+• Wiederherstellen meldet jetzt, wenn kein Pro-Kauf gefunden wurde.
+• Ein Rahmen ohne Pro geht beim Start nicht mehr online. Ist Pro aktiv, prüft Memolio es beim Start, eine erstattete Zahlung schaltet Pro ab.

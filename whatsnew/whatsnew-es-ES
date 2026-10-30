@@ -1,0 +1,3 @@
+• Correcciones al comprar y restaurar Pro: un pago que se completa más tarde ahora desbloquea Pro.
+• Restaurar ahora avisa cuando no encuentra ninguna compra de Pro.
+• Un marco sin Pro ya no se conecta a internet al iniciarse. Con Pro activo, Memolio lo comprueba al iniciarse, y un reembolso desactiva Pro.

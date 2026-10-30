@@ -1,0 +1,3 @@
+• Correzioni per acquisto e ripristino di Pro: un pagamento completato più tardi ora sblocca Pro.
+• Il ripristino ora avvisa quando non trova alcun acquisto Pro.
+• Una cornice senza Pro non va più online all'avvio. Con Pro attivo, Memolio lo verifica all'avvio e un rimborso disattiva Pro.
