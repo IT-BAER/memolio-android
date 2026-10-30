@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-10-30
+
+Pro purchase fixes before the production rollout.
+
 ### Fixed
 
 - Opening Pro when RevenueCat already knows the purchase (for example a pending
