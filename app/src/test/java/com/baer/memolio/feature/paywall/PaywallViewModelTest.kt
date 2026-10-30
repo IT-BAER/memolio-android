@@ -1,6 +1,7 @@
 package com.baer.memolio.feature.paywall
 
 import android.app.Activity
+import com.baer.memolio.core.billing.BillingError
 import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.billing.PurchaseResult
 import com.baer.memolio.core.billing.RestoreResult
@@ -28,10 +29,21 @@ class PaywallViewModelTest {
     private class FakeEntitlement(initialPro: Boolean = false) : EntitlementRepository {
         val pro = MutableStateFlow(initialPro)
         var refreshCalls = 0
+        var pendingMarks = 0
         override val isPro: Flow<Boolean> = pro
         override suspend fun refresh() { refreshCalls++; pro.value = true }
+        override suspend fun refreshOnAppStart() {}
+        override suspend fun markPurchasePending() { pendingMarks++ }
         override suspend fun purchase(activity: Activity): PurchaseResult = PurchaseResult.Success
         override suspend fun restore(): RestoreResult = RestoreResult.Success
+    }
+
+    @Test
+    fun openingThePaywallRefreshesPro() = runTest {
+        val ent = FakeEntitlement()
+        PaywallViewModel(ent)
+        assertThat(ent.refreshCalls).isEqualTo(1)
+        assertThat(ent.pro.value).isTrue()
     }
 
     @Test
@@ -39,7 +51,32 @@ class PaywallViewModelTest {
         val ent = FakeEntitlement()
         val vm = PaywallViewModel(ent)
         vm.onCompleted()
-        assertThat(ent.refreshCalls).isEqualTo(1)
-        assertThat(ent.pro.value).isTrue()
+        assertThat(ent.refreshCalls).isEqualTo(2)
+    }
+
+    @Test
+    fun restoreWithoutProShowsTheNoRestoreMessageOnce() = runTest {
+        val vm = PaywallViewModel(FakeEntitlement())
+        vm.onRestoreCompleted(active = false)
+        assertThat(vm.message.value).isEqualTo(BillingError.NO_RESTORE)
+        vm.onMessageShown()
+        assertThat(vm.message.value).isNull()
+    }
+
+    @Test
+    fun restoreWithProShowsNoMessage() = runTest {
+        val ent = FakeEntitlement()
+        val vm = PaywallViewModel(ent)
+        vm.onRestoreCompleted(active = true)
+        assertThat(ent.refreshCalls).isEqualTo(2)
+        assertThat(vm.message.value).isNull()
+    }
+
+    @Test
+    fun pendingPurchaseIsRemembered() = runTest {
+        val ent = FakeEntitlement()
+        val vm = PaywallViewModel(ent)
+        vm.onPurchasePending()
+        assertThat(ent.pendingMarks).isEqualTo(1)
     }
 }

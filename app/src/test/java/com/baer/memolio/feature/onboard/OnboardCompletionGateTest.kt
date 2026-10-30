@@ -59,6 +59,7 @@ class OnboardCompletionGateTest {
         override suspend fun setAutoCleanup(value: Boolean) {}
         override suspend fun setWallpaperId(value: String) {}
         override suspend fun setProUnlocked(value: Boolean) {}
+        override suspend fun setPurchasePendingSince(epochDay: Long) {}
         override suspend fun rotateToken(): String = ""
         override suspend fun ensureToken(): String = ""
     }

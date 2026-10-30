@@ -43,4 +43,6 @@ data class AppSettings(
     val wallpaperId: String = "default",
     val onboardingComplete: Boolean = false,
     val proUnlocked: Boolean = false,
+    /** Epoch day of the last pending Pro purchase; 0 = none. */
+    val purchasePendingSince: Long = 0L,
 )

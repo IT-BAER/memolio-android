@@ -6,6 +6,7 @@ import com.baer.memolio.core.billing.EntitlementRepositoryImpl
 import com.baer.memolio.core.billing.RevenueCatClient
 import com.baer.memolio.core.billing.RevenueCatClientImpl
 import com.baer.memolio.core.datastore.SettingsRepository
+import com.baer.memolio.core.time.TimeProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,9 +28,10 @@ abstract class BillingModule {
         fun provideEntitlementRepository(
             settings: SettingsRepository,
             client: RevenueCatClient,
-            @IoDispatcher ioDispatcher: CoroutineDispatcher
+            @IoDispatcher ioDispatcher: CoroutineDispatcher,
+            time: TimeProvider
         ): EntitlementRepository =
             // Debug builds unlock all Pro surfaces for testing; release keeps the real gate.
-            EntitlementRepositoryImpl(settings, client, ioDispatcher, debugUnlock = BuildConfig.DEBUG)
+            EntitlementRepositoryImpl(settings, client, ioDispatcher, time, debugUnlock = BuildConfig.DEBUG)
     }
 }

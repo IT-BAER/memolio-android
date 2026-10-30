@@ -62,6 +62,7 @@ class AddPhotosViewModelTest {
         override suspend fun setWallpaperId(value: String) {}
         override suspend fun setOnboardingComplete(value: Boolean) {}
         override suspend fun setProUnlocked(value: Boolean) {}
+        override suspend fun setPurchasePendingSince(epochDay: Long) {}
         override suspend fun rotateToken(): String { rotated++; return "newtoken" }
         override suspend fun ensureToken(): String = "token"
     }

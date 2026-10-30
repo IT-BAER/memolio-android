@@ -3,6 +3,7 @@ package com.baer.memolio
 import android.app.Application
 import androidx.work.Configuration
 import com.baer.memolio.appliance.TimeProvider
+import com.baer.memolio.core.billing.EntitlementRepository
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.datastore.SettingsRepository
@@ -15,9 +16,6 @@ import com.baer.memolio.work.FaceBackfillWorkerFactory
 import com.baer.memolio.work.TrashPurgeScheduler
 import com.baer.memolio.work.TrashPurgeWorkerFactory
 import kotlinx.coroutines.CoroutineDispatcher
-import com.revenuecat.purchases.LogLevel
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.PurchasesConfiguration
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +33,7 @@ class MemolioApp : Application(), Configuration.Provider {
     @Inject lateinit var timeProvider: TimeProvider
     @Inject lateinit var albumRepository: AlbumRepository
     @Inject lateinit var faceDetector: FaceDetector
+    @Inject lateinit var entitlementRepository: EntitlementRepository
     @Inject @IoDispatcher lateinit var ioDispatcher: CoroutineDispatcher
 
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -77,17 +76,8 @@ class MemolioApp : Application(), Configuration.Provider {
         TrashPurgeScheduler.schedule(this)
         FaceBackfillScheduler.schedule(this)
 
-        // RevenueCat configure does NOT hit the network here (the SDK lazily fetches on the
-        // first awaitOfferings/awaitCustomerInfo). Guarded so a blank/bad key or odd device
-        // state never crashes the otherwise-offline frame. When the key is blank (dev/test),
-        // configure is skipped and billing calls surface as PurchaseResult/RestoreResult.Error.
-        runCatching {
-            if (BuildConfig.REVENUECAT_API_KEY.isNotBlank()) {
-                Purchases.logLevel = if (BuildConfig.DEBUG) LogLevel.DEBUG else LogLevel.ERROR
-                Purchases.configure(
-                    PurchasesConfiguration.Builder(this, BuildConfig.REVENUECAT_API_KEY).build()
-                )
-            }
-        }
+        // RevenueCat is configured on first use (RevenueCatClientImpl.ensureConfigured), so only
+        // a Pro frame or a pending purchase goes online here.
+        applicationScope.launch { entitlementRepository.refreshOnAppStart() }
     }
 }

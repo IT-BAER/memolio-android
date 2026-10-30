@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+
+- Opening Pro when RevenueCat already knows the purchase (for example a pending
+  payment that completed later) now unlocks Pro and closes the offer. Before,
+  the offer did not open and Pro stayed locked.
+- A Pro check that fails, for example without network, keeps the last known
+  state.
+- Restore without a Pro purchase now says "No Pro purchase found to restore".
+  Before, nothing visible happened.
+
+### Changed
+
+- Pro follows the purchase: a refunded purchase turns Pro off at the next check.
+- While Pro is active or a purchase is pending (up to 14 days), the app checks
+  Pro when it starts, so a pending purchase that completes later unlocks Pro.
+- RevenueCat is configured only when it is needed. A free frame that never
+  opens the Pro offer no longer contacts RevenueCat at start.
 
 ## [1.0.2] - 2026-10-21
 

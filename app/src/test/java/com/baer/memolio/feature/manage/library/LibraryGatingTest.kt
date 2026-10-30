@@ -56,6 +56,8 @@ class LibraryGatingTest {
     private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
         override val isPro: Flow<Boolean> = MutableStateFlow(pro)
         override suspend fun refresh() {}
+        override suspend fun refreshOnAppStart() {}
+        override suspend fun markPurchasePending() {}
         override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
         override suspend fun restore(): RestoreResult = RestoreResult.Success
     }

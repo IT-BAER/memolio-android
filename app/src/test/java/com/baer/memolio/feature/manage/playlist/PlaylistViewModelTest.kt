@@ -34,6 +34,8 @@ class PlaylistViewModelTest {
     private class FakeEntitlement(pro: Boolean) : EntitlementRepository {
         override val isPro: Flow<Boolean> = MutableStateFlow(pro)
         override suspend fun refresh() {}
+        override suspend fun refreshOnAppStart() {}
+        override suspend fun markPurchasePending() {}
         override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
         override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
@@ -67,6 +69,7 @@ class PlaylistViewModelTest {
         override suspend fun setWallpaperId(value: String) {}
         override suspend fun setOnboardingComplete(value: Boolean) {}
         override suspend fun setProUnlocked(value: Boolean) {}
+        override suspend fun setPurchasePendingSince(epochDay: Long) {}
         override suspend fun rotateToken(): String = ""
         override suspend fun ensureToken(): String = ""
     }

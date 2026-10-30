@@ -3,25 +3,30 @@ package com.baer.memolio.core.billing
 import android.app.Activity
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.di.IoDispatcher
+import com.baer.memolio.core.time.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
- * The single Pro-entitlement entry point. isPro is backed by AppSettings.proUnlocked and is
- * STICKY-TRUE: once true it never reverts (a one-time purchase is permanent), so the
- * otherwise-offline frame never needs the network again. refresh/purchase/restore are the
- * ONLY networked operations; all SDK work goes through the RevenueCatClient seam.
+ * The single Pro-entitlement entry point. isPro follows the cached AppSettings.proUnlocked,
+ * so the frame keeps its last known state offline. refresh() mirrors RevenueCat's answer,
+ * which re-locks Pro after a refund. refresh/purchase/restore are the ONLY networked
+ * operations; all SDK work goes through the RevenueCatClient seam.
  */
 interface EntitlementRepository {
     val isPro: Flow<Boolean>
     suspend fun refresh()
+    /** Checks Pro at app start, but only while Pro is active or a purchase is pending. */
+    suspend fun refreshOnAppStart()
+    /** Remembers a pending Pro purchase so the next app starts can pick it up. */
+    suspend fun markPurchasePending()
     suspend fun purchase(activity: Activity): PurchaseResult
     suspend fun restore(): RestoreResult
 }
@@ -30,6 +35,7 @@ class EntitlementRepositoryImpl @Inject constructor(
     private val settings: SettingsRepository,
     private val client: RevenueCatClient,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val time: TimeProvider,
     // Hilt passes BuildConfig.DEBUG (see BillingModule); tests default to false to exercise
     // the real sticky logic. When true, every Pro surface unlocks for on-device testing.
     private val debugUnlock: Boolean = false
@@ -41,14 +47,33 @@ class EntitlementRepositoryImpl @Inject constructor(
         } else {
             settings.appSettings
                 .map { it.proUnlocked }
-                .scan(false) { sticky, current -> sticky || current }
-                .drop(1)
                 .distinctUntilChanged()
         }
 
     override suspend fun refresh() = withContext(ioDispatcher) {
-        if (client.isEntitled()) settings.setProUnlocked(true)
+        val entitled = try {
+            client.isEntitled()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            // Offline or billing unavailable: keep the last known state.
+            return@withContext
+        }
+        settings.setProUnlocked(entitled)
+        if (entitled) settings.setPurchasePendingSince(0L)
     }
+
+    override suspend fun refreshOnAppStart() {
+        val s = settings.appSettings.first()
+        val pendingDays = if (s.purchasePendingSince > 0L) today() - s.purchasePendingSince else null
+        val pending = pendingDays != null && pendingDays <= PENDING_DAYS
+        if (pendingDays != null && !pending) settings.setPurchasePendingSince(0L)
+        if (s.proUnlocked || pending) refresh()
+    }
+
+    override suspend fun markPurchasePending() = settings.setPurchasePendingSince(today())
+
+    private fun today(): Long = time.now().toLocalDate().toEpochDay()
 
     override suspend fun purchase(activity: Activity): PurchaseResult =
         withContext(ioDispatcher) {
@@ -61,5 +86,10 @@ class EntitlementRepositoryImpl @Inject constructor(
         val result = client.restore()
         if (result is RestoreResult.Success) settings.setProUnlocked(true)
         result
+    }
+
+    companion object {
+        /** A purchase still pending after this many days counts as abandoned. */
+        const val PENDING_DAYS = 14L
     }
 }

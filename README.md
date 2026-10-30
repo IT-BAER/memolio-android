@@ -49,13 +49,13 @@ Pro-gated features in the current tree:
 
 The built-in wallpapers are `default` (a live vector background), `ember`, and `slate`, and are free. Importing a custom wallpaper is Pro.
 
-Pro purchase and restore use RevenueCat over Google Play Billing. After a successful purchase or restore, the entitlement is stored locally so the frame can keep running offline.
+Pro purchase and restore use RevenueCat over Google Play Billing. After a successful purchase or restore, the entitlement is stored locally so the frame can keep running offline. While Pro is active or a purchase is pending, the app checks the entitlement again at start, so a refund turns Pro off. RevenueCat is configured only when it is needed, so a free frame that never opens the Pro offer stays offline.
 
 ## Privacy
 
 Memolio has no accounts, analytics, ads, crash-reporting SDKs, or cloud photo storage.
 
-Photos uploaded through the QR page go directly from the uploader's browser to the tablet over the local network. They are not sent to a Memolio backend. The app only makes outbound purchase-related calls when the user buys or restores Pro.
+Photos uploaded through the QR page go directly from the uploader's browser to the tablet over the local network. They are not sent to a Memolio backend. The app only makes outbound purchase-related calls: when the user opens, buys or restores Pro, and at app start while Pro is active or a purchase is pending.
 
 The app does not request broad photo or media-library permissions. It manages files inside its own private app storage.
 

@@ -424,6 +424,7 @@ private class FakeSettings(
     override suspend fun setWallpaperId(value: String) = Unit
     override suspend fun setOnboardingComplete(value: Boolean) = Unit
     override suspend fun setProUnlocked(value: Boolean) = Unit
+    override suspend fun setPurchasePendingSince(epochDay: Long) = Unit
     override suspend fun rotateToken(): String = ""
     override suspend fun ensureToken(): String = ""
 }

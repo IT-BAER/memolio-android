@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +44,7 @@ interface SettingsRepository {
     suspend fun setWallpaperId(value: String)
     suspend fun setOnboardingComplete(value: Boolean)
     suspend fun setProUnlocked(value: Boolean)
+    suspend fun setPurchasePendingSince(epochDay: Long)
     suspend fun rotateToken(): String
     suspend fun ensureToken(): String
 }
@@ -81,6 +83,7 @@ class SettingsRepositoryImpl @Inject constructor(
         val WALLPAPER_ID = stringPreferencesKey("wallpaper_id")
         val ONBOARDING_COMPLETE = booleanPreferencesKey("onboarding_complete")
         val PRO_UNLOCKED = booleanPreferencesKey("pro_unlocked")
+        val PURCHASE_PENDING_SINCE = longPreferencesKey("purchase_pending_since")
     }
 
     override val playlistConfig: Flow<PlaylistConfig> = store.data.map { p ->
@@ -131,6 +134,7 @@ class SettingsRepositoryImpl @Inject constructor(
             wallpaperId = p[Keys.WALLPAPER_ID] ?: d.wallpaperId,
             onboardingComplete = p[Keys.ONBOARDING_COMPLETE] ?: d.onboardingComplete,
             proUnlocked = p[Keys.PRO_UNLOCKED] ?: d.proUnlocked,
+            purchasePendingSince = p[Keys.PURCHASE_PENDING_SINCE] ?: d.purchasePendingSince,
         )
     }
 
@@ -152,6 +156,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setWallpaperId(value: String) { store.edit { it[Keys.WALLPAPER_ID] = value } }
     override suspend fun setOnboardingComplete(value: Boolean) { store.edit { it[Keys.ONBOARDING_COMPLETE] = value } }
     override suspend fun setProUnlocked(value: Boolean) { store.edit { it[Keys.PRO_UNLOCKED] = value } }
+    override suspend fun setPurchasePendingSince(epochDay: Long) { store.edit { it[Keys.PURCHASE_PENDING_SINCE] = epochDay } }
 
     /** Returns the existing token, generating + persisting one on first run. */
     override suspend fun ensureToken(): String {
