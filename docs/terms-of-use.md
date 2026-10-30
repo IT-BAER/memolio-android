@@ -1,6 +1,6 @@
 # Terms of Use for Memolio
 
-_Last updated: 21 June 2026_
+_Last updated: 30 October 2026_
 
 **Memolio** is an Android digital picture-frame app that turns a tablet into an always-on photo frame. By installing or using Memolio, you agree to these terms. If you do not agree, please do not use the app.
 
@@ -12,7 +12,7 @@ These Terms of Use govern your use of the app itself. The GPL-3.0 governs the so
 
 ## 2. What the app does
 
-Memolio displays photos you add to it and receives new photos over your local Wi-Fi from any device's web browser. It is designed to run fully offline. It keeps your photos in its own private storage on the device and does not read the rest of your photo library. How the app handles data is described in the [Privacy Policy](https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md).
+Memolio displays photos you add to it and receives new photos over your local Wi-Fi from any device's web browser. It is designed to run offline; only the optional Pro upgrade uses the internet. It keeps your photos in its own private storage on the device and does not read the rest of your photo library. How the app handles data is described in the [Privacy Policy](https://github.com/IT-BAER/memolio-android/blob/main/docs/privacy-policy.md).
 
 ## 3. Your content and your responsibilities
 
@@ -25,7 +25,7 @@ Memolio is free to use. An optional one-time **Pro** upgrade unlocks additional 
 - **One-time purchase.** Pro is a single purchase, not a subscription. There is nothing to renew and nothing recurring to cancel.
 - **Tied to your Google account.** The purchase is made through **Google Play Billing** and processed by **RevenueCat**. Your entitlement is linked to the Google account you buy with, so you can restore Pro on any device signed in to that same account.
 - **Price.** The price shown at the moment of purchase, in your local currency, is the price that applies.
-- **Offline after purchase.** Once Pro is verified, the unlock is cached on the device and the app keeps working offline.
+- **Offline after purchase.** Once Pro is verified, the unlock is cached on the device and the app keeps working offline. When the device is online, the app checks Pro again, for example when it starts. If the purchase was refunded, Pro is turned off.
 
 ## 5. Refunds
 

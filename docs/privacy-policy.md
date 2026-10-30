@@ -1,8 +1,8 @@
 # Privacy Policy for Memolio
 
-_Last updated: 25 August 2026_
+_Last updated: 30 October 2026_
 
-**Memolio** is an Android digital picture-frame app that turns a tablet into an always-on photo frame. It is designed to be **fully offline**. This policy explains what data the app does and does not handle. The short version: Memolio does not collect, transmit, sell, or share your personal data or your photos.
+**Memolio** is an Android digital picture-frame app that turns a tablet into an always-on photo frame. It is designed to work **offline**: your photos never leave your local network. This policy explains what data the app does and does not handle. The short version: Memolio does not collect, transmit, sell, or share your personal data or your photos.
 
 ## 1. Information we collect
 
@@ -18,7 +18,7 @@ Photos you add to Memolio are stored **only on your own device**, inside the app
 
 To receive photo uploads, the app runs a small web server **on your local network only**. This server is reachable solely by devices on the same Wi-Fi and is protected by a secret token.
 
-The app makes **one** kind of outbound internet connection: when you choose to purchase or restore the optional "Pro" upgrade, it contacts the billing services described in Section 5 to verify your purchase. After that, the unlock is cached on the device and the app continues to work offline. No other internet connection is made.
+The app's only outbound internet connections go to the billing services described in Section 5, for the optional "Pro" upgrade: to show the Pro offer, to process a purchase or restore, and to check whether Pro is still active, for example when the app starts. The unlock is cached on the device, so the frame keeps working offline. If a purchase was refunded, the next check while the device is online turns Pro off again. No other internet connection is made.
 
 ## 4. Permissions
 
@@ -33,7 +33,7 @@ The one-time Pro upgrade is processed through **Google Play Billing**, with purc
 
 ## 6. Data sharing and sale
 
-We do not sell, rent, or share your personal data. The only data leaving your device is the purchase information in Section 5, and only at the moment you buy or restore the Pro upgrade.
+We do not sell, rent, or share your personal data. The only data leaving your device is the purchase information in Section 5, and only for the purposes listed in Section 3.
 
 ## 7. Children
 
