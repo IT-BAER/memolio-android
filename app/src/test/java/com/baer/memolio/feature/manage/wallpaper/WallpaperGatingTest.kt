@@ -1,8 +1,6 @@
 package com.baer.memolio.feature.manage.wallpaper
 
 import com.baer.memolio.core.billing.EntitlementRepository
-import com.baer.memolio.core.billing.PurchaseResult
-import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.WallpaperRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
@@ -68,8 +66,6 @@ class WallpaperGatingTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
-        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     private class FakeWallpaperRepo(var path: String? = null) : WallpaperRepository {

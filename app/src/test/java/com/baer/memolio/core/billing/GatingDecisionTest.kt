@@ -1,6 +1,5 @@
 package com.baer.memolio.core.billing
 
-import android.app.Activity
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +19,6 @@ class GatingDecisionTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
-        override suspend fun purchase(activity: Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     /** Mirrors the ViewModel gate: "allowed" iff isPro (or the always-free default). */

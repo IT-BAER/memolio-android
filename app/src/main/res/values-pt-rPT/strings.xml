@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   pt-rPT — European Portuguese (Portugal). Translated from values/strings.xml.
-  translatable="false" keys are omitted entirely (app_name, paywall_price,
-  wallpaper preset names, language autonyms — 15 keys total).
+  translatable="false" keys are omitted entirely (app_name,
+  wallpaper preset names, language autonyms — 14 keys total).
 -->
 <resources>
 
@@ -39,28 +39,8 @@
     <string name="onboard_finish_title">Tudo pronto</string>
     <string name="onboard_finish_body">Toca em Concluir para iniciar a moldura.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro desbloqueado. Obrigado!</string>
-    <string name="paywall_offline">Liga a Wi-Fi para desbloquear o Pro. O resto do Memolio funciona sem internet.</string>
-    <string name="paywall_pitch">Paga uma vez e o Pro fica aqui para sempre, mesmo neste tablet.</string>
-    <string name="paywall_perk_albums_title">Álbuns &amp; listas</string>
-    <string name="paywall_perk_albums_desc">Agrupa fotos e escolhe exatamente o que aparece.</string>
-    <string name="paywall_perk_appliance_title">Modo aparelho</string>
-    <string name="paywall_perk_appliance_desc">Início automático, modo quiosque, horário de repouso, redução de brilho ambiente.</string>
-    <string name="paywall_perk_wallpaper_title">Fundos personalizados</string>
-    <string name="paywall_perk_wallpaper_desc">Escolhe o fundo por trás do relógio.</string>
-    <string name="paywall_price_caption">uma vez · vitalício</string>
-    <string name="paywall_unlock_cta">Desbloquear Pro</string>
-    <string name="paywall_restore">Restaurar</string>
-    <string name="paywall_error">Erro: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Pacote Pro não disponível</string>
-    <string name="billing_error_not_granted">A compra não ativou o Pro</string>
-    <string name="billing_error_purchase_failed">A compra falhou</string>
     <string name="billing_error_no_restore">Nenhuma compra Pro encontrada para restaurar</string>
-    <string name="billing_error_restore_failed">O restauro falhou</string>
-    <string name="billing_error_load">Não foi possível carregar as ofertas</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Álbuns &amp; listas</string>

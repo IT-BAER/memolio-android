@@ -1,8 +1,6 @@
 package com.baer.memolio.feature.manage.library
 
 import com.baer.memolio.core.billing.EntitlementRepository
-import com.baer.memolio.core.billing.PurchaseResult
-import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.data.PhotoRepository
 import com.baer.memolio.core.model.Album
@@ -58,8 +56,6 @@ class LibraryGatingTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
-        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     @Test

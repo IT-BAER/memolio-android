@@ -34,28 +34,8 @@
     <string name="onboard_finish_title">Tutto pronto</string>
     <string name="onboard_finish_body">Tocca Fine per avviare la cornice.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro è sbloccato. Grazie!</string>
-    <string name="paywall_offline">Connettiti alla Wi-Fi per sbloccare Pro. Il resto di Memolio funziona offline.</string>
-    <string name="paywall_pitch">Paghi una volta e Pro rimane attivo per sempre, qui sul tablet.</string>
-    <string name="paywall_perk_albums_title">Album &amp; playlist</string>
-    <string name="paywall_perk_albums_desc">Raggruppa le foto e scegli esattamente cosa mostrare.</string>
-    <string name="paywall_perk_appliance_title">Suite appliance</string>
-    <string name="paywall_perk_appliance_desc">Avvio automatico, blocco kiosk, programma sonno, riduzione luminosità ambientale.</string>
-    <string name="paywall_perk_wallpaper_title">Sfondi personalizzati</string>
-    <string name="paywall_perk_wallpaper_desc">Scegli lo sfondo dietro il tuo orologio.</string>
-    <string name="paywall_price_caption">una volta · per sempre</string>
-    <string name="paywall_unlock_cta">Sblocca Pro</string>
-    <string name="paywall_restore">Ripristina</string>
-    <string name="paywall_error">Errore: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Nessun pacchetto Pro disponibile</string>
-    <string name="billing_error_not_granted">L\'acquisto non ha sbloccato Pro</string>
-    <string name="billing_error_purchase_failed">Acquisto non riuscito</string>
     <string name="billing_error_no_restore">Nessun acquisto Pro trovato da ripristinare</string>
-    <string name="billing_error_restore_failed">Ripristino non riuscito</string>
-    <string name="billing_error_load">Impossibile caricare le offerte</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Album &amp; playlist</string>

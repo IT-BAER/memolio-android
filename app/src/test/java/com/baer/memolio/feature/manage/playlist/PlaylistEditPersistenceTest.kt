@@ -4,8 +4,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import com.baer.memolio.core.billing.EntitlementRepository
-import com.baer.memolio.core.billing.PurchaseResult
-import com.baer.memolio.core.billing.RestoreResult
 import com.baer.memolio.core.data.AlbumRepository
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
@@ -37,8 +35,6 @@ class PlaylistEditPersistenceTest {
         override suspend fun refresh() {}
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() {}
-        override suspend fun purchase(activity: android.app.Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     private class FakeSettings : SettingsRepository {

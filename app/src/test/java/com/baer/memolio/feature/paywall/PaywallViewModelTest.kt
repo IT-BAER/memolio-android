@@ -1,10 +1,7 @@
 package com.baer.memolio.feature.paywall
 
-import android.app.Activity
 import com.baer.memolio.core.billing.BillingError
 import com.baer.memolio.core.billing.EntitlementRepository
-import com.baer.memolio.core.billing.PurchaseResult
-import com.baer.memolio.core.billing.RestoreResult
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -34,8 +31,6 @@ class PaywallViewModelTest {
         override suspend fun refresh() { refreshCalls++; pro.value = true }
         override suspend fun refreshOnAppStart() {}
         override suspend fun markPurchasePending() { pendingMarks++ }
-        override suspend fun purchase(activity: Activity): PurchaseResult = PurchaseResult.Success
-        override suspend fun restore(): RestoreResult = RestoreResult.Success
     }
 
     @Test

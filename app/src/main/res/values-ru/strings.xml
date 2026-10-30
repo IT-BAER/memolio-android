@@ -34,28 +34,8 @@
     <string name="onboard_finish_title">Всё готово</string>
     <string name="onboard_finish_body">Нажмите «Готово», чтобы запустить рамку.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro разблокирован. Спасибо!</string>
-    <string name="paywall_offline">Подключитесь к Wi-Fi, чтобы разблокировать Pro. Остальное в Memolio работает без интернета.</string>
-    <string name="paywall_pitch">Заплатите один раз — и Pro останется здесь, на планшете, навсегда.</string>
-    <string name="paywall_perk_albums_title">Альбомы &amp; плейлисты</string>
-    <string name="paywall_perk_albums_desc">Группируйте фото и выбирайте, что именно показывать.</string>
-    <string name="paywall_perk_appliance_title">Режим устройства</string>
-    <string name="paywall_perk_appliance_desc">Автозапуск, киоск-режим, расписание сна, приглушение яркости.</string>
-    <string name="paywall_perk_wallpaper_title">Пользовательские обои</string>
-    <string name="paywall_perk_wallpaper_desc">Выберите фон за часами.</string>
-    <string name="paywall_price_caption">один раз · навсегда</string>
-    <string name="paywall_unlock_cta">Разблокировать Pro</string>
-    <string name="paywall_restore">Восстановить</string>
-    <string name="paywall_error">Ошибка: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Пакет Pro недоступен</string>
-    <string name="billing_error_not_granted">Покупка не предоставила доступ к Pro</string>
-    <string name="billing_error_purchase_failed">Покупка не удалась</string>
     <string name="billing_error_no_restore">Покупка Pro не найдена</string>
-    <string name="billing_error_restore_failed">Восстановление не удалось</string>
-    <string name="billing_error_load">Не удалось загрузить предложения</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Альбомы &amp; плейлисты</string>

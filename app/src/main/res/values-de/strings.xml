@@ -34,28 +34,8 @@
     <string name="onboard_finish_title">Alles bereit</string>
     <string name="onboard_finish_body">Tippe auf Fertig, um den Rahmen zu starten.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro ist freigeschaltet. Vielen Dank!</string>
-    <string name="paywall_offline">Mit Wi-Fi verbinden, um Pro freizuschalten. Der Rest von Memolio funktioniert offline.</string>
-    <string name="paywall_pitch">Einmal kaufen – Pro bleibt für immer hier auf dem Tablet.</string>
-    <string name="paywall_perk_albums_title">Alben &amp; Wiedergabelisten</string>
-    <string name="paywall_perk_albums_desc">Fotos gruppieren und genau festlegen, was zu sehen ist.</string>
-    <string name="paywall_perk_appliance_title">Geräte-Suite</string>
-    <string name="paywall_perk_appliance_desc">Autostart, Kiosk-Sperre, Schlafplan, Umgebungsdimming.</string>
-    <string name="paywall_perk_wallpaper_title">Eigene Hintergrundbilder</string>
-    <string name="paywall_perk_wallpaper_desc">Den Hintergrund hinter deiner Uhr selbst wählen.</string>
-    <string name="paywall_price_caption">einmalig · lebenslang</string>
-    <string name="paywall_unlock_cta">Pro freischalten</string>
-    <string name="paywall_restore">Wiederherstellen</string>
-    <string name="paywall_error">Fehler: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Kein Pro-Paket verfügbar</string>
-    <string name="billing_error_not_granted">Kauf hat Pro nicht freigeschaltet</string>
-    <string name="billing_error_purchase_failed">Kauf fehlgeschlagen</string>
     <string name="billing_error_no_restore">Kein Pro-Kauf zum Wiederherstellen gefunden</string>
-    <string name="billing_error_restore_failed">Wiederherstellung fehlgeschlagen</string>
-    <string name="billing_error_load">Angebote konnten nicht geladen werden</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Alben &amp; Wiedergabelisten</string>

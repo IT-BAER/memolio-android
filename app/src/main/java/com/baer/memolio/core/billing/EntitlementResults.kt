@@ -9,24 +9,5 @@ import com.baer.memolio.R
  * [messageRes] to a localized string at display time (current app locale).
  */
 enum class BillingError(@StringRes val messageRes: Int) {
-    NO_PACKAGE(R.string.billing_error_no_package),
-    NOT_GRANTED(R.string.billing_error_not_granted),
-    PURCHASE_FAILED(R.string.billing_error_purchase_failed),
     NO_RESTORE(R.string.billing_error_no_restore),
-    RESTORE_FAILED(R.string.billing_error_restore_failed),
-    LOAD_FAILED(R.string.billing_error_load),
-}
-
-/** Outcome of a RevenueCat purchase flow. Mirrors the contract's sealed shape. */
-sealed interface PurchaseResult {
-    data object Success : PurchaseResult
-    data object Cancelled : PurchaseResult
-    data class Error(val error: BillingError) : PurchaseResult
-}
-
-/** Outcome of a RevenueCat restore. Same shape as PurchaseResult (contract). */
-sealed interface RestoreResult {
-    data object Success : RestoreResult
-    data object Cancelled : RestoreResult
-    data class Error(val error: BillingError) : RestoreResult
 }

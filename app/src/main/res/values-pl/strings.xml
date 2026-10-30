@@ -34,28 +34,8 @@
     <string name="onboard_finish_title">Wszystko gotowe</string>
     <string name="onboard_finish_body">Kliknij Zakończ, żeby uruchomić ramkę.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro odblokowane. Dziękujemy!</string>
-    <string name="paywall_offline">Połącz się z Wi-Fi, żeby odblokować Pro. Reszta Memolio działa offline.</string>
-    <string name="paywall_pitch">Zapłać raz i Pro zostaje na zawsze, tu, na tym tablecie.</string>
-    <string name="paywall_perk_albums_title">Albumy &amp; playlisty</string>
-    <string name="paywall_perk_albums_desc">Grupuj zdjęcia i wybierz dokładnie to, co się wyświetla.</string>
-    <string name="paywall_perk_appliance_title">Pakiet urządzenia</string>
-    <string name="paywall_perk_appliance_desc">Automatyczny start, blokada kiosku, harmonogram uśpienia, przyciemnianie otoczenia.</string>
-    <string name="paywall_perk_wallpaper_title">Niestandardowe tapety</string>
-    <string name="paywall_perk_wallpaper_desc">Wybierz tło za zegarem.</string>
-    <string name="paywall_price_caption">raz · na zawsze</string>
-    <string name="paywall_unlock_cta">Odblokuj Pro</string>
-    <string name="paywall_restore">Przywróć</string>
-    <string name="paywall_error">Błąd: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Brak pakietu Pro</string>
-    <string name="billing_error_not_granted">Zakup nie przyznał Pro</string>
-    <string name="billing_error_purchase_failed">Zakup nie powiódł się</string>
     <string name="billing_error_no_restore">Nie znaleziono zakupu Pro do przywrócenia</string>
-    <string name="billing_error_restore_failed">Przywracanie nie powiodło się</string>
-    <string name="billing_error_load">Nie można załadować ofert</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Albumy &amp; playlisty</string>

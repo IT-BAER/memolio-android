@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   nl — Dutch translation. Translated from values/strings.xml.
-  translatable="false" keys are omitted entirely (app_name, paywall_price,
+  translatable="false" keys are omitted entirely (app_name,
   wallpaper_name_*, lang_*).
 -->
 <resources>
@@ -39,28 +39,8 @@
     <string name="onboard_finish_title">Alles klaar</string>
     <string name="onboard_finish_body">Tik op Afronden om het fotolijst te starten.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro is ontgrendeld. Hartelijk bedankt!</string>
-    <string name="paywall_offline">Verbind met Wi-Fi om Pro te ontgrendelen. De rest van Memolio werkt gewoon offline.</string>
-    <string name="paywall_pitch">Betaal eenmalig en Pro blijft voor altijd op dit tablet staan.</string>
-    <string name="paywall_perk_albums_title">Albums &amp; afspeellijsten</string>
-    <string name="paywall_perk_albums_desc">Groepeer foto\'s en kies precies wat er te zien is.</string>
-    <string name="paywall_perk_appliance_title">Apparaatmodus</string>
-    <string name="paywall_perk_appliance_desc">Automatisch opstarten, kioskvergrendeling, slaapschema, omgevingsdemping.</string>
-    <string name="paywall_perk_wallpaper_title">Aangepaste achtergronden</string>
-    <string name="paywall_perk_wallpaper_desc">Kies de achtergrond achter je klok.</string>
-    <string name="paywall_price_caption">eenmalig · levenslang</string>
-    <string name="paywall_unlock_cta">Pro ontgrendelen</string>
-    <string name="paywall_restore">Aankoop herstellen</string>
-    <string name="paywall_error">Fout: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Geen Pro-pakket beschikbaar</string>
-    <string name="billing_error_not_granted">Aankoop heeft Pro niet verleend</string>
-    <string name="billing_error_purchase_failed">Aankoop mislukt</string>
     <string name="billing_error_no_restore">Geen Pro-aankoop gevonden om te herstellen</string>
-    <string name="billing_error_restore_failed">Herstel mislukt</string>
-    <string name="billing_error_load">Kan aanbiedingen niet laden</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Albums &amp; afspeellijsten</string>

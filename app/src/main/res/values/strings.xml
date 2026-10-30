@@ -46,30 +46,8 @@
     <string name="onboard_finish_title">All set</string>
     <string name="onboard_finish_body">Tap Finish to start the frame.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro is unlocked. Thank you!</string>
-    <string name="paywall_offline">Connect to Wi-Fi to unlock Pro. The rest of Memolio works offline.</string>
-    <string name="paywall_pitch">Pay once and Pro stays on for keeps, right here on the tablet.</string>
-    <string name="paywall_perk_albums_title">Albums &amp; playlists</string>
-    <string name="paywall_perk_albums_desc">Group photos and choose exactly what shows.</string>
-    <string name="paywall_perk_appliance_title">Appliance suite</string>
-    <string name="paywall_perk_appliance_desc">Auto-start, kiosk lock, sleep schedule, ambient dimming.</string>
-    <string name="paywall_perk_wallpaper_title">Custom wallpapers</string>
-    <string name="paywall_perk_wallpaper_desc">Pick the backdrop behind your clock.</string>
-    <!-- Throwaway hardcoded price pending the RevenueCat-hosted paywall; not translated. -->
-    <string name="paywall_price" translatable="false">€12</string>
-    <string name="paywall_price_caption">once · lifetime</string>
-    <string name="paywall_unlock_cta">Unlock Pro</string>
-    <string name="paywall_restore">Restore</string>
-    <string name="paywall_error">Error: %1$s</string>
-
     <!-- ===== Billing errors (mapped from BillingError codes at the paywall) ===== -->
-    <string name="billing_error_no_package">No Pro package available</string>
-    <string name="billing_error_not_granted">Purchase did not grant Pro</string>
-    <string name="billing_error_purchase_failed">Purchase failed</string>
     <string name="billing_error_no_restore">No Pro purchase found to restore</string>
-    <string name="billing_error_restore_failed">Restore failed</string>
-    <string name="billing_error_load">Couldn\'t load offerings</string>
 
     <!-- ===== Pro feature catalog (ProFeature enum) ===== -->
     <string name="profeature_albums_title">Albums &amp; playlists</string>

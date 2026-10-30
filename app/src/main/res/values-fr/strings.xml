@@ -34,28 +34,8 @@
     <string name="onboard_finish_title">Tout est prêt</string>
     <string name="onboard_finish_body">Appuyez sur Terminer pour lancer le cadre.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro est débloqué. Merci !</string>
-    <string name="paywall_offline">Connectez-vous au Wi-Fi pour débloquer Pro. Le reste de Memolio fonctionne hors ligne.</string>
-    <string name="paywall_pitch">Payez une fois et Pro reste actif pour toujours, directement sur la tablette.</string>
-    <string name="paywall_perk_albums_title">Albums &amp; playlists</string>
-    <string name="paywall_perk_albums_desc">Regroupez vos photos et choisissez exactement ce qui s\'affiche.</string>
-    <string name="paywall_perk_appliance_title">Suite appareillage</string>
-    <string name="paywall_perk_appliance_desc">Démarrage automatique, verrouillage kiosque, programmation du sommeil, atténuation ambiante.</string>
-    <string name="paywall_perk_wallpaper_title">Fonds d\'écran personnalisés</string>
-    <string name="paywall_perk_wallpaper_desc">Choisissez l\'arrière-plan derrière votre horloge.</string>
-    <string name="paywall_price_caption">une fois · à vie</string>
-    <string name="paywall_unlock_cta">Débloquer Pro</string>
-    <string name="paywall_restore">Restaurer</string>
-    <string name="paywall_error">Erreur : %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">Aucun forfait Pro disponible</string>
-    <string name="billing_error_not_granted">L\'achat n\'a pas activé Pro</string>
-    <string name="billing_error_purchase_failed">Achat échoué</string>
     <string name="billing_error_no_restore">Aucun achat Pro trouvé à restaurer</string>
-    <string name="billing_error_restore_failed">Restauration échouée</string>
-    <string name="billing_error_load">Impossible de charger les offres</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Albums &amp; playlists</string>

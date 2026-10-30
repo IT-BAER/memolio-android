@@ -39,28 +39,8 @@
     <string name="onboard_finish_title">Todo listo</string>
     <string name="onboard_finish_body">Pulsa Finalizar para iniciar el marco.</string>
 
-    <!-- ===== Paywall ===== -->
-    <string name="paywall_unlocked">Pro está desbloqueado. ¡Gracias!</string>
-    <string name="paywall_offline">Conéctate al Wi-Fi para desbloquear Pro. El resto de Memolio funciona sin conexión.</string>
-    <string name="paywall_pitch">Paga una vez y Pro se queda para siempre, aquí mismo en el tablet.</string>
-    <string name="paywall_perk_albums_title">Álbumes &amp; listas</string>
-    <string name="paywall_perk_albums_desc">Agrupa fotos y elige exactamente qué se muestra.</string>
-    <string name="paywall_perk_appliance_title">Conjunto electrodoméstico</string>
-    <string name="paywall_perk_appliance_desc">Arranque automático, modo quiosco, programación de reposo y atenuación ambiental.</string>
-    <string name="paywall_perk_wallpaper_title">Fondos personalizados</string>
-    <string name="paywall_perk_wallpaper_desc">Elige el fondo que aparece detrás del reloj.</string>
-    <string name="paywall_price_caption">una vez · de por vida</string>
-    <string name="paywall_unlock_cta">Desbloquear Pro</string>
-    <string name="paywall_restore">Restaurar</string>
-    <string name="paywall_error">Error: %1$s</string>
-
     <!-- ===== Billing errors ===== -->
-    <string name="billing_error_no_package">No hay ningún paquete Pro disponible</string>
-    <string name="billing_error_not_granted">La compra no activó Pro</string>
-    <string name="billing_error_purchase_failed">La compra ha fallado</string>
     <string name="billing_error_no_restore">No se encontró ninguna compra Pro para restaurar</string>
-    <string name="billing_error_restore_failed">La restauración ha fallado</string>
-    <string name="billing_error_load">No se pudieron cargar las ofertas</string>
 
     <!-- ===== Pro feature catalog ===== -->
     <string name="profeature_albums_title">Álbumes &amp; listas</string>

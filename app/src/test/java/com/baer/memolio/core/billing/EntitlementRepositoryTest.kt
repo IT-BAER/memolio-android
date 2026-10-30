@@ -1,6 +1,5 @@
 package com.baer.memolio.core.billing
 
-import android.app.Activity
 import app.cash.turbine.test
 import com.baer.memolio.core.datastore.AppSettings
 import com.baer.memolio.core.datastore.ClockStyle
@@ -17,14 +16,11 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
 class EntitlementRepositoryTest {
-
-    private val activity: Activity = Robolectric.buildActivity(Activity::class.java).get()
 
     private class FakeSettings(initialPro: Boolean = false) : SettingsRepository {
         val app = MutableStateFlow(AppSettings(proUnlocked = initialPro))
@@ -61,8 +57,6 @@ class EntitlementRepositoryTest {
 
     private class FakeClient(
         var entitled: Boolean = false,
-        var purchaseResult: PurchaseResult = PurchaseResult.Success,
-        var restoreResult: RestoreResult = RestoreResult.Success,
         var failure: Exception? = null
     ) : RevenueCatClient {
         var refreshCalls = 0
@@ -71,8 +65,6 @@ class EntitlementRepositoryTest {
             failure?.let { throw it }
             return entitled
         }
-        override suspend fun purchase(activity: Activity): PurchaseResult = purchaseResult
-        override suspend fun restore(): RestoreResult = restoreResult
     }
 
     private val dispatcher = UnconfinedTestDispatcher()
@@ -125,42 +117,6 @@ class EntitlementRepositoryTest {
         val repo = EntitlementRepositoryImpl(settings, client, dispatcher, time)
         repo.refresh()
         assertThat(client.refreshCalls).isEqualTo(1)
-        assertThat(settings.app.value.proUnlocked).isTrue()
-    }
-
-    @Test
-    fun purchaseSuccessSetsFlag() = runTest {
-        val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(purchaseResult = PurchaseResult.Success), dispatcher, time)
-        val result = repo.purchase(activity)
-        assertThat(result).isEqualTo(PurchaseResult.Success)
-        assertThat(settings.app.value.proUnlocked).isTrue()
-    }
-
-    @Test
-    fun purchaseCancelledDoesNotSetFlag() = runTest {
-        val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(purchaseResult = PurchaseResult.Cancelled), dispatcher, time)
-        val result = repo.purchase(activity)
-        assertThat(result).isEqualTo(PurchaseResult.Cancelled)
-        assertThat(settings.app.value.proUnlocked).isFalse()
-    }
-
-    @Test
-    fun purchaseErrorDoesNotSetFlag() = runTest {
-        val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(purchaseResult = PurchaseResult.Error(BillingError.PURCHASE_FAILED)), dispatcher, time)
-        val result = repo.purchase(activity)
-        assertThat(result).isInstanceOf(PurchaseResult.Error::class.java)
-        assertThat(settings.app.value.proUnlocked).isFalse()
-    }
-
-    @Test
-    fun restoreSuccessSetsFlag() = runTest {
-        val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(restoreResult = RestoreResult.Success), dispatcher, time)
-        val result = repo.restore()
-        assertThat(result).isEqualTo(RestoreResult.Success)
         assertThat(settings.app.value.proUnlocked).isTrue()
     }
 
@@ -220,14 +176,5 @@ class EntitlementRepositoryTest {
         repo.refreshOnAppStart()
         assertThat(client.refreshCalls).isEqualTo(0)
         assertThat(settings.app.value.purchasePendingSince).isEqualTo(0L)
-    }
-
-    @Test
-    fun restoreErrorDoesNotSetFlag() = runTest {
-        val settings = FakeSettings()
-        val repo = EntitlementRepositoryImpl(settings, FakeClient(restoreResult = RestoreResult.Error(BillingError.RESTORE_FAILED)), dispatcher, time)
-        val result = repo.restore()
-        assertThat(result).isInstanceOf(RestoreResult.Error::class.java)
-        assertThat(settings.app.value.proUnlocked).isFalse()
     }
 }

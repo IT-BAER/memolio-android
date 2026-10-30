@@ -38,28 +38,8 @@
     <string name="onboard_finish_title">一切就绪</string>
     <string name="onboard_finish_body">点击「完成」启动相框。</string>
 
-    <!-- ===== 购买页 ===== -->
-    <string name="paywall_unlocked">Pro 已解锁，感谢支持！</string>
-    <string name="paywall_offline">连接 Wi-Fi 后即可解锁 Pro。Memolio 的其余功能均可离线使用。</string>
-    <string name="paywall_pitch">一次付款，Pro 功能永久留在这台平板上。</string>
-    <string name="paywall_perk_albums_title">相册 &amp; 播放列表</string>
-    <string name="paywall_perk_albums_desc">将照片分组，精确控制相框显示的内容。</string>
-    <string name="paywall_perk_appliance_title">设备套件</string>
-    <string name="paywall_perk_appliance_desc">开机自启、信息亭锁定、定时休眠、环境亮度调节。</string>
-    <string name="paywall_perk_wallpaper_title">自定义壁纸</string>
-    <string name="paywall_perk_wallpaper_desc">为时钟选择专属背景。</string>
-    <string name="paywall_price_caption">一次性 · 永久有效</string>
-    <string name="paywall_unlock_cta">解锁 Pro</string>
-    <string name="paywall_restore">恢复购买</string>
-    <string name="paywall_error">错误：%1$s</string>
-
     <!-- ===== 计费错误（映射自 BillingError 代码） ===== -->
-    <string name="billing_error_no_package">未找到 Pro 套餐</string>
-    <string name="billing_error_not_granted">购买未能授予 Pro 权限</string>
-    <string name="billing_error_purchase_failed">购买失败</string>
     <string name="billing_error_no_restore">未找到可恢复的 Pro 购买记录</string>
-    <string name="billing_error_restore_failed">恢复失败</string>
-    <string name="billing_error_load">无法加载产品信息</string>
 
     <!-- ===== Pro 功能目录（ProFeature 枚举） ===== -->
     <string name="profeature_albums_title">相册 &amp; 播放列表</string>

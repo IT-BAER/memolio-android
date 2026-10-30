@@ -1,6 +1,5 @@
 package com.baer.memolio.core.billing
 
-import android.app.Activity
 import com.baer.memolio.core.datastore.SettingsRepository
 import com.baer.memolio.core.di.IoDispatcher
 import com.baer.memolio.core.time.TimeProvider
@@ -17,8 +16,8 @@ import kotlin.coroutines.cancellation.CancellationException
 /**
  * The single Pro-entitlement entry point. isPro follows the cached AppSettings.proUnlocked,
  * so the frame keeps its last known state offline. refresh() mirrors RevenueCat's answer,
- * which re-locks Pro after a refund. refresh/purchase/restore are the ONLY networked
- * operations; all SDK work goes through the RevenueCatClient seam.
+ * which re-locks Pro after a refund. refresh() is the only networked operation here (the
+ * RevenueCatUI paywall runs purchase and restore); SDK calls go through the RevenueCatClient seam.
  */
 interface EntitlementRepository {
     val isPro: Flow<Boolean>
@@ -27,8 +26,6 @@ interface EntitlementRepository {
     suspend fun refreshOnAppStart()
     /** Remembers a pending Pro purchase so the next app starts can pick it up. */
     suspend fun markPurchasePending()
-    suspend fun purchase(activity: Activity): PurchaseResult
-    suspend fun restore(): RestoreResult
 }
 
 class EntitlementRepositoryImpl @Inject constructor(
@@ -74,19 +71,6 @@ class EntitlementRepositoryImpl @Inject constructor(
     override suspend fun markPurchasePending() = settings.setPurchasePendingSince(today())
 
     private fun today(): Long = time.now().toLocalDate().toEpochDay()
-
-    override suspend fun purchase(activity: Activity): PurchaseResult =
-        withContext(ioDispatcher) {
-            val result = client.purchase(activity)
-            if (result is PurchaseResult.Success) settings.setProUnlocked(true)
-            result
-        }
-
-    override suspend fun restore(): RestoreResult = withContext(ioDispatcher) {
-        val result = client.restore()
-        if (result is RestoreResult.Success) settings.setProUnlocked(true)
-        result
-    }
 
     companion object {
         /** A purchase still pending after this many days counts as abandoned. */
