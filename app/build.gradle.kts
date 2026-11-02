@@ -24,7 +24,7 @@ android {
         applicationId = "com.baer.memolio"
         minSdk = 26
         targetSdk = 36
-        versionCode = 11
+        versionCode = 12
         versionName = "1.0.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,6 +41,14 @@ android {
     // the build. The primary "didn't miss anything" guard for translations.
     lint {
         error += listOf("MissingTranslation", "ExtraTranslation")
+    }
+
+    // The in-app language picker needs all 10 locales on the device; with language splits
+    // Play installs only the device languages and the picker silently stays on them.
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 
     signingConfigs {

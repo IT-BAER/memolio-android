@@ -28,6 +28,8 @@ Pro purchase fixes before the production rollout.
   upload port. It moves to the next free port, and the QR code shows that port.
 - Ambient dimming now dims the screen when the room gets dark. Before, the
   screen could stay bright after the light went off.
+- The language setting now works in the Play version for all 10 languages.
+  Before, it could only switch to the phone's own languages.
 
 ### Changed
 
