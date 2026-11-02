@@ -30,6 +30,8 @@ Pro purchase fixes before the production rollout.
   screen could stay bright after the light went off.
 - The language setting now works in the Play version for all 10 languages.
   Before, it could only switch to the phone's own languages.
+- The frame can no longer crash in a loop when Android restarts it in the
+  background. It waits until the frame is opened again.
 
 ### Changed
 

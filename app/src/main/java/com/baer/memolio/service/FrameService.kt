@@ -54,6 +54,8 @@ class FrameService : Service() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+    /** False when Android refused the foreground start; nothing else was set up then. */
+    private var foreground = false
     private lateinit var ambientDimmer: AmbientDimmer
     private lateinit var sleepDriver: SleepDriver
 
@@ -80,7 +82,11 @@ class FrameService : Service() {
     override fun onCreate() {
         super.onCreate()
         FrameNotification.ensureChannel(this)
-        startForegroundCompat()
+        foreground = enterForeground(::startForegroundCompat, ::stopSelf)
+        if (foreground) setUp()
+    }
+
+    private fun setUp() {
         getSystemService(ConnectivityManager::class.java)?.registerNetworkCallback(
             NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build(),
             networkCallback
@@ -122,6 +128,13 @@ class FrameService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Refused in onCreate (background restart): an activity start may enter foreground now.
+        // Still refused: no sticky restart loop; MainActivity starts it again when shown.
+        if (!foreground) {
+            foreground = enterForeground(::startForegroundCompat, ::stopSelf)
+            if (!foreground) return START_NOT_STICKY
+            setUp()
+        }
         startServer()
         // START_STICKY: the OS recreates the always-on frame server after it kills the
         // process under memory pressure (no command to redeliver — bring-up is idempotent).
@@ -148,6 +161,11 @@ class FrameService : Service() {
     }
 
     override fun onDestroy() {
+        if (!foreground) {
+            scope.cancel()
+            super.onDestroy()
+            return
+        }
         runCatching {
             getSystemService(ConnectivityManager::class.java)?.unregisterNetworkCallback(networkCallback)
         }
