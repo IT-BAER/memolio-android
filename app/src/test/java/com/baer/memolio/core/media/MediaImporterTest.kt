@@ -167,4 +167,20 @@ class MediaImporterTest {
         // photo still inserted
         repo.observePhotos("a1").test { assertThat(awaitItem()).hasSize(1) }
     }
+
+    // ML Kit threw an NPE in R8 release builds; the photo was stored but the upload failed.
+    @Test
+    fun importSucceedsWhenFaceDetectionThrows() = runTest {
+        db.albumDao().upsert(AlbumEntity("a1", "All", null, 0L, 0))
+        val throwing = object : FaceDetector {
+            override suspend fun detectFocalPoint(jpeg: File): FocalPoint? = throw NullPointerException("ml kit")
+        }
+        val importer = MediaImporter(fakeTranscoder, storage, repo, throwing, UnconfinedTestDispatcher())
+        val bytes = "detector-throws-bytes".toByteArray()
+
+        val result = importer.import(bytes, "jpg", "a1", null, null, now = 12L)
+
+        assertThat(result).isEqualTo(MediaImporter.ImportResult.Added(Hasher.sha256(bytes).take(32)))
+        assertThat(repo.lastFocal).isNull()
+    }
 }

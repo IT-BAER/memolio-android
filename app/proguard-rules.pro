@@ -43,3 +43,11 @@
 
 # Ktor pulls SLF4J; no binding shipped (logs are no-op). Keep it from erroring.
 -dontwarn org.slf4j.impl.**
+
+# ---- ML Kit face detection ----
+# ML Kit resolves its internal components through reflection that R8 full mode cannot
+# trace; without these keeps InputImage.fromBitmap throws an NPE in release builds only.
+-keep class com.google.mlkit.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_common.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_face.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_face_bundled.** { *; }

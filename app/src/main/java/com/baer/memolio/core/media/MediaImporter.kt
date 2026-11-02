@@ -5,6 +5,7 @@ import com.baer.memolio.core.di.IoDispatcher
 import com.baer.memolio.core.storage.FileStorage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 import javax.inject.Inject
 
 private const val DISPLAY_MAX_EDGE = 2560
@@ -68,7 +69,14 @@ class MediaImporter @Inject constructor(
             sourceDevice = sourceDevice,
             addedAt = now
         )
-        val focal = faceDetector.detectFocalPoint(displayFile)
+        // Face detection is optional: the photo is stored, so a detector failure only skips the focal point.
+        val focal = try {
+            faceDetector.detectFocalPoint(displayFile)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            null
+        }
         if (focal != null) {
             photoRepository.setFocalPoint(id, focal.x, focal.y)
         }

@@ -22,6 +22,8 @@ Pro purchase fixes before the production rollout.
   state.
 - Restore without a Pro purchase now says "No Pro purchase found to restore".
   Before, nothing visible happened.
+- Adding photos works again in the Play version. Before, every upload showed
+  an error although the photo was added.
 
 ### Changed
 
