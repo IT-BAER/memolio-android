@@ -22,6 +22,9 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 import io.ktor.utils.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -195,18 +198,34 @@ class FrameServer(
     private val _running = MutableStateFlow(false)
     val running: StateFlow<Boolean> = _running.asStateFlow()
 
+    // Ktor reports a failed bind twice: start() throws, and the engine's accept job fails
+    // again on a worker thread, which kills the process unless this scope handles it.
+    private val engineScope = CoroutineScope(SupervisorJob() + CoroutineExceptionHandler { _, _ -> })
+
     // Synchronized: at boot BootReceiver and MainActivity both start FrameService, whose
     // onStartCommand launches this on a background scope — an unguarded check-then-bind
     // raced and double-bound the port (BindException killed the process).
+    // A port held by another app moves the server to the next free one; the pairing address
+    // carries the port actually bound. No free port leaves [running] false.
     @Synchronized
     fun start(port: Int) {
         if (engine != null) return
-        engine = embeddedServer(CIO, port = port, host = "0.0.0.0") {
-            frameRoutes(deps)
-        }.also { it.start(wait = false) }
-        boundPort = port
-        _running.value = true
-        _address.value = ipResolver()?.let { "$it:$port" }
+        for (candidate in port until port + PORT_ATTEMPTS) {
+            val server = engineScope.embeddedServer(CIO, port = candidate, host = "0.0.0.0") {
+                frameRoutes(deps)
+            }
+            try {
+                server.start(wait = false)
+            } catch (e: Exception) {
+                runCatching { server.stop(gracePeriodMillis = 0, timeoutMillis = 0) }
+                continue
+            }
+            engine = server
+            boundPort = candidate
+            _running.value = true
+            _address.value = ipResolver()?.let { "$it:$candidate" }
+            return
+        }
     }
 
     /**
@@ -227,5 +246,9 @@ class FrameServer(
         boundPort = null
         _running.value = false
         _address.value = null
+    }
+
+    private companion object {
+        const val PORT_ATTEMPTS = 10
     }
 }

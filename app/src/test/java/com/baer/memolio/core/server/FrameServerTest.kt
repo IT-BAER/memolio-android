@@ -28,6 +28,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -361,5 +362,42 @@ class FrameServerTest {
             server.stop()
         }
         assertThat(server.running.value).isFalse()
+    }
+
+    /**
+     * Another app (or a second Memolio build) holding the configured port threw an uncaught
+     * BindException on a Ktor worker and crash-looped the app. A taken port must move the
+     * server to the next free port; the pairing address follows the port actually bound.
+     */
+    @Test
+    fun takenPortFallsBackToNextFreePortWithoutCrashing() = runBlocking {
+        val deps = FrameServerDeps(
+            tokenProvider = TokenProvider { token },
+            importer = importer,
+            albums = albums,
+            assetLoader = { "x".byteInputStream() },
+            uploadEvents = UploadEventBus()
+        )
+        val crashes = java.util.concurrent.CopyOnWriteArrayList<Throwable>()
+        val previous = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { _, e -> crashes.add(e) }
+        val blocker = java.net.ServerSocket()
+        blocker.bind(java.net.InetSocketAddress("0.0.0.0", 0))
+        val taken = blocker.localPort
+        val server = FrameServer(deps) { "10.0.0.1" }
+        try {
+            server.start(taken)
+            delay(500)
+            assertThat(crashes).isEmpty()
+            assertThat(server.running.value).isTrue()
+            val bound = server.address.value!!.substringAfter(':').toInt()
+            assertThat(bound).isNotEqualTo(taken)
+            // The fallback port really serves.
+            java.net.Socket("127.0.0.1", bound).close()
+        } finally {
+            server.stop()
+            blocker.close()
+            Thread.setDefaultUncaughtExceptionHandler(previous)
+        }
     }
 }

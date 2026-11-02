@@ -24,6 +24,8 @@ Pro purchase fixes before the production rollout.
   Before, nothing visible happened.
 - Adding photos works again in the Play version. Before, every upload showed
   an error although the photo was added.
+- The frame no longer crashes in a loop when another app already uses its
+  upload port. It moves to the next free port, and the QR code shows that port.
 
 ### Changed
 
