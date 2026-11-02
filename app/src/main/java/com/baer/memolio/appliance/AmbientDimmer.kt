@@ -5,9 +5,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * Light-sensor -> target screen-brightness [0f..1f]. PURE policy lives in
@@ -18,7 +18,11 @@ import kotlinx.coroutines.flow.asStateFlow
  * The resolved value is exposed as [targetBrightness]; MainActivity applies it to
  * WindowManager.LayoutParams.screenBrightness.
  */
-class AmbientDimmer(context: Context) : SensorEventListener {
+class AmbientDimmer(
+    context: Context,
+    scope: CoroutineScope,
+    dispatcher: CoroutineDispatcher
+) : SensorEventListener {
 
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val lightSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
@@ -29,8 +33,8 @@ class AmbientDimmer(context: Context) : SensorEventListener {
     @Volatile private var dimmingEnabled: Boolean = true
     @Volatile private var manualBrightness: Float = 0.7f
 
-    private val _targetBrightness = MutableStateFlow(manualBrightness)
-    val targetBrightness: StateFlow<Float> = _targetBrightness.asStateFlow()
+    private val easer = BrightnessEaser(scope, dispatcher, initial = manualBrightness)
+    val targetBrightness: StateFlow<Float> = easer.brightness
 
     /** Push current settings; recomputes immediately so toggles take effect at once. */
     fun configure(dimmingEnabled: Boolean, manualBrightness: Float) {
@@ -55,21 +59,20 @@ class AmbientDimmer(context: Context) : SensorEventListener {
             lastLux = event.values.firstOrNull()
             // Sensor readings jitter; ease toward the target instead of jumping so the
             // screen never visibly flickers. Settings changes (configure) still jump.
-            _targetBrightness.value = smoothed(
-                previous = _targetBrightness.value,
-                target = resolveBrightness(dimmingEnabled, hasSensor, lastLux, manualBrightness)
-            )
+            easer.easeTo(resolveBrightness(dimmingEnabled, hasSensor, lastLux, manualBrightness))
         }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
 
     private fun recompute() {
-        _targetBrightness.value = resolveBrightness(
-            dimmingEnabled = dimmingEnabled,
-            hasSensor = hasSensor,
-            lastLux = lastLux,
-            manualBrightness = manualBrightness
+        easer.jumpTo(
+            resolveBrightness(
+                dimmingEnabled = dimmingEnabled,
+                hasSensor = hasSensor,
+                lastLux = lastLux,
+                manualBrightness = manualBrightness
+            )
         )
     }
 
@@ -89,8 +92,8 @@ class AmbientDimmer(context: Context) : SensorEventListener {
 
         /**
          * PURE: one smoothing step. Changes inside [deadband] are ignored (kills sensor
-         * jitter/flicker); larger changes ease toward the target by [alpha] per sensor
-         * event (~200ms at SENSOR_DELAY_NORMAL, so a full swing settles in ~1-2s).
+         * jitter/flicker); larger changes ease toward the target by [alpha] per
+         * [BrightnessEaser] tick (200ms, so a full swing settles in ~2s).
          */
         fun smoothed(
             previous: Float,

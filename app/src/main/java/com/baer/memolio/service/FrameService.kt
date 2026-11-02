@@ -86,7 +86,7 @@ class FrameService : Service() {
             networkCallback
         )
 
-        ambientDimmer = AmbientDimmer(applicationContext)
+        ambientDimmer = AmbientDimmer(applicationContext, scope, Dispatchers.Default)
 
         val gatedSettings = combine(settings.appSettings, entitlementRepository.isPro) { s, pro ->
             if (pro) s else s.copy(sleepEnabled = false)

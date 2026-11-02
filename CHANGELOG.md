@@ -26,6 +26,8 @@ Pro purchase fixes before the production rollout.
   an error although the photo was added.
 - The frame no longer crashes in a loop when another app already uses its
   upload port. It moves to the next free port, and the QR code shows that port.
+- Ambient dimming now dims the screen when the room gets dark. Before, the
+  screen could stay bright after the light went off.
 
 ### Changed
 
