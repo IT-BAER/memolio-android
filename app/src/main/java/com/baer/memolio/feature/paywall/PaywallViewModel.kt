@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -36,10 +37,12 @@ class PaywallViewModel @Inject constructor(
 
     // The dialog closes the screen right after a purchase or restore, which clears this
     // ViewModel; NonCancellable lets the write finish anyway.
-    fun onCompleted(active: Boolean) = viewModelScope.launch(NonCancellable) { entitlement.setPro(active) }
+    fun onCompleted(active: Boolean) = viewModelScope.launch {
+        withContext(NonCancellable) { entitlement.setPro(active) }
+    }
 
-    fun onRestoreCompleted(active: Boolean) = viewModelScope.launch(NonCancellable) {
-        entitlement.setPro(active)
+    fun onRestoreCompleted(active: Boolean) = viewModelScope.launch {
+        withContext(NonCancellable) { entitlement.setPro(active) }
         if (!active) _message.value = BillingError.NO_RESTORE
     }
 
